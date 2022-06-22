@@ -23,7 +23,6 @@ source:
 
 build:
   number: 1
-  skip: true  # [osx]
   skip: true  # [py<37]
 
 outputs:
