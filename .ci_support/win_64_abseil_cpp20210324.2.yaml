@@ -9,6 +9,7 @@ channel_targets:
 cxx_compiler:
 - vs2017
 numpy:
+- '1.21'
 - '1.19'
 - '1.19'
 - '1.19'
@@ -19,6 +20,7 @@ pin_run_as_build:
 pybind11_abi:
 - '4'
 python:
+- 3.10.* *_cpython
 - 3.7.* *_cpython
 - 3.8.* *_cpython
 - 3.9.* *_cpython
