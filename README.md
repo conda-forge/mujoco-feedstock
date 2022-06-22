@@ -55,6 +55,20 @@ Current build status
                 </a>
               </td>
             </tr><tr>
+              <td>osx_arm64_abseil_cpp20210324.2</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=16475&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/mujoco-feedstock?branchName=main&jobName=osx&configuration=osx_arm64_abseil_cpp20210324.2" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>osx_arm64_abseil_cpp20211102.0</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=16475&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/mujoco-feedstock?branchName=main&jobName=osx&configuration=osx_arm64_abseil_cpp20211102.0" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
               <td>win_64_abseil_cpp20210324.2</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=16475&branchName=main">
