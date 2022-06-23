@@ -9,6 +9,7 @@ cmake ^
     -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX% ^
     -DCMAKE_BUILD_TYPE=Release ^
     -DBUILD_SHARED_LIBS:BOOL=ON ^
+    -DBUILD_TESTING:BOOL=ON ^
     -DMUJOCO_BUILD_TESTS:BOOL=ON ^
     -DMUJOCO_BUILD_EXAMPLES:BOOL=OFF ^
     -DMUJOCO_ENABLE_AVX:BOOL=OFF ^
@@ -23,4 +24,8 @@ if errorlevel 1 exit 1
 
 :: Install.
 cmake --build . --config Release --target install
+if errorlevel 1 exit 1
+
+:: Test.
+ctest --output-on-failure -C Release 
 if errorlevel 1 exit 1
