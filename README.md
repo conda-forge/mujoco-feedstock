@@ -41,6 +41,34 @@ Current build status
                 </a>
               </td>
             </tr><tr>
+              <td>linux_aarch64_abseil_cpp20210324.2</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=16475&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/mujoco-feedstock?branchName=main&jobName=linux&configuration=linux_aarch64_abseil_cpp20210324.2" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>linux_aarch64_abseil_cpp20211102.0</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=16475&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/mujoco-feedstock?branchName=main&jobName=linux&configuration=linux_aarch64_abseil_cpp20211102.0" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>linux_ppc64le_abseil_cpp20210324.2</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=16475&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/mujoco-feedstock?branchName=main&jobName=linux&configuration=linux_ppc64le_abseil_cpp20210324.2" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>linux_ppc64le_abseil_cpp20211102.0</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=16475&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/mujoco-feedstock?branchName=main&jobName=linux&configuration=linux_ppc64le_abseil_cpp20211102.0" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
               <td>osx_64_abseil_cpp20210324.2</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=16475&branchName=main">

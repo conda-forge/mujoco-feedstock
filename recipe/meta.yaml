@@ -62,6 +62,8 @@ outputs:
         - if not exist %LIBRARY_BIN%\\mujoco.dll exit 1  # [win]
 
   - name: {{ namepython }}
+    build:
+      skip: true  # [ppc64le]
     script: build_py.sh  # [unix]
     script: bld_py.bat  # [win]
     requirements:
