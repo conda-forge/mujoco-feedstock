@@ -1,7 +1,7 @@
 {% set name = "mujoco" %}
 {% set namecxx = "mujoco-cxx" %}
 {% set namepython = "mujoco-python" %}
-{% set version = "2.2.0" %}
+{% set version = "2.2.1" %}
 
 package:
   name: {{ name }}
@@ -9,7 +9,7 @@ package:
 
 source:
   url: https://github.com/deepmind/mujoco/archive/refs/tags/{{ version }}.tar.gz
-  sha256: 98cab2735817456c028e96ba34b2ee2c94cc4fab33ebcae15ab46fcc45a762ad
+  sha256: e7fa0821c993073b19bd8034df63661e309edcdc2d602101c3f9b28201574ded
   patches:
     - python_remove_avx.patch
     - python_remove_werror.patch
@@ -22,7 +22,7 @@ source:
 
 
 build:
-  number: 1
+  number: 0
   skip: true  # [py<37]
 
 outputs:
@@ -125,10 +125,10 @@ outputs:
 about:
   home: https://github.com/deepmind/mujoco
   license: Apache-2.0
-  license_file: 
+  license_file:
     - LICENSE
     - build/_deps/tinyobjloader-src/LICENSE
-  summary:  Multi-Joint dynamics with Contact. A general purpose multi-body dynamics simulator. 
+  summary: Multi-Joint dynamics with Contact. A general purpose multi-body dynamics simulator.
 
 extra:
   recipe-maintainers:
