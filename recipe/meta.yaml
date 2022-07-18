@@ -13,7 +13,6 @@ source:
   patches:
     - python_remove_avx.patch
     - python_remove_werror.patch
-    - disable_gcc_pragma.patch
     - cxx_devendor.patch
     - python_devendor.patch
     - ccd_vec3_origin_link_problem.patch
