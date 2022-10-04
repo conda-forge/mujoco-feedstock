@@ -41,7 +41,7 @@ outputs:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
         - ninja
-        - clang  # [win]
+        - clang 14  # [win]
       host:
         - eigen
         - qhull
@@ -78,7 +78,7 @@ outputs:
         - pip                                    # [build_platform != target_platform]
         - setuptools                             # [build_platform != target_platform]
         - absl-py                                # [build_platform != target_platform]
-        - clang                                  # [win]
+        - clang 14                               # [win]
         - bash                                   # [not win]
         - posix                                  # [win]
       host:
