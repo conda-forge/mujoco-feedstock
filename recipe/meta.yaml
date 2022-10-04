@@ -40,6 +40,7 @@ outputs:
         - cmake
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
+        - make                                   # [not win]
         - ninja
         - clang 14  # [win]
       host:
