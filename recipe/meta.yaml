@@ -18,6 +18,7 @@ source:
     - ccd_vec3_origin_link_problem.patch
     - disable_copy_cxx_files_in_python_package.patch
     - do_not_install_via_pip.patch
+    - macosmin1014.patch
 
 
 build:
