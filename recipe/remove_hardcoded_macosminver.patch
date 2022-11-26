@@ -1,0 +1,18 @@
+diff --git a/cmake/MujocoMacOS.cmake b/cmake/MujocoMacOS.cmake
+index d2f378f6a..f82ad13fe 100644
+--- a/cmake/MujocoMacOS.cmake
++++ b/cmake/MujocoMacOS.cmake
+@@ -19,11 +19,9 @@ if(APPLE)
+   # We are setting the -mmacosx-version-min compiler flag directly rather than using the
+   # CMAKE_OSX_DEPLOYMENT_TARGET variable since we do not want to affect choice of SDK,
+   # and also we only want to apply the version restriction locally.
+-  set(MUJOCO_MACOS_COMPILE_OPTIONS -mmacosx-version-min=${MUJOCO_MACOSX_VERSION_MIN}
+-                                   -Werror=partial-availability -Werror=unguarded-availability
++  set(MUJOCO_MACOS_COMPILE_OPTIONS -Werror=partial-availability -Werror=unguarded-availability
+   )
+-  set(MUJOCO_MACOS_LINK_OPTIONS -mmacosx-version-min=${MUJOCO_MACOSX_VERSION_MIN}
+-                                -Wl,-no_weak_imports
++  set(MUJOCO_MACOS_LINK_OPTIONS -Wl,-no_weak_imports
+   )
+ else()
+   set(MUJOCO_MACOS_COMPILE_OPTIONS "")
