@@ -17,7 +17,7 @@ index 2327f35cb..f8015a21b 100644
      if MUJOCO_PATH not in os.environ:
 
 diff --git a/python/mujoco/__init__.py b/python/mujoco/__init__.py
-index e33a132..1aa6559 100644
+index 5fb63ec44..3db713d28 100644
 --- a/python/mujoco/__init__.py
 +++ b/python/mujoco/__init__.py
 @@ -22,7 +22,7 @@
@@ -29,7 +29,22 @@ index e33a132..1aa6559 100644
  
  from mujoco._callbacks import *
  from mujoco._constants import *
-
+@@ -53,8 +53,13 @@
+   else:
+     from mujoco.glfw import GLContext
+ 
+-HEADERS_DIR = os.path.join(os.path.dirname(__file__), 'include/mujoco')
+-PLUGINS_DIR = os.path.join(os.path.dirname(__file__), 'plugin')
++if _SYSTEM == 'Windows':
++  _MJ_INSTALL_DIR = os.path.join(os.environ.get('CONDA_PREFIX'), 'Library')
++else:
++  _MJ_INSTALL_DIR = os.environ.get('CONDA_PREFIX')
++
++HEADERS_DIR = os.path.join(_MJ_INSTALL_DIR, 'include/mujoco')
++PLUGINS_DIR = os.path.join(_MJ_INSTALL_DIR, 'bin/mujoco_plugin')
+ 
+ PLUGIN_HANDLES = []
+ 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
 index f7473cf3c..75f29a143 100644
 --- a/CMakeLists.txt
