@@ -28,9 +28,9 @@ if errorlevel 1 exit 1
 cmake --build . --config Release --target install
 if errorlevel 1 exit 1
 
-echo "Listing files in 
 del %LIBRARY_PREFIX%\bin\mujuco_plugin\*.lib
 :: Cleanup plugin installed in %LIBRARY_PREFIX%\bin\mujuco_plugin"
+echo "List plugins installed in %LIBRARY_PREFIX%\bin\mujuco_plugin"
 dir %LIBRARY_PREFIX%\bin\mujuco_plugin
 
 :: Test.
