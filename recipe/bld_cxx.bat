@@ -30,6 +30,7 @@ if errorlevel 1 exit 1
 
 :: Cleanup plugin install
 del %LIBRARY_PREFIX%\bin\mujuco_plugin\*.lib
+dir %LIBRARY_PREFIX%\bin\mujuco_plugin
 
 :: Test.
 ctest --output-on-failure -C Release 
