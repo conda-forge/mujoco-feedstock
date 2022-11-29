@@ -61,14 +61,21 @@ diff --git a/plugin/elasticity/CMakeLists.txt b/plugin/elasticity/CMakeLists.txt
 index 7d25ffcf5..2be85c56a 100644
 --- a/plugin/elasticity/CMakeLists.txt
 +++ b/plugin/elasticity/CMakeLists.txt
-@@ -39,3 +39,10 @@ target_link_options(
+@@ -39,3 +39,17 @@ target_link_options(
    ${MUJOCO_MACOS_LINK_OPTIONS}
    ${EXTRA_LINK_OPTIONS}
  )
 +
 +if(MUJOCO_INSTALL_PLUGINS)
-+  install(TARGETS cable
-+          ARCHIVE DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin"
-+          LIBRARY DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin"
-+          RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin")
++  if(WIN32)
++    install(TARGETS cable
++            ARCHIVE DESTINATION "$ENV{TEMP}"
++            LIBRARY DESTINATION "$ENV{TEMP}"
++            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin")
++  else()
++    install(TARGETS cable
++            ARCHIVE DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin"
++            LIBRARY DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin"
++            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin")
++  endif()
 +endif()
