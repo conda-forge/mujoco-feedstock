@@ -14,6 +14,7 @@ cmake ${CMAKE_ARGS} -GNinja .. \
       -DMUJOCO_ENABLE_AVX:BOOL=OFF \
       -DMUJOCO_ENABLE_AVX_INTRINSICS:BOOL=OFF \
       -DCMAKE_INTERPROCEDURAL_OPTIMIZATION:BOOL=ON \
+      -DMUJOCO_INSTALL_PLUGINS:BOOL=ON \
       ..
 
 cmake --build . --config Release
