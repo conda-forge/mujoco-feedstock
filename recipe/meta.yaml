@@ -22,8 +22,7 @@ source:
 
 
 build:
-  number: 0
-  skip: true  # [py<37]
+  number: 1
 
 outputs:
   - name: {{ namecxx }}
@@ -67,8 +66,6 @@ outputs:
 
 
   - name: {{ namepython }}
-    build:
-      skip: true  # [ppc64le]
     script: build_py.sh  # [unix]
     script: bld_py.bat  # [win]
     requirements:
