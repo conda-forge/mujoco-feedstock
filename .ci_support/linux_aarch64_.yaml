@@ -22,6 +22,7 @@ docker_image:
 - quay.io/condaforge/linux-anvil-cos7-x86_64
 numpy:
 - '1.21'
+- '1.23'
 - '1.20'
 - '1.20'
 pin_run_as_build:
@@ -32,6 +33,7 @@ pybind11_abi:
 - '4'
 python:
 - 3.10.* *_cpython
+- 3.11.* *_cpython
 - 3.8.* *_cpython
 - 3.9.* *_cpython
 target_platform:
