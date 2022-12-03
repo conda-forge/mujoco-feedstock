@@ -1,0 +1,22 @@
+diff --git a/python/mujoco/bindings_test.py b/python/mujoco/bindings_test.py
+index 3673fc1fa..e9224ab2f 100644
+--- a/python/mujoco/bindings_test.py
++++ b/python/mujoco/bindings_test.py
+@@ -128,6 +128,8 @@ def test_array_is_a_view(self):
+     np.testing.assert_array_equal(
+         qpos_ref, [0.789]*len(self.data.qpos))
+ 
++  @pytest.mark.skipif(sys.implementation.name == 'pypy', 
++                      reason="requires sys.getrefcount")
+   def test_array_keeps_struct_alive(self):
+     model = mujoco.MjModel.from_xml_string(TEST_XML)
+     qpos0 = model.qpos0
+@@ -962,6 +964,8 @@ def __call__(self, m, d, stage):
+     self.assertEqual(sensor_callback.count, 1)
+     self.assertEqual(data_with_sensor.sensordata[0], 17)
+ 
++  @pytest.mark.skipif(sys.implementation.name == 'pypy', 
++                      reason="requires sys.getrefcount")
+   def test_mjcb_control_not_leak_memory(self):
+     model_instances = []
+     data_instances = []
