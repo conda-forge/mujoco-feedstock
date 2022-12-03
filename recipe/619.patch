@@ -6,7 +6,7 @@ index 3673fc1fa..e9224ab2f 100644
      np.testing.assert_array_equal(
          qpos_ref, [0.789]*len(self.data.qpos))
  
-+  @pytest.mark.skipif(sys.implementation.name == 'pypy', 
++  @absltest.skipif(sys.implementation.name == 'pypy', 
 +                      reason="requires sys.getrefcount")
    def test_array_keeps_struct_alive(self):
      model = mujoco.MjModel.from_xml_string(TEST_XML)
@@ -15,7 +15,7 @@ index 3673fc1fa..e9224ab2f 100644
      self.assertEqual(sensor_callback.count, 1)
      self.assertEqual(data_with_sensor.sensordata[0], 17)
  
-+  @pytest.mark.skipif(sys.implementation.name == 'pypy', 
++  @absltest.skipif(sys.implementation.name == 'pypy', 
 +                      reason="requires sys.getrefcount")
    def test_mjcb_control_not_leak_memory(self):
      model_instances = []
