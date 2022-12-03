@@ -19,7 +19,7 @@ source:
     - disable_copy_cxx_files_in_python_package.patch
     - do_not_install_via_pip.patch
     - macosmin1014.patch
-
+    - 619.patch
 
 build:
   number: 3
