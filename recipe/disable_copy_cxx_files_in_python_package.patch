@@ -68,12 +68,12 @@ index 7d25ffcf5..2be85c56a 100644
 +
 +if(MUJOCO_INSTALL_PLUGINS)
 +  if(WIN32)
-+    install(TARGETS cable
++    install(TARGETS elasticity
 +            ARCHIVE DESTINATION "$ENV{TEMP}"
 +            LIBRARY DESTINATION "$ENV{TEMP}"
 +            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin")
 +  else()
-+    install(TARGETS cable
++    install(TARGETS elasticity
 +            ARCHIVE DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin"
 +            LIBRARY DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin"
 +            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin")
