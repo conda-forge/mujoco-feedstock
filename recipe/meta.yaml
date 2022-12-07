@@ -22,6 +22,7 @@ source:
     - 619.patch
     - unvendor_simulate.patch
     - fix_glfw_package_name.patch
+    - workaround_cmake_19072.patch
 
 build:
   number: 0
