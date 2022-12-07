@@ -21,6 +21,7 @@ source:
     - macosmin1014.patch
     - 619.patch
     - unvendor_simulate.patch
+    - fix_glfw_package_name.patch
 
 build:
   number: 0
