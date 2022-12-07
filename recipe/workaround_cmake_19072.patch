@@ -1,0 +1,18 @@
+diff --git a/simulate/CMakeLists.txt b/simulate/CMakeLists.txt
+index 1e6cc1f54..2e91f81eb 100644
+--- a/simulate/CMakeLists.txt
++++ b/simulate/CMakeLists.txt
+@@ -118,7 +118,12 @@ target_include_directories(libsimulate PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+ target_compile_definitions(libsimulate PUBLIC MJSIMULATE_STATIC)
+ target_compile_options(libsimulate PUBLIC ${MUJOCO_SIMULATE_COMPILE_OPTIONS})
+ target_link_libraries(libsimulate PUBLIC lodepng mujoco::mujoco)
+-target_include_directories(libsimulate PUBLIC $<TARGET_PROPERTY:glfw,INTERFACE_INCLUDE_DIRECTORIES>)
++# Upstream MuJoCo is carefully not linking glfw here, and so it is just include its directories
++# to avoid dealing with two copies of glfw. In conda-forge (or in any C++/Python distribution)
++# pyglfw will depend on the same glfw copy linked here, so we can just link glfw normally
++# This avoids the tricky cmake bug https://gitlab.kitware.com/cmake/cmake/-/issues/19072
++# target_include_directories(libsimulate PUBLIC $<TARGET_PROPERTY:glfw,INTERFACE_INCLUDE_DIRECTORIES>)
++target_link_libraries(libsimulate PUBLIC glfw)
+ target_link_options(libsimulate PRIVATE ${MUJOCO_SIMULATE_LINK_OPTIONS})
+ 
+ if(APPLE)
