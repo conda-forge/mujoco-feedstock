@@ -96,6 +96,7 @@ outputs:
         - pybind11-abi
         - numpy
         - absl-py
+        - glfw
         - pyglfw
         - pyopengl
       run:
