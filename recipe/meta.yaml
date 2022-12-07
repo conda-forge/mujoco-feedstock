@@ -20,6 +20,7 @@ source:
     - do_not_install_via_pip.patch
     - macosmin1014.patch
     - 619.patch
+    - unvendor_simulate.patch
 
 build:
   number: 0
