@@ -26,9 +26,9 @@ index 5fb63ec44..3db713d28 100644
  if _SYSTEM == 'Windows':
 -  ctypes.WinDLL(os.path.join(os.path.dirname(__file__), 'mujoco.dll'))
 +  ctypes.WinDLL('mujoco.dll')
- 
- from mujoco._callbacks import *
- from mujoco._constants import *
+ elif _SYSTEM == 'Darwin':
+   proc_translated = subprocess.run(
+       ['sysctl', '-n', 'sysctl.proc_translated'], capture_output=True).stdout
 @@ -53,8 +53,13 @@
    else:
      from mujoco.glfw import GLContext
@@ -68,12 +68,12 @@ index 7d25ffcf5..2be85c56a 100644
 +
 +if(MUJOCO_INSTALL_PLUGINS)
 +  if(WIN32)
-+    install(TARGETS cable
++    install(TARGETS elasticity
 +            ARCHIVE DESTINATION "$ENV{TEMP}"
 +            LIBRARY DESTINATION "$ENV{TEMP}"
 +            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin")
 +  else()
-+    install(TARGETS cable
++    install(TARGETS elasticity
 +            ARCHIVE DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin"
 +            LIBRARY DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin"
 +            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin")

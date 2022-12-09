@@ -1,0 +1,13 @@
+diff --git a/simulate/cmake/SimulateDependencies.cmake b/simulate/cmake/SimulateDependencies.cmake
+index 6616d6f4f..0d73abfcb 100644
+--- a/simulate/cmake/SimulateDependencies.cmake
++++ b/simulate/cmake/SimulateDependencies.cmake
+@@ -98,7 +98,7 @@ if(MUJOCO_EXTRAS_STATIC_GLFW)
+   unset(BUILD_SHARED_LIBS_OLD)
+ endif()
+ 
+-if(NOT SIMULATE_STANDALONE)
++if(NOT SIMULATE_STANDALONE AND NOT MUJOCO_SIMULATE_USE_SYSTEM_GLFW)
+   target_compile_options(glfw PRIVATE ${MUJOCO_MACOS_COMPILE_OPTIONS})
+   target_link_options(glfw PRIVATE ${MUJOCO_MACOS_LINK_OPTIONS})
+ endif()

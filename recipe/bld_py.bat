@@ -20,5 +20,6 @@ set TEMP=%SRC_DIR%\tempbuilddir
 cd dist
 set MUJOCO_PATH=%PREFIX%\Library
 set MUJOCO_PLUGIN_PATH=%MUJOCO_PATH%\bin\mujoco_plugin
+set MUJOCO_CMAKE_ARGS=%CMAKE_ARGS%
 python -m pip install --no-deps mujoco-%PKG_VERSION%.tar.gz
 if errorlevel 1 exit 1
