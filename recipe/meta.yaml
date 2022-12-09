@@ -24,6 +24,7 @@ source:
     - fix_glfw_package_name.patch
     - workaround_cmake_19072.patch
     - 619bis.patch
+    - simulate_unvendor_lodepng.patch
 
 build:
   number: 0
