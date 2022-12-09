@@ -61,12 +61,12 @@ outputs:
       commands:
         - test -f ${PREFIX}/include/mujoco/mujoco.h  # [not win]
         - test -f ${PREFIX}/lib/libmujoco${SHLIB_EXT}  # [unix]
-        - test -f ${PREFIX}/bin/mujoco_plugin/libcable${SHLIB_EXT}  # [unix]
+        - test -f ${PREFIX}/bin/mujoco_plugin/libelasticity${SHLIB_EXT}  # [unix]
         - if not exist %LIBRARY_INC%\\mujoco\\mujoco.h exit 1  # [win]
         - if not exist %LIBRARY_LIB%\\mujoco.lib exit 1  # [win]
         - if not exist %LIBRARY_BIN%\\mujoco.dll exit 1  # [win]
-        - if not exist %LIBRARY_BIN%\\mujoco_plugin\\cable.dll exit 1  # [win]
-        - if exist %LIBRARY_BIN%\\mujoco_plugin\\cable.lib exit 1  # [win]
+        - if not exist %LIBRARY_BIN%\\mujoco_plugin\\elasticity.dll exit 1  # [win]
+        - if exist %LIBRARY_BIN%\\mujoco_plugin\\elasticity.lib exit 1  # [win]
 
 
   - name: {{ namepython }}
