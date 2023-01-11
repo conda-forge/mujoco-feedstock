@@ -57,6 +57,9 @@ outputs:
         - lodepng
       run:
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx and x86_64]
+      run_constrained:
+        # Older version of this package were named mujoco-cxx, we want to avoid that they are installed
+        - mujoco-cxx <0
 
     test:
       commands:
