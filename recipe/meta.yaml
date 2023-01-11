@@ -1,5 +1,5 @@
 {% set name = "mujoco" %}
-{% set namecxx = "mujoco-cxx" %}
+{% set namecxx = "libmujoco" %}
 {% set namepython = "mujoco-python" %}
 {% set version = "2.3.1.post1" %}
 
@@ -27,7 +27,7 @@ source:
     - simulate_unvendor_lodepng.patch
 
 build:
-  number: 0
+  number: 1
 
 outputs:
   - name: {{ namecxx }}
@@ -36,10 +36,10 @@ outputs:
     build:
       run_exports:
         - {{ pin_subpackage(namecxx, max_pin='x.x.x') }}
-      # abseil-cpp is used only for tests, we can 
+      # libabseil is used only for tests, we can 
       # safely ignore its run_exports
       ignore_run_exports:
-        - abseil-cpp
+        - libabseil
     requirements:
       build:
         - cmake
@@ -53,10 +53,13 @@ outputs:
         - qhull
         - tinyxml2
         - libccd-double
-        - abseil-cpp
+        - libabseil
         - lodepng
       run:
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx and x86_64]
+      run_constrained:
+        # Older version of this package were named mujoco-cxx, we want to avoid that they are installed
+        - mujoco-cxx <0
 
     test:
       commands:
@@ -98,7 +101,7 @@ outputs:
       host:
         - {{ pin_subpackage(namecxx, exact=True) }}
         - eigen
-        - abseil-cpp
+        - libabseil
         - python
         - pip
         - setuptools
