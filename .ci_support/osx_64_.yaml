@@ -2,8 +2,6 @@ MACOSX_DEPLOYMENT_TARGET:
 - '10.14'
 MACOSX_SDK_VERSION:
 - '10.15'
-abseil_cpp:
-- '20220623.0'
 c_compiler:
 - clang
 c_compiler_version:
@@ -16,6 +14,8 @@ cxx_compiler:
 - clangxx
 cxx_compiler_version:
 - '14'
+libabseil:
+- '20220623.0'
 macos_machine:
 - x86_64-apple-darwin13.4.0
 numpy:
