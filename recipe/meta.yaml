@@ -19,9 +19,9 @@ source:
     - disable_copy_cxx_files_in_python_package.patch
     - do_not_install_via_pip.patch
     - macosmin1014.patch
-    - 619.patch
+# 
     - unvendor_simulate.patch
-    - fix_glfw_package_name.patch
+#    - fix_glfw_package_name.patch
     - workaround_cmake_19072.patch
     - 619bis.patch
     - simulate_unvendor_lodepng.patch
