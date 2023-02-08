@@ -1,6 +1,3 @@
-set "CC=clang-cl.exe"
-set "CXX=clang-cl.exe"
-
 :: Prefer Ninja, and make sure that CMAKE_GENERATOR_PLATFORM and CMAKE_GENERATOR_TOOLSET
 :: environment variables (that are only working with VS generator) are not set
 set CMAKE_GENERATOR=Ninja
