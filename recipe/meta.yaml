@@ -19,12 +19,11 @@ source:
     - disable_copy_cxx_files_in_python_package.patch
     - do_not_install_via_pip.patch
     - macosmin1014.patch
-# 
     - unvendor_simulate.patch
-#    - fix_glfw_package_name.patch
     - workaround_cmake_19072.patch
     - 619bis.patch
     - simulate_unvendor_lodepng.patch
+    - use_less_threads_for_build_python_on_windows.patch  # [win]
 
 build:
   number: 0
@@ -47,7 +46,6 @@ outputs:
         - {{ compiler('cxx') }}
         - make                                   # [not win]
         - ninja
-        - clang 14  # [win]
       host:
         - eigen
         - qhull
