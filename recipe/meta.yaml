@@ -23,7 +23,6 @@ source:
     - workaround_cmake_19072.patch
     - 619bis.patch
     - simulate_unvendor_lodepng.patch
-    - use_less_threads_for_build_python_on_windows.patch  # [win]
 
 build:
   number: 0
