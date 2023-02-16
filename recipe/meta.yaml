@@ -1,7 +1,7 @@
 {% set name = "mujoco" %}
 {% set namecxx = "libmujoco" %}
 {% set namepython = "mujoco-python" %}
-{% set version = "2.3.1.post1" %}
+{% set version = "2.3.2" %}
 
 package:
   name: {{ name }}
@@ -9,7 +9,7 @@ package:
 
 source:
   url: https://github.com/deepmind/mujoco/archive/refs/tags/{{ version }}.tar.gz
-  sha256: d53271a92b607f3aaba2341aed19661eb2e3b086cd262067d8334509e54f793b
+  sha256: 85f0dd00ce6a167ae92049957f8d849ad07cd4d44b71b5e49cc66bd44552436c
   patches:
     - python_remove_avx.patch
     - python_remove_werror.patch
@@ -19,15 +19,13 @@ source:
     - disable_copy_cxx_files_in_python_package.patch
     - do_not_install_via_pip.patch
     - macosmin1014.patch
-    - 619.patch
     - unvendor_simulate.patch
-    - fix_glfw_package_name.patch
     - workaround_cmake_19072.patch
     - 619bis.patch
     - simulate_unvendor_lodepng.patch
 
 build:
-  number: 1
+  number: 0
 
 outputs:
   - name: {{ namecxx }}
@@ -47,7 +45,6 @@ outputs:
         - {{ compiler('cxx') }}
         - make                                   # [not win]
         - ninja
-        - clang 14  # [win]
       host:
         - eigen
         - qhull
@@ -89,7 +86,8 @@ outputs:
         - pip                                    # [build_platform != target_platform]
         - setuptools                             # [build_platform != target_platform]
         - absl-py                                # [build_platform != target_platform]
-        - clang 14                               # [win]
+        - clang                                  # [win]
+        - lld                                    # [win]
         - bash                                   # [not win]
         - posix                                  # [win]
         - {{ cdt('mesa-libgl-devel') }}  # [linux]
