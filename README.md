@@ -1,11 +1,11 @@
-About mujoco
-============
+About mujoco-feedstock
+======================
+
+Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/mujoco-feedstock/blob/main/LICENSE.txt)
 
 Home: https://github.com/deepmind/mujoco
 
 Package license: Apache-2.0
-
-Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/mujoco-feedstock/blob/main/LICENSE.txt)
 
 Summary: Multi-Joint dynamics with Contact. A general purpose multi-body dynamics simulator.
 
