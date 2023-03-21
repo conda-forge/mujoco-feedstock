@@ -1,20 +1,19 @@
 diff --git a/python/setup.py b/python/setup.py
-index 2327f35cb..f8015a21b 100644
+index 4a4f1ee9f..0ffa7247b 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -156,9 +156,9 @@ def run(self):
+@@ -159,9 +159,9 @@ def run(self):
        assert ext.name.startswith(EXT_PREFIX)
        assert '.' not in ext.name[len(EXT_PREFIX):]
        self.build_extension(ext)
 -    self._copy_external_libraries()
 -    self._copy_mujoco_headers()
 -    self._copy_plugin_libraries()
-+    #self._copy_external_libraries()
-+    #self._copy_mujoco_headers()
-+    #self._copy_plugin_libraries()
- 
-   def _find_mujoco(self):
-     if MUJOCO_PATH not in os.environ:
++    # self._copy_external_libraries()
++    # self._copy_mujoco_headers()
++    # self._copy_plugin_libraries()
+     if self._is_apple:
+       self._copy_mjpython()
 
 diff --git a/python/mujoco/__init__.py b/python/mujoco/__init__.py
 index 5fb63ec44..3db713d28 100644

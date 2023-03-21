@@ -3,7 +3,7 @@ c_compiler:
 c_compiler_version:
 - '11'
 cdt_name:
-- cos7
+- cos6
 channel_sources:
 - conda-forge
 channel_targets:
@@ -21,8 +21,6 @@ numpy:
 - '1.23'
 - '1.20'
 - '1.20'
-- '1.20'
-- '1.20'
 pin_run_as_build:
   python:
     min_pin: x.x
@@ -32,12 +30,15 @@ pybind11_abi:
 python:
 - 3.10.* *_cpython
 - 3.11.* *_cpython
-- 3.8.* *_73_pypy
 - 3.8.* *_cpython
-- 3.9.* *_73_pypy
 - 3.9.* *_cpython
+python_impl:
+- cpython
+- cpython
+- cpython
+- cpython
 target_platform:
-- linux-ppc64le
+- linux-64
 tinyxml2:
 - '9'
 zip_keys:
@@ -45,3 +46,4 @@ zip_keys:
   - cxx_compiler_version
 - - python
   - numpy
+  - python_impl

@@ -1,7 +1,7 @@
 {% set name = "mujoco" %}
 {% set namecxx = "libmujoco" %}
 {% set namepython = "mujoco-python" %}
-{% set version = "2.3.2" %}
+{% set version = "2.3.3" %}
 
 package:
   name: {{ name }}
@@ -9,10 +9,9 @@ package:
 
 source:
   url: https://github.com/deepmind/mujoco/archive/refs/tags/{{ version }}.tar.gz
-  sha256: 85f0dd00ce6a167ae92049957f8d849ad07cd4d44b71b5e49cc66bd44552436c
+  sha256: ada7e985c5ceb9c0f53b01f7fb1637977eb90040430e5a41b87485c9af2f39e4
   patches:
     - python_remove_avx.patch
-    - python_remove_werror.patch
     - cxx_devendor.patch
     - python_devendor.patch
     - ccd_vec3_origin_link_problem.patch
@@ -25,7 +24,9 @@ source:
     - simulate_unvendor_lodepng.patch
 
 build:
-  number: 1
+  # See https://github.com/conda-forge/mujoco-feedstock/issues/22
+  skip: true  # [(aarch64 or ppc64le or osx) and python_impl == 'pypy']
+  number: 0
 
 outputs:
   - name: {{ namecxx }}
