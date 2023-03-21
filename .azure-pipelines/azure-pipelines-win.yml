@@ -8,8 +8,11 @@ jobs:
     vmImage: windows-2022
   strategy:
     matrix:
-      win_64_:
-        CONFIG: win_64_
+      win_64_python_implcpython:
+        CONFIG: win_64_python_implcpython
+        UPLOAD_PACKAGES: 'True'
+      win_64_python_implpypy:
+        CONFIG: win_64_python_implpypy
         UPLOAD_PACKAGES: 'True'
   timeoutInMinutes: 360
   variables:
