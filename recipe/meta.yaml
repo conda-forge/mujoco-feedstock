@@ -12,7 +12,6 @@ source:
   sha256: ada7e985c5ceb9c0f53b01f7fb1637977eb90040430e5a41b87485c9af2f39e4
   patches:
     - python_remove_avx.patch
-    # - python_remove_werror.patch
     - cxx_devendor.patch
     - python_devendor.patch
     - ccd_vec3_origin_link_problem.patch
@@ -25,6 +24,8 @@ source:
     - simulate_unvendor_lodepng.patch
 
 build:
+  # See https://github.com/conda-forge/mujoco-feedstock/issues/22
+  skip: true  # [(aarch64 or ppc64le or osx) and python_impl == 'pypy']
   number: 0
 
 outputs:
