@@ -9,7 +9,7 @@ package:
 
 source:
   url: https://github.com/deepmind/mujoco/archive/refs/tags/{{ version }}.tar.gz
-  sha256: 43266d9da3d08ebfc5b23be0c241d9f34e3bb219727f70b7bc8aee3e8ac6f824
+  sha256: 007d147f2a47241f16c0eb4e2250066e953c28a6141e9edf9a594b3d9ee4993f
   patches:
     - python_remove_avx.patch
     - cxx_devendor.patch
