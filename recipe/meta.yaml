@@ -46,6 +46,8 @@ outputs:
         - {{ compiler('cxx') }}
         - make                                   # [not win]
         - ninja
+        - clang                                  # [win]
+        - lld                                    # [win]
       host:
         - eigen
         - qhull
