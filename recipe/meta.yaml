@@ -46,6 +46,10 @@ outputs:
         - {{ compiler('cxx') }}
         - make                                   # [not win]
         - ninja
+        - clang                                  # [win]
+        - lld                                    # [win]
+        # This provides llvm-lib that is used during the linking
+        - llvm-tools                             # [win]
       host:
         - eigen
         - qhull
@@ -89,6 +93,8 @@ outputs:
         - absl-py                                # [build_platform != target_platform]
         - clang                                  # [win]
         - lld                                    # [win]
+        # This provides llvm-lib that is used during the linking
+        - llvm-tools                             # [win]
         - bash                                   # [not win]
         - posix                                  # [win]
         - {{ cdt('mesa-libgl-devel') }}  # [linux]
