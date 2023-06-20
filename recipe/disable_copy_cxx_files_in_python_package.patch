@@ -78,3 +78,26 @@ index 7d25ffcf5..2be85c56a 100644
 +            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin")
 +  endif()
 +endif()
+
+diff --git a/plugin/sensor/CMakeLists.txt b/plugin/sensor/CMakeLists.txt
+index 4dac6d0a6..6c9908703 100644
+--- a/plugin/sensor/CMakeLists.txt
++++ b/plugin/sensor/CMakeLists.txt
+@@ -40,3 +40,17 @@ target_link_options(
+   ${MUJOCO_MACOS_LINK_OPTIONS}
+   ${EXTRA_LINK_OPTIONS}
+ )
++
++if(MUJOCO_INSTALL_PLUGINS)
++  if(WIN32)
++    install(TARGETS sensor
++            ARCHIVE DESTINATION "$ENV{TEMP}"
++            LIBRARY DESTINATION "$ENV{TEMP}"
++            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin")
++  else()
++    install(TARGETS sensor
++            ARCHIVE DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin"
++            LIBRARY DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin"
++            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin")
++  endif()
++endif()
