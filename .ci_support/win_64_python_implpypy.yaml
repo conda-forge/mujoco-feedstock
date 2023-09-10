@@ -7,10 +7,9 @@ channel_targets:
 cxx_compiler:
 - vs2019
 libabseil:
-- '20230125'
+- '20230802'
 numpy:
-- '1.21'
-- '1.21'
+- '1.22'
 pin_run_as_build:
   python:
     min_pin: x.x
@@ -18,10 +17,8 @@ pin_run_as_build:
 pybind11_abi:
 - '4'
 python:
-- 3.8.* *_73_pypy
 - 3.9.* *_73_pypy
 python_impl:
-- pypy
 - pypy
 target_platform:
 - win-64
