@@ -67,12 +67,17 @@ outputs:
         - test -f ${PREFIX}/include/mujoco/mujoco.h  # [not win]
         - test -f ${PREFIX}/lib/libmujoco${SHLIB_EXT}  # [unix]
         - test -f ${PREFIX}/bin/mujoco_plugin/libelasticity${SHLIB_EXT}  # [unix]
+        - test -f ${PREFIX}/bin/mujoco_plugin/libsensor${SHLIB_EXT}  # [unix]
+        - test -f ${PREFIX}/bin/mujoco_plugin/libsdf${SHLIB_EXT}  # [unix]
         - if not exist %LIBRARY_INC%\\mujoco\\mujoco.h exit 1  # [win]
         - if not exist %LIBRARY_LIB%\\mujoco.lib exit 1  # [win]
         - if not exist %LIBRARY_BIN%\\mujoco.dll exit 1  # [win]
         - if not exist %LIBRARY_BIN%\\mujoco_plugin\\elasticity.dll exit 1  # [win]
         - if exist %LIBRARY_BIN%\\mujoco_plugin\\elasticity.lib exit 1  # [win]
-
+        - if not exist %LIBRARY_BIN%\\mujoco_plugin\\sensor.dll exit 1  # [win]
+        - if exist %LIBRARY_BIN%\\mujoco_plugin\\sensor.lib exit 1  # [win]
+        - if not exist %LIBRARY_BIN%\\mujoco_plugin\\sdf.dll exit 1  # [win]
+        - if exist %LIBRARY_BIN%\\mujoco_plugin\\sdf.lib exit 1  # [win]
 
   - name: {{ namepython }}
     script: build_py.sh  # [unix]
@@ -177,6 +182,7 @@ about:
   license_file:
     - LICENSE
     - build/_deps/tinyobjloader-src/LICENSE
+    - build/_deps/sdflib-src/LICENSE
   summary: Multi-Joint dynamics with Contact. A general purpose multi-body dynamics simulator.
 
 extra:
