@@ -1,7 +1,7 @@
 {% set name = "mujoco" %}
 {% set namecxx = "libmujoco" %}
 {% set namepython = "mujoco-python" %}
-{% set version = "2.3.7" %}
+{% set version = "3.0.0" %}
 
 package:
   name: {{ name }}
@@ -9,7 +9,7 @@ package:
 
 source:
   url: https://github.com/deepmind/mujoco/archive/refs/tags/{{ version }}.tar.gz
-  sha256: a14a92dfcecef2ccd5a41d27a53f9375248a9f1d1ea4ec9374304fb8e7fc8d97
+  sha256: b0108b44a4913c6d49a2fea382e684d10d0c43f51ac7d317d3c73fe66f120c33
   patches:
     - python_remove_avx.patch
     - cxx_devendor.patch
@@ -25,7 +25,7 @@ source:
 build:
   # See https://github.com/conda-forge/mujoco-feedstock/issues/22
   skip: true  # [(aarch64 or ppc64le or osx) and python_impl == 'pypy']
-  number: 2
+  number: 0
 
 outputs:
   - name: {{ namecxx }}
