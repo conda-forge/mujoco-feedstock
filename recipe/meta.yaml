@@ -135,6 +135,33 @@ outputs:
         - pytest --pyargs mujoco -v -k "not render"
         - pip check
 
+  - name: mujoco-mjx
+    build:
+      noarch: python
+    script: {{ PYTHON }} -m pip install ./mjx/ --no-deps -vv
+    requirements:
+      host:
+        - pip
+        - python >=3.7
+      run:
+        - jaxlib
+        - jax
+        - absl-py
+        - scipy
+        - trimesh
+        - etils
+        - importlib_resources
+        - mujoco-python >={{ version }}
+    test:
+      imports:
+        - mujoco.mjx
+      requires:
+        - pip
+        - pytest
+      commands:
+        - pip check
+        - pytest --pyargs mujoco.mjx -v
+
   - name: {{ name }}
     requirements:
       run:
