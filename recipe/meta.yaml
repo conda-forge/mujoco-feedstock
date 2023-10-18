@@ -94,6 +94,7 @@ outputs:
         - numpy                                  # [build_platform != target_platform]
         - pip                                    # [build_platform != target_platform]
         - setuptools                             # [build_platform != target_platform]
+        - python-build                           # [build_platform != target_platform]
         - absl-py                                # [build_platform != target_platform]
         - clang                                  # [win]
         - lld                                    # [win]
@@ -114,6 +115,7 @@ outputs:
         - python
         - pip
         - setuptools
+        - python-build
         - pybind11
         - pybind11-abi
         - numpy
@@ -130,6 +132,8 @@ outputs:
         - pyglfw
         - pyopengl
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx and x86_64]
+        - etils
+        - importlib_resources
     test:
       imports:
         - mujoco
