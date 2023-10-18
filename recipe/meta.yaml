@@ -132,8 +132,12 @@ outputs:
         - pyglfw
         - pyopengl
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx and x86_64]
+        # Transitive dependencies of etils[epath], not directly available on conda-forge
         - etils
+        - fsspec
         - importlib_resources
+        - typing_extensions
+        - zipp
     test:
       imports:
         - mujoco
@@ -158,9 +162,13 @@ outputs:
         - absl-py
         - scipy
         - trimesh
-        - etils
-        - importlib_resources
         - mujoco-python >={{ version }}
+        # Transitive dependencies of etils[epath], not directly available on conda-forge
+        - etils
+        - fsspec
+        - importlib_resources
+        - typing_extensions
+        - zipp
     test:
       imports:
         - mujoco.mjx
