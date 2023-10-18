@@ -157,8 +157,9 @@ outputs:
         - pip
         - python >=3.7
       run:
-        - jaxlib
-        - jax
+        # jax minimum version based on ./mjx/requirements.txt file
+        - jaxlib >=0.4.13
+        - jax >=0.4.13
         - absl-py
         - scipy
         - trimesh
