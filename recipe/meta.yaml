@@ -45,10 +45,10 @@ outputs:
         - {{ compiler('cxx') }}
         - make                                   # [not win]
         - ninja
-        - clang                                  # [win]
-        - lld                                    # [win]
+        - clang 16.*                             # [win]
+        - lld 16.*                               # [win]
         # This provides llvm-lib that is used during the linking
-        - llvm-tools                             # [win]
+        - llvm-tools 16.*                        # [win]
       host:
         - eigen
         - qhull
@@ -96,10 +96,10 @@ outputs:
         - setuptools                             # [build_platform != target_platform]
         - python-build                           # [build_platform != target_platform]
         - absl-py                                # [build_platform != target_platform]
-        - clang                                  # [win]
-        - lld                                    # [win]
+        - clang 16.*                             # [win]
+        - lld 16.*                               # [win]
         # This provides llvm-lib that is used during the linking
-        - llvm-tools                             # [win]
+        - llvm-tools 16.*                        # [win]
         - bash                                   # [not win]
         - posix                                  # [win]
         - {{ cdt('mesa-libgl-devel') }}  # [linux]
@@ -151,6 +151,11 @@ outputs:
   - name: mujoco-mjx
     build:
       noarch: python
+      # Skip platforms for which jax is not available
+      # note that this only influences tests, in the end the package is noarch
+      # so only one package will be uploaded, and can be installed on any platform,
+      # as soon as the dependencies become available
+      skip: true  # [python_impl == 'pypy' or win]
       script: python -m pip install ./mjx/ --no-deps -vv
     requirements:
       host:
@@ -178,7 +183,8 @@ outputs:
         - pytest
       commands:
         - pip check
-        - pytest --pyargs mujoco.mjx -v
+        # Skipping test_box_box as it also fails upstream https://github.com/conda-forge/mujoco-feedstock/pull/31#issuecomment-1770520403
+        - pytest --pyargs mujoco.mjx -v -k "not test_box_box"
 
   - name: {{ name }}
     requirements:
