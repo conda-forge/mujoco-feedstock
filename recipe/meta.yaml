@@ -194,8 +194,8 @@ outputs:
       commands:
         - pip check
         # Skipping test_box_box as it also fails upstream https://github.com/conda-forge/mujoco-feedstock/pull/31#issuecomment-1770520403
-        # Skipping integration tests to speed up the tests and as some integration tests make the remote runner crash/hang
-        - pytest --pyargs mujoco.mjx -v -k "not (integration or test_box_box)"
+        # Skipping test_collision_driver tests to speed up the tests and as some integration tests make the remote runner crash/hang
+        - pytest --pyargs mujoco.mjx -v -k "not (test_collision_driver or test_box_box)"
 
   - name: {{ name }}
     requirements:
