@@ -21,6 +21,7 @@ source:
     - workaround_cmake_19072.patch
     - 619bis.patch
     - simulate_unvendor_lodepng.patch
+    - disable-isolation-and-dep-check-python-build.patch
 
 build:
   # See https://github.com/conda-forge/mujoco-feedstock/issues/22
