@@ -1,7 +1,7 @@
 {% set name = "mujoco" %}
 {% set namecxx = "libmujoco" %}
 {% set namepython = "mujoco-python" %}
-{% set version = "2.3.7" %}
+{% set version = "3.0.0" %}
 
 package:
   name: {{ name }}
@@ -9,7 +9,7 @@ package:
 
 source:
   url: https://github.com/deepmind/mujoco/archive/refs/tags/{{ version }}.tar.gz
-  sha256: a14a92dfcecef2ccd5a41d27a53f9375248a9f1d1ea4ec9374304fb8e7fc8d97
+  sha256: b0108b44a4913c6d49a2fea382e684d10d0c43f51ac7d317d3c73fe66f120c33
   patches:
     - python_remove_avx.patch
     - cxx_devendor.patch
@@ -21,11 +21,12 @@ source:
     - workaround_cmake_19072.patch
     - 619bis.patch
     - simulate_unvendor_lodepng.patch
+    - disable-isolation-and-dep-check-python-build.patch
 
 build:
   # See https://github.com/conda-forge/mujoco-feedstock/issues/22
   skip: true  # [(aarch64 or ppc64le or osx) and python_impl == 'pypy']
-  number: 2
+  number: 0
 
 outputs:
   - name: {{ namecxx }}
@@ -45,10 +46,10 @@ outputs:
         - {{ compiler('cxx') }}
         - make                                   # [not win]
         - ninja
-        - clang                                  # [win]
-        - lld                                    # [win]
+        - clang 16.*                             # [win]
+        - lld 16.*                               # [win]
         # This provides llvm-lib that is used during the linking
-        - llvm-tools                             # [win]
+        - llvm-tools 16.*                        # [win]
       host:
         - eigen
         - qhull
@@ -67,12 +68,17 @@ outputs:
         - test -f ${PREFIX}/include/mujoco/mujoco.h  # [not win]
         - test -f ${PREFIX}/lib/libmujoco${SHLIB_EXT}  # [unix]
         - test -f ${PREFIX}/bin/mujoco_plugin/libelasticity${SHLIB_EXT}  # [unix]
+        - test -f ${PREFIX}/bin/mujoco_plugin/libsensor${SHLIB_EXT}  # [unix]
+        - test -f ${PREFIX}/bin/mujoco_plugin/libsdf${SHLIB_EXT}  # [unix]
         - if not exist %LIBRARY_INC%\\mujoco\\mujoco.h exit 1  # [win]
         - if not exist %LIBRARY_LIB%\\mujoco.lib exit 1  # [win]
         - if not exist %LIBRARY_BIN%\\mujoco.dll exit 1  # [win]
         - if not exist %LIBRARY_BIN%\\mujoco_plugin\\elasticity.dll exit 1  # [win]
         - if exist %LIBRARY_BIN%\\mujoco_plugin\\elasticity.lib exit 1  # [win]
-
+        - if not exist %LIBRARY_BIN%\\mujoco_plugin\\sensor.dll exit 1  # [win]
+        - if exist %LIBRARY_BIN%\\mujoco_plugin\\sensor.lib exit 1  # [win]
+        - if not exist %LIBRARY_BIN%\\mujoco_plugin\\sdf.dll exit 1  # [win]
+        - if exist %LIBRARY_BIN%\\mujoco_plugin\\sdf.lib exit 1  # [win]
 
   - name: {{ namepython }}
     script: build_py.sh  # [unix]
@@ -89,11 +95,13 @@ outputs:
         - numpy                                  # [build_platform != target_platform]
         - pip                                    # [build_platform != target_platform]
         - setuptools                             # [build_platform != target_platform]
+        - python-build                           # [build_platform != target_platform]
+        - virtualenv                             # [build_platform != target_platform]
         - absl-py                                # [build_platform != target_platform]
-        - clang                                  # [win]
-        - lld                                    # [win]
+        - clang 16.*                             # [win]
+        - lld 16.*                               # [win]
         # This provides llvm-lib that is used during the linking
-        - llvm-tools                             # [win]
+        - llvm-tools 16.*                        # [win]
         - bash                                   # [not win]
         - posix                                  # [win]
         - {{ cdt('mesa-libgl-devel') }}  # [linux]
@@ -106,9 +114,12 @@ outputs:
         - {{ pin_subpackage(namecxx, exact=True) }}
         - eigen
         - libabseil
+        - lodepng
         - python
         - pip
         - setuptools
+        - python-build
+        - virtualenv
         - pybind11
         - pybind11-abi
         - numpy
@@ -125,6 +136,12 @@ outputs:
         - pyglfw
         - pyopengl
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx and x86_64]
+        # Transitive dependencies of etils[epath], not directly available on conda-forge
+        - etils
+        - fsspec
+        - importlib_resources
+        - typing_extensions
+        - zipp
     test:
       imports:
         - mujoco
@@ -134,6 +151,51 @@ outputs:
       commands:
         - pytest --pyargs mujoco -v -k "not render"
         - pip check
+
+  - name: mujoco-mjx
+    build:
+      noarch: python
+      # Skip platforms for which jax is not available
+      # note that this only influences tests, in the end the package is noarch
+      # so only one package will be uploaded, and can be installed on any platform,
+      # as soon as the dependencies become available
+      skip: true  # [python_impl == 'pypy']
+      skip: true  # [win]
+      skip: true  # [ppc64le]
+      # Skip platforms for which for some reason the test is failing for not finding mujoco-python,
+      # even if it the mujoco-python was just build
+      skip: true  # [arm64]
+      skip: true  # [aarch64]
+      script: python -m pip install ./mjx/ --no-deps -vv
+    requirements:
+      host:
+        - pip
+        - python >=3.7
+      run:
+        # jax minimum version based on ./mjx/requirements.txt file
+        - jaxlib >=0.4.13
+        - jax >=0.4.13
+        - absl-py
+        - scipy
+        - trimesh
+        - mujoco-python >={{ version }}
+        # Transitive dependencies of etils[epath], not directly available on conda-forge
+        - etils
+        - fsspec
+        - importlib_resources
+        - typing_extensions
+        - zipp
+    test:
+      imports:
+        - mujoco.mjx
+      requires:
+        - pip
+        - pytest
+      commands:
+        - pip check
+        # Skipping test_box_box as it also fails upstream https://github.com/conda-forge/mujoco-feedstock/pull/31#issuecomment-1770520403
+        # Skipping test_collision_driver tests to speed up the tests and as some integration tests make the remote runner crash/hang
+        - pytest --pyargs mujoco.mjx -v -k "not (test_collision_driver or test_box_box)"
 
   - name: {{ name }}
     requirements:
@@ -150,6 +212,7 @@ about:
   license_file:
     - LICENSE
     - build/_deps/tinyobjloader-src/LICENSE
+    - build/_deps/sdflib-src/LICENSE
   summary: Multi-Joint dynamics with Contact. A general purpose multi-body dynamics simulator.
 
 extra:
