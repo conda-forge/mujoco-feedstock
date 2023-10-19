@@ -95,6 +95,7 @@ outputs:
         - pip                                    # [build_platform != target_platform]
         - setuptools                             # [build_platform != target_platform]
         - python-build                           # [build_platform != target_platform]
+        - virtualenv                             # [build_platform != target_platform]
         - absl-py                                # [build_platform != target_platform]
         - clang 16.*                             # [win]
         - lld 16.*                               # [win]
@@ -112,10 +113,12 @@ outputs:
         - {{ pin_subpackage(namecxx, exact=True) }}
         - eigen
         - libabseil
+        - lodepng
         - python
         - pip
         - setuptools
         - python-build
+        - virtualenv
         - pybind11
         - pybind11-abi
         - numpy
