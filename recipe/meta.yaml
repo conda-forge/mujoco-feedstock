@@ -1,7 +1,7 @@
 {% set name = "mujoco" %}
 {% set namecxx = "libmujoco" %}
 {% set namepython = "mujoco-python" %}
-{% set version = "3.0.0" %}
+{% set version = "3.0.1" %}
 
 package:
   name: {{ name }}
@@ -9,7 +9,7 @@ package:
 
 source:
   url: https://github.com/deepmind/mujoco/archive/refs/tags/{{ version }}.tar.gz
-  sha256: b0108b44a4913c6d49a2fea382e684d10d0c43f51ac7d317d3c73fe66f120c33
+  sha256: 54fb3b5d2aaa068a5853b1384df0ff3d4eab45cc2fc958e82229979451299a45
   patches:
     - python_remove_avx.patch
     - cxx_devendor.patch
@@ -137,7 +137,9 @@ outputs:
         - pyopengl
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx and x86_64]
         # Transitive dependencies of etils[epath], not directly available on conda-forge
-        - etils
+        - etils  # [py!=38]
+        # Workaround for https://github.com/conda-forge/mujoco-feedstock/pull/32#issuecomment-1821254102
+        - etils <=1.3.0  # [py==38]
         - fsspec
         - importlib_resources
         - typing_extensions
