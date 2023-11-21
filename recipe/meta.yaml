@@ -137,7 +137,9 @@ outputs:
         - pyopengl
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx and x86_64]
         # Transitive dependencies of etils[epath], not directly available on conda-forge
-        - etils
+        - etils  # [py!=38]
+        # Workaround for https://github.com/conda-forge/mujoco-feedstock/pull/32#issuecomment-1821254102
+        - etils <=1.3.0  # [py==38]
         - fsspec
         - importlib_resources
         - typing_extensions
