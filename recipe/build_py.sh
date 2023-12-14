@@ -10,5 +10,5 @@ bash make_sdist.sh
 cd dist
 export MUJOCO_PATH=$PREFIX
 export MUJOCO_PLUGIN_PATH=$PREFIX/bin/mujoco_plugin
-export MUJOCO_CMAKE_ARGS=$CMAKE_ARGS
+export MUJOCO_CMAKE_ARGS="-DMUJOCO_PYTHON_USE_SYSTEM_PYBIND11:BOOL=ON $CMAKE_ARGS"
 python -m pip install --no-deps mujoco-*.tar.gz
