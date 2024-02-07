@@ -153,7 +153,8 @@ outputs:
         - pytest
         - pip
       commands:
-        - pytest --pyargs mujoco -v -k "not render"
+        # pypy skipped as a workaround for https://github.com/conda-forge/mujoco-feedstock/issues/37
+        - pytest --pyargs mujoco -v -k "not render"  # [python_impl != 'pypy']
         - pip check
 
   - name: mujoco-mjx
