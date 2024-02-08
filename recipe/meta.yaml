@@ -1,7 +1,7 @@
 {% set name = "mujoco" %}
 {% set namecxx = "libmujoco" %}
 {% set namepython = "mujoco-python" %}
-{% set version = "3.1.1" %}
+{% set version = "3.1.2" %}
 
 package:
   name: {{ name }}
@@ -9,7 +9,7 @@ package:
 
 source:
   url: https://github.com/deepmind/mujoco/archive/refs/tags/{{ version }}.tar.gz
-  sha256: 75aa81e51365cabe79f16b477ac5e11bdcb65f7eb0cc1cac93a279785df6fdda
+  sha256: 7d03057460a1b43159fb9a0d8b1a1ab1e17bf86d0fb8679f491b6a8710b73dd4
   patches:
     - python_remove_avx.patch
     - cxx_devendor.patch
@@ -26,7 +26,7 @@ source:
 build:
   # See https://github.com/conda-forge/mujoco-feedstock/issues/22
   skip: true  # [(aarch64 or ppc64le or osx) and python_impl == 'pypy']
-  number: 1
+  number: 0
 
 outputs:
   - name: {{ namecxx }}
@@ -153,7 +153,8 @@ outputs:
         - pytest
         - pip
       commands:
-        - pytest --pyargs mujoco -v -k "not render"
+        # pypy skipped as a workaround for https://github.com/conda-forge/mujoco-feedstock/issues/37
+        - pytest --pyargs mujoco -v -k "not render"  # [python_impl != 'pypy']
         - pip check
 
   - name: mujoco-mjx
