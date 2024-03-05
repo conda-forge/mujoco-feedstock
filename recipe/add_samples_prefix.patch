@@ -20,7 +20,7 @@ index 660c85be52..d2cab1fd4f 100644
 +function(mujoco_sample_set_command_prefix target)
 +  if(NOT MUJOCO_SAMPLE_COMMAND_PREFIX STREQUAL "")
 +    set_target_properties(target PROPERTIES
-+      OUTPUT_NAME ${MUJOCO_SAMPLE_COMMAND_PREFIX}target
++      OUTPUT_NAME ${MUJOCO_SAMPLE_COMMAND_PREFIX}target)
 +  endif()
 +endfunction()
  
