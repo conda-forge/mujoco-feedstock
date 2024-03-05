@@ -16,27 +16,27 @@ Summary: Multi-Joint dynamics with Contact. A general purpose multi-body dynamic
 About libmujoco
 ---------------
 
+Home: https://github.com/deepmind/mujoco
 
-
-Package license: 
+Package license: Apache-2.0
 
 Summary: Package for the C/C++ MuJoCo library, plugins and models.
 
 About mujoco-python
 -------------------
 
+Home: https://github.com/deepmind/mujoco
 
-
-Package license: 
+Package license: Apache-2.0
 
 Summary: Python bindings for MuJoCo.
 
 About mujoco-samples
 --------------------
 
+Home: https://github.com/deepmind/mujoco
 
-
-Package license: 
+Package license: Apache-2.0
 
 Summary: MuJoCo sample executables package.
 
@@ -48,9 +48,9 @@ in this package the command names are prefixed by a `mujoco-` prefix to avoid na
 About mujoco-simulate
 ---------------------
 
+Home: https://github.com/deepmind/mujoco
 
-
-Package license: 
+Package license: Apache-2.0
 
 Summary: MuJoCo simulate executable package.
 
@@ -71,9 +71,9 @@ Summary: Meta-package that depends on `libmujoco`, `mujoco-samples`,`mujoco-simu
 About mujoco-mjx
 ----------------
 
+Home: https://github.com/deepmind/mujoco
 
-
-Package license: 
+Package license: Apache-2.0
 
 Summary: Package for the jax-based MuJoCo XLA (mjx) simulator, that can also run on GPU.
 
