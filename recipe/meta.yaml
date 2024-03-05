@@ -82,6 +82,12 @@ outputs:
         - if not exist %LIBRARY_BIN%\\mujoco_plugin\\sdf.dll exit 1  # [win]
         - if exist %LIBRARY_BIN%\\mujoco_plugin\\sdf.lib exit 1  # [win]
     about:
+      home: https://github.com/deepmind/mujoco
+      license: Apache-2.0
+      license_file:
+        - LICENSE
+        - build_cxx/_deps/tinyobjloader-src/LICENSE
+        - build_cxx/_deps/sdflib-src/LICENSE
       summary: 'Package for the C/C++ MuJoCo library, plugins and models.' 
 
   - name: mujoco-samples
@@ -113,6 +119,10 @@ outputs:
         - if not exist %LIBRARY_BIN%\\mujoco-testspeed.exe exit 1  # [win]
         - if exist %LIBRARY_BIN%\\testspeed.exe exit 1  # [win]
     about:
+      home: https://github.com/deepmind/mujoco
+      license: Apache-2.0
+      license_file:
+        - LICENSE
       summary: 'MuJoCo sample executables package.' 
       description: |
         This package contains the `mujoco-basic`, `mujoco-compile`, `mujoco-record` and `mujoco-testspeed`.
@@ -149,6 +159,10 @@ outputs:
         - if not exist %LIBRARY_BIN%\\mujoco-simulate.exe exit 1  # [win]
         - if exist %LIBRARY_BIN%\\simulate.exe exit 1  # [win]
     about:
+      home: https://github.com/deepmind/mujoco
+      license: Apache-2.0
+      license_file:
+        - LICENSE
       summary: 'MuJoCo simulate executable package.' 
       description: |
         This package contains the `mujoco-simulate` executable.
@@ -233,6 +247,10 @@ outputs:
         - pytest --pyargs mujoco -v -k "not render"  # [python_impl != 'pypy']
         - pip check
     about:
+      home: https://github.com/deepmind/mujoco
+      license: Apache-2.0
+      license_file:
+        - LICENSE
       summary: Python bindings for MuJoCo.
 
 
@@ -281,6 +299,10 @@ outputs:
         # Skipping test_collision_driver tests to speed up the tests and as some integration tests make the remote runner crash/hang
         - pytest --pyargs mujoco.mjx -v -k "not (test_collision_driver or test_box_box)"
     about:
+      home: https://github.com/deepmind/mujoco
+      license: Apache-2.0
+      license_file:
+        - LICENSE
       summary: Package for the jax-based MuJoCo XLA (mjx) simulator, that can also run on GPU.
 
 
@@ -295,6 +317,12 @@ outputs:
       imports:
         - mujoco
     about:
+      home: https://github.com/deepmind/mujoco
+      license: Apache-2.0
+      license_file:
+        - LICENSE
+        - build_cxx/_deps/tinyobjloader-src/LICENSE
+        - build_cxx/_deps/sdflib-src/LICENSE
       summary: Meta-package that depends on `libmujoco`, `mujoco-samples`,`mujoco-simulate` and `mujoco-python`.
 
 about:
