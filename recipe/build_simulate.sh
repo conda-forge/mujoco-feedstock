@@ -4,7 +4,7 @@ rm -rf build_simulate
 mkdir build_simulate
 cd build_simulate
 
-cmake ${CMAKE_ARGS} -GNinja ../simulate \
+cmake ${CMAKE_ARGS} -GNinja \
       -DCMAKE_BUILD_TYPE=Release \
       -DBUILD_SHARED_LIBS:BOOL=ON \
       -DBUILD_TESTING:BOOL=OFF \
@@ -13,7 +13,7 @@ cmake ${CMAKE_ARGS} -GNinja ../simulate \
       -DMUJOCO_SIMULATE_USE_SYSTEM_GLFW:BOOL=ON \
       -DMUJOCO_EXTRAS_STATIC_GLFW:BOOL=OFF \
       -DSIMULATE_COMMAND_PREFIX:STRING="mujoco-" \
-      ..
+      ${SRC_DIR}/simulate
 
 cmake --build . --config Release
 

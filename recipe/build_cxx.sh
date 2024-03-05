@@ -4,7 +4,7 @@ rm -rf build_cxx
 mkdir build_cxx
 cd build_cxx
 
-cmake ${CMAKE_ARGS} -GNinja .. \
+cmake ${CMAKE_ARGS} -GNinja \
       -DCMAKE_BUILD_TYPE=Release \
       -DBUILD_SHARED_LIBS:BOOL=ON \
       -DBUILD_TESTING:BOOL=OFF \
@@ -15,7 +15,7 @@ cmake ${CMAKE_ARGS} -GNinja .. \
       -DMUJOCO_ENABLE_AVX_INTRINSICS:BOOL=OFF \
       -DCMAKE_INTERPROCEDURAL_OPTIMIZATION:BOOL=ON \
       -DMUJOCO_INSTALL_PLUGINS:BOOL=ON \
-      ..
+      $SRC_DIR
 
 cmake --build . --config Release
 

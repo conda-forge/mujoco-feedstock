@@ -4,7 +4,7 @@ rm -rf build_samples
 mkdir build_samples
 cd build_samples
 
-cmake ${CMAKE_ARGS} -GNinja ../sample \
+cmake ${CMAKE_ARGS} -GNinja \
       -DCMAKE_BUILD_TYPE=Release \
       -DBUILD_SHARED_LIBS:BOOL=ON \
       -DMUJOCO_ENABLE_AVX:BOOL=OFF \
@@ -12,7 +12,7 @@ cmake ${CMAKE_ARGS} -GNinja ../sample \
       -DMUJOCO_SAMPLES_USE_SYSTEM_GLFW:BOOL=ON \
       -DMUJOCO_EXTRAS_STATIC_GLFW:BOOL=OFF \
       -DMUJOCO_SAMPLE_COMMAND_PREFIX:STRING="mujoco-" \
-      ..
+      ${SRC_DIR}/sample
 
 cmake --build . --config Release
 
