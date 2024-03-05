@@ -23,6 +23,7 @@ source:
     - simulate_unvendor_lodepng.patch
     - disable-isolation-and-dep-check-python-build.patch
     - add_samples_prefix.patch
+    - 1477.patch
 
 build:
   # See https://github.com/conda-forge/mujoco-feedstock/issues/22
@@ -80,6 +81,8 @@ outputs:
         - if exist %LIBRARY_BIN%\\mujoco_plugin\\sensor.lib exit 1  # [win]
         - if not exist %LIBRARY_BIN%\\mujoco_plugin\\sdf.dll exit 1  # [win]
         - if exist %LIBRARY_BIN%\\mujoco_plugin\\sdf.lib exit 1  # [win]
+    about:
+      summary: 'Package for the C/C++ MuJoCo library, plugins and models.' 
 
   - name: mujoco-samples
     script: build_samples.sh  # [unix]
@@ -106,8 +109,16 @@ outputs:
     test:
       commands:
         - test -f ${PREFIX}/bin/mujoco-testspeed  # [unix]
+        - test ! -f ${PREFIX}/bin/testspeed  # [unix]
         - if not exist %LIBRARY_BIN%\\mujoco-testspeed.exe exit 1  # [win]
         - if exist %LIBRARY_BIN%\\testspeed.exe exit 1  # [win]
+    about:
+      summary: 'MuJoCo sample executables package.' 
+      description: |
+        This package contains the `mujoco-basic`, `mujoco-compile`, `mujoco-record` and `mujoco-testspeed`.
+        With respect to the upstream binaries, where the executables are called `basic`, `compile`, `record` and `testspeed`,
+        in this package the command names are prefixed by a `mujoco-` prefix to avoid naming collisions.
+
 
   - name: mujoco-simulate
     script: build_simulate.sh  # [unix]
@@ -133,10 +144,16 @@ outputs:
 
     test:
       commands:
-        - test -f ${PREFIX}/bin/mujoco-testspeed  # [unix]
-        - if not exist %LIBRARY_BIN%\\mujoco-testspeed.exe exit 1  # [win]
-        - if exist %LIBRARY_BIN%\\testspeed.exe exit 1  # [win]
-
+        - test -f ${PREFIX}/bin/mujoco-simulate  # [unix]
+        - test ! -f ${PREFIX}/bin/simulate  # [unix]
+        - if not exist %LIBRARY_BIN%\\mujoco-simulate.exe exit 1  # [win]
+        - if exist %LIBRARY_BIN%\\simulate.exe exit 1  # [win]
+    about:
+      summary: 'MuJoCo simulate executable package.' 
+      description: |
+        This package contains the `mujoco-simulate` executable.
+        With respect to the upstream binaries, where the executable is called `simulate`,
+        in this package the command name is prefixed by a `mujoco-` prefix to avoid naming collisions.
 
 
   - name: {{ namepython }}
@@ -215,6 +232,9 @@ outputs:
         # pypy skipped as a workaround for https://github.com/conda-forge/mujoco-feedstock/issues/37
         - pytest --pyargs mujoco -v -k "not render"  # [python_impl != 'pypy']
         - pip check
+    about:
+      summary: Python bindings for MuJoCo.
+
 
   - name: mujoco-mjx
     build:
@@ -260,6 +280,9 @@ outputs:
         # Skipping test_box_box as it also fails upstream https://github.com/conda-forge/mujoco-feedstock/pull/31#issuecomment-1770520403
         # Skipping test_collision_driver tests to speed up the tests and as some integration tests make the remote runner crash/hang
         - pytest --pyargs mujoco.mjx -v -k "not (test_collision_driver or test_box_box)"
+    about:
+      summary: Package for the jax-based MuJoCo XLA (mjx) simulator, that can also run on GPU.
+
 
   - name: {{ name }}
     requirements:
@@ -271,6 +294,8 @@ outputs:
     test:
       imports:
         - mujoco
+    about:
+      summary: Meta-package that depends on `libmujoco`, `mujoco-samples`,`mujoco-simulate` and `mujoco-python`.
 
 about:
   home: https://github.com/deepmind/mujoco
