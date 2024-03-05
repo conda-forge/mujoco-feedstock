@@ -24,8 +24,8 @@ index 4762100e07..2b5ba4a336 100644
      )
    endif()
 +  if(NOT SIMULATE_COMMAND_PREFIX STREQUAL "")
-+    set_target_properties(target PROPERTIES
-+      OUTPUT_NAME ${SIMULATE_COMMAND_PREFIX}target)
++    set_target_properties(${target} PROPERTIES
++      OUTPUT_NAME ${SIMULATE_COMMAND_PREFIX}${target})
 +  endif()
  
    target_link_libraries(
