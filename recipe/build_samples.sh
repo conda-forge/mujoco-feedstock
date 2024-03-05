@@ -4,7 +4,7 @@ rm -rf build_samples
 mkdir build_samples
 cd build_samples
 
-cmake ${CMAKE_ARGS} -GNinja .. \
+cmake ${CMAKE_ARGS} -GNinja ../sample \
       -DCMAKE_BUILD_TYPE=Release \
       -DBUILD_SHARED_LIBS:BOOL=ON \
       -DMUJOCO_ENABLE_AVX:BOOL=OFF \

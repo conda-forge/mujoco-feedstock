@@ -10,7 +10,7 @@ cmake ^
     -DMUJOCO_SAMPLES_USE_SYSTEM_GLFW:BOOL=ON ^
     -DMUJOCO_EXTRAS_STATIC_GLFW:BOOL=OFF ^
     -DMUJOCO_SAMPLE_COMMAND_PREFIX:STRING="mujoco-" ^
-    %SRC_DIR%
+    %SRC_DIR%/sample
 if errorlevel 1 exit 1
 
 :: Build.

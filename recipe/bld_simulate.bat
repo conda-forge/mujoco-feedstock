@@ -10,7 +10,7 @@ cmake ^
     -DMUJOCO_SIMULATE_USE_SYSTEM_GLFW:BOOL=ON ^
     -DMUJOCO_EXTRAS_STATIC_GLFW:BOOL=OFF ^
     -DSIMULATE_COMMAND_PREFIX:STRING="mujoco-" ^
-    %SRC_DIR%
+    %SRC_DIR%/simulate
 if errorlevel 1 exit 1
 
 :: Build.

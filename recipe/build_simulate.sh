@@ -4,7 +4,7 @@ rm -rf build_simulate
 mkdir build_simulate
 cd build_simulate
 
-cmake ${CMAKE_ARGS} -GNinja .. \
+cmake ${CMAKE_ARGS} -GNinja ../simulate \
       -DCMAKE_BUILD_TYPE=Release \
       -DBUILD_SHARED_LIBS:BOOL=ON \
       -DBUILD_TESTING:BOOL=OFF \
