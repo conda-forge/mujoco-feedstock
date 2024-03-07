@@ -22,11 +22,14 @@ source:
     - 619bis.patch
     - simulate_unvendor_lodepng.patch
     - disable-isolation-and-dep-check-python-build.patch
+    - add_samples_prefix.patch
+    - add_simulate_prefix.patch
+    - 1477.patch
 
 build:
   # See https://github.com/conda-forge/mujoco-feedstock/issues/22
   skip: true  # [(aarch64 or ppc64le or osx) and python_impl == 'pypy']
-  number: 1
+  number: 2
 
 outputs:
   - name: {{ namecxx }}
@@ -79,6 +82,94 @@ outputs:
         - if exist %LIBRARY_BIN%\\mujoco_plugin\\sensor.lib exit 1  # [win]
         - if not exist %LIBRARY_BIN%\\mujoco_plugin\\sdf.dll exit 1  # [win]
         - if exist %LIBRARY_BIN%\\mujoco_plugin\\sdf.lib exit 1  # [win]
+    about:
+      home: https://github.com/deepmind/mujoco
+      license: Apache-2.0
+      license_file:
+        - LICENSE
+        - build_cxx/_deps/tinyobjloader-src/LICENSE
+        - build_cxx/_deps/sdflib-src/LICENSE
+      summary: 'Package for the C/C++ MuJoCo library, plugins and models.' 
+
+  - name: mujoco-samples
+    script: build_samples.sh  # [unix]
+    script: bld_samples.bat  # [win]
+    requirements:
+      build:
+        - cmake
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - ninja
+        - {{ cdt('mesa-libgl-devel') }}  # [linux]
+        - {{ cdt('mesa-dri-drivers') }}  # [linux]
+        - {{ cdt('libselinux') }}  # [linux]
+        - {{ cdt('libxdamage') }}  # [linux]
+        - {{ cdt('libxxf86vm') }}  # [linux]
+        - {{ cdt('libxext') }}     # [linux]
+      host:
+        - xorg-libxfixes  # [linux]
+        - libmujoco
+        - glfw
+      run:
+        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx and x86_64]
+
+    test:
+      commands:
+        - test -f ${PREFIX}/bin/mujoco-testspeed  # [unix]
+        - test ! -f ${PREFIX}/bin/testspeed  # [unix]
+        - if not exist %LIBRARY_BIN%\\mujoco-testspeed.exe exit 1  # [win]
+        - if exist %LIBRARY_BIN%\\testspeed.exe exit 1  # [win]
+    about:
+      home: https://github.com/deepmind/mujoco
+      license: Apache-2.0
+      license_file:
+        - LICENSE
+      summary: 'MuJoCo sample executables package.' 
+      description: |
+        This package contains the `mujoco-basic`, `mujoco-compile`, `mujoco-record` and `mujoco-testspeed`.
+        With respect to the upstream binaries, where the executables are called `basic`, `compile`, `record` and `testspeed`,
+        in this package the command names are prefixed by a `mujoco-` prefix to avoid naming collisions.
+
+
+  - name: mujoco-simulate
+    script: build_simulate.sh  # [unix]
+    script: bld_simulate.bat  # [win]
+    requirements:
+      build:
+        - cmake
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - ninja
+        - {{ cdt('mesa-libgl-devel') }}  # [linux]
+        - {{ cdt('mesa-dri-drivers') }}  # [linux]
+        - {{ cdt('libselinux') }}  # [linux]
+        - {{ cdt('libxdamage') }}  # [linux]
+        - {{ cdt('libxxf86vm') }}  # [linux]
+        - {{ cdt('libxext') }}     # [linux]
+      host:
+        - xorg-libxfixes  # [linux]
+        - libmujoco
+        - glfw
+      run:
+        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx and x86_64]
+
+    test:
+      commands:
+        - test -f ${PREFIX}/bin/mujoco-simulate  # [unix]
+        - test ! -f ${PREFIX}/bin/simulate  # [unix]
+        - if not exist %LIBRARY_BIN%\\mujoco-simulate.exe exit 1  # [win]
+        - if exist %LIBRARY_BIN%\\simulate.exe exit 1  # [win]
+    about:
+      home: https://github.com/deepmind/mujoco
+      license: Apache-2.0
+      license_file:
+        - LICENSE
+      summary: 'MuJoCo simulate executable package.' 
+      description: |
+        This package contains the `mujoco-simulate` executable.
+        With respect to the upstream binaries, where the executable is called `simulate`,
+        in this package the command name is prefixed by a `mujoco-` prefix to avoid naming collisions.
+
 
   - name: {{ namepython }}
     script: build_py.sh  # [unix]
@@ -156,6 +247,13 @@ outputs:
         # pypy skipped as a workaround for https://github.com/conda-forge/mujoco-feedstock/issues/37
         - pytest --pyargs mujoco -v -k "not render"  # [python_impl != 'pypy']
         - pip check
+    about:
+      home: https://github.com/deepmind/mujoco
+      license: Apache-2.0
+      license_file:
+        - LICENSE
+      summary: Python bindings for MuJoCo.
+
 
   - name: mujoco-mjx
     build:
@@ -201,23 +299,40 @@ outputs:
         # Skipping test_box_box as it also fails upstream https://github.com/conda-forge/mujoco-feedstock/pull/31#issuecomment-1770520403
         # Skipping test_collision_driver tests to speed up the tests and as some integration tests make the remote runner crash/hang
         - pytest --pyargs mujoco.mjx -v -k "not (test_collision_driver or test_box_box)"
+    about:
+      home: https://github.com/deepmind/mujoco
+      license: Apache-2.0
+      license_file:
+        - LICENSE
+      summary: Package for the jax-based MuJoCo XLA (mjx) simulator, that can also run on GPU.
+
 
   - name: {{ name }}
     requirements:
       run:
         - {{ pin_subpackage(namecxx, exact=True) }}
+        - {{ pin_subpackage('mujoco-samples', exact=True) }}
+        - {{ pin_subpackage('mujoco-simulate', exact=True) }}
         - {{ pin_subpackage(namepython, max_pin='x.x.x') }}
     test:
       imports:
         - mujoco
+    about:
+      home: https://github.com/deepmind/mujoco
+      license: Apache-2.0
+      license_file:
+        - LICENSE
+        - build_cxx/_deps/tinyobjloader-src/LICENSE
+        - build_cxx/_deps/sdflib-src/LICENSE
+      summary: Meta-package that depends on `libmujoco`, `mujoco-samples`,`mujoco-simulate` and `mujoco-python`.
 
 about:
   home: https://github.com/deepmind/mujoco
   license: Apache-2.0
   license_file:
     - LICENSE
-    - build/_deps/tinyobjloader-src/LICENSE
-    - build/_deps/sdflib-src/LICENSE
+    - build_cxx/_deps/tinyobjloader-src/LICENSE
+    - build_cxx/_deps/sdflib-src/LICENSE
   summary: Multi-Joint dynamics with Contact. A general purpose multi-body dynamics simulator.
 
 extra:

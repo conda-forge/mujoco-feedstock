@@ -1,21 +1,20 @@
 #!/bin/sh
 
-rm -rf build_cxx
-mkdir build_cxx
-cd build_cxx
+rm -rf build_samples
+mkdir build_samples
+cd build_samples
 
 cmake ${CMAKE_ARGS} -GNinja \
       -DCMAKE_BUILD_TYPE=Release \
       -DBUILD_SHARED_LIBS:BOOL=ON \
-      -DBUILD_TESTING:BOOL=OFF \
-      -DMUJOCO_BUILD_TESTS:BOOL=ON \
-      -DMUJOCO_BUILD_SIMULATE:BOOL=OFF \
-      -DMUJOCO_BUILD_EXAMPLES:BOOL=OFF \
       -DMUJOCO_ENABLE_AVX:BOOL=OFF \
-      -DMUJOCO_ENABLE_AVX_INTRINSICS:BOOL=OFF \
-      -DCMAKE_INTERPROCEDURAL_OPTIMIZATION:BOOL=ON \
-      -DMUJOCO_INSTALL_PLUGINS:BOOL=ON \
-      $SRC_DIR
+      -DMUJOCO_SAMPLES_USE_SYSTEM_MUJOCO:BOOL=ON \
+      -DMUJOCO_SAMPLES_USE_SYSTEM_GLFW:BOOL=ON \
+      -DMUJOCO_EXTRAS_STATIC_GLFW:BOOL=OFF \
+      -DMUJOCO_SAMPLES_INSTALL:BOOL=ON \
+      -DMUJOCO_ENABLE_RPATH:BOOL=OFF \
+      -DMUJOCO_SAMPLE_COMMAND_PREFIX:STRING="mujoco-" \
+      ${SRC_DIR}/sample
 
 cmake --build . --config Release
 

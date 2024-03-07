@@ -1,0 +1,32 @@
+From 3d7167f3195d68b63eedb1901029351e969e9b3b Mon Sep 17 00:00:00 2001
+From: Silvio Traversaro <silvio@traversaro.it>
+Date: Tue, 5 Mar 2024 09:08:26 +0100
+Subject: [PATCH] Add optional prefix for simulate command
+
+---
+ simulate/CMakeLists.txt | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/simulate/CMakeLists.txt b/simulate/CMakeLists.txt
+index 4762100e07..2b5ba4a336 100644
+--- a/simulate/CMakeLists.txt
++++ b/simulate/CMakeLists.txt
+@@ -43,6 +43,7 @@ endif()
+ 
+ option(SIMULATE_BUILD_EXECUTABLE "Build the simulate executable binary." ON)
+ option(SIMULATE_GLFW_DYNAMIC_SYMBOLS "Whether to resolve GLFW symbols dynamically." OFF)
++set(SIMULATE_COMMAND_PREFIX "" CACHE STRING "Prefix to prepend to the name of the simulate command.")
+ 
+ # Check if we are building as standalone project.
+ set(SIMULATE_STANDALONE OFF)
+@@ -163,6 +164,10 @@ if(SIMULATE_BUILD_EXECUTABLE)
+       COMMAND ${CMAKE_COMMAND} -E rm ${CMAKE_CURRENT_SOURCE_DIR}/mujoco.ico
+     )
+   endif()
++  if(NOT SIMULATE_COMMAND_PREFIX STREQUAL "")
++    set_target_properties(simulate PROPERTIES
++      OUTPUT_NAME ${SIMULATE_COMMAND_PREFIX}simulate)
++  endif()
+ 
+   target_link_libraries(
+     simulate

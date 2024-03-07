@@ -1,8 +1,8 @@
 set "CC=clang-cl.exe"
 set "CXX=clang-cl.exe"
 
-mkdir build
-cd build
+mkdir build_cxx
+cd build_cxx
 
 cmake ^
     -G "Ninja" ^
