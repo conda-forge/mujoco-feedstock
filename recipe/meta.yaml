@@ -23,6 +23,7 @@ source:
     - simulate_unvendor_lodepng.patch
     - disable-isolation-and-dep-check-python-build.patch
     - add_samples_prefix.patch
+    - add_simulate_prefix.patch
     - 1477.patch
 
 build:
