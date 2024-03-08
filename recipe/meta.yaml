@@ -1,7 +1,7 @@
 {% set name = "mujoco" %}
 {% set namecxx = "libmujoco" %}
 {% set namepython = "mujoco-python" %}
-{% set version = "3.1.2" %}
+{% set version = "3.1.3" %}
 
 package:
   name: {{ name }}
@@ -9,7 +9,7 @@ package:
 
 source:
   url: https://github.com/deepmind/mujoco/archive/refs/tags/{{ version }}.tar.gz
-  sha256: 7d03057460a1b43159fb9a0d8b1a1ab1e17bf86d0fb8679f491b6a8710b73dd4
+  sha256: 3e9f638e0768e678fb55cb9c6fded9603345b8bb7d2ab54b97621807aef9a01c
   patches:
     - python_remove_avx.patch
     - cxx_devendor.patch
@@ -29,7 +29,7 @@ source:
 build:
   # See https://github.com/conda-forge/mujoco-feedstock/issues/22
   skip: true  # [(aarch64 or ppc64le or osx) and python_impl == 'pypy']
-  number: 2
+  number: 0
 
 outputs:
   - name: {{ namecxx }}
@@ -89,7 +89,7 @@ outputs:
         - LICENSE
         - build_cxx/_deps/tinyobjloader-src/LICENSE
         - build_cxx/_deps/sdflib-src/LICENSE
-      summary: 'Package for the C/C++ MuJoCo library, plugins and models.' 
+      summary: 'Package for the C/C++ MuJoCo library, plugins and models.'
 
   - name: mujoco-samples
     script: build_samples.sh  # [unix]
@@ -124,7 +124,7 @@ outputs:
       license: Apache-2.0
       license_file:
         - LICENSE
-      summary: 'MuJoCo sample executables package.' 
+      summary: 'MuJoCo sample executables package.'
       description: |
         This package contains the `mujoco-basic`, `mujoco-compile`, `mujoco-record` and `mujoco-testspeed`.
         With respect to the upstream binaries, where the executables are called `basic`, `compile`, `record` and `testspeed`,
@@ -164,7 +164,7 @@ outputs:
       license: Apache-2.0
       license_file:
         - LICENSE
-      summary: 'MuJoCo simulate executable package.' 
+      summary: 'MuJoCo simulate executable package.'
       description: |
         This package contains the `mujoco-simulate` executable.
         With respect to the upstream binaries, where the executable is called `simulate`,
