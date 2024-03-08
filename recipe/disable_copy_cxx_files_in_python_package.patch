@@ -125,3 +125,26 @@ index 3e216fc42d..482337b262 100644
 +  endif()
 +endif()
 +
+
+diff --git a/plugin/actuator/CMakeLists.txt b/plugin/actuator/CMakeLists.txt
+index 6cc79944a4..a738f03e2e 100644
+--- a/plugin/actuator/CMakeLists.txt
++++ b/plugin/actuator/CMakeLists.txt
+@@ -39,3 +39,17 @@ target_link_options(
+   ${MUJOCO_MACOS_LINK_OPTIONS}
+   ${EXTRA_LINK_OPTIONS}
+ )
++
++if(MUJOCO_INSTALL_PLUGINS)
++  if(WIN32)
++    install(TARGETS actuator
++            ARCHIVE DESTINATION "$ENV{TEMP}"
++            LIBRARY DESTINATION "$ENV{TEMP}"
++            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin")
++  else()
++    install(TARGETS actuator
++            ARCHIVE DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin"
++            LIBRARY DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin"
++            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin")
++  endif()
++endif()
