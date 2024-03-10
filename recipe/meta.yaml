@@ -34,9 +34,6 @@ build:
   number: {{ build + 100 }}    # [unix and x86_64 and microarch_level == 1]
   number: {{ build + 300 }}    # [unix and x86_64 and microarch_level == 3]
   number: {{ build + 400 }}    # [unix and x86_64 and microarch_level == 4]
-  script_env:
-    - MUJOCO_ENABLE_AVX=ON  # [unix and x86_64 and (microarch_level == 3 or microarch_level == 4)]
-    - MUJOCO_ENABLE_AVX=OFF  # [not (unix and x86_64 and (microarch_level == 3 or microarch_level == 4))]
 
 outputs:
   - name: {{ namecxx }}
@@ -49,6 +46,9 @@ outputs:
       # safely ignore its run_exports
       ignore_run_exports:
         - libabseil
+      script_env:
+        - MUJOCO_ENABLE_AVX=ON  # [unix and x86_64 and (microarch_level == 3 or microarch_level == 4)]
+        - MUJOCO_ENABLE_AVX=OFF  # [not (unix and x86_64 and (microarch_level == 3 or microarch_level == 4))]
     requirements:
       build:
         - x86_64-microarch-level {{ microarch_level }}  # [unix and x86_64]
@@ -105,6 +105,10 @@ outputs:
   - name: mujoco-samples
     script: build_samples.sh  # [unix]
     script: bld_samples.bat  # [win]
+    build:
+      script_env:
+        - MUJOCO_ENABLE_AVX=ON  # [unix and x86_64 and (microarch_level == 3 or microarch_level == 4)]
+        - MUJOCO_ENABLE_AVX=OFF  # [not (unix and x86_64 and (microarch_level == 3 or microarch_level == 4))]
     requirements:
       build:
         - cmake
@@ -145,6 +149,10 @@ outputs:
   - name: mujoco-simulate
     script: build_simulate.sh  # [unix]
     script: bld_simulate.bat  # [win]
+    build:
+      script_env:
+        - MUJOCO_ENABLE_AVX=ON  # [unix and x86_64 and (microarch_level == 3 or microarch_level == 4)]
+        - MUJOCO_ENABLE_AVX=OFF  # [not (unix and x86_64 and (microarch_level == 3 or microarch_level == 4))]
     requirements:
       build:
         - cmake
@@ -185,6 +193,11 @@ outputs:
   - name: {{ namepython }}
     script: build_py.sh  # [unix]
     script: bld_py.bat  # [win]
+    build:
+      # Let's try to avoid compiling Python for all microarch_level
+      skip: true  # [unix and x86_64 and (microarch_level == 3 or microarch_level == 4)]
+      script_env:
+        - MUJOCO_ENABLE_AVX=OFF
     requirements:
       build:
         - {{ compiler('c') }}
@@ -213,7 +226,7 @@ outputs:
         - {{ cdt('libxxf86vm') }}  # [linux]
         - {{ cdt('libxext') }}     # [linux]
       host:
-        - {{ pin_subpackage(namecxx, exact=True) }}
+        - {{ pin_subpackage(namecxx, max_pin='x.x.x') }}
         - eigen
         - libabseil
         - lodepng
@@ -231,7 +244,7 @@ outputs:
         - pyopengl
         - xorg-libxfixes  # [linux]
       run:
-        - {{ pin_subpackage(namecxx, exact=True) }}
+        - {{ pin_subpackage(namecxx, max_pin='x.x.x') }}
         - python
         - numpy
         - absl-py
@@ -280,6 +293,8 @@ outputs:
       # even if it the mujoco-python was just build
       skip: true  # [arm64]
       skip: true  # [aarch64]
+      # Skip AVX and AVX512 builds
+      skip: true  # [unix and x86_64 and (microarch_level == 3 or microarch_level == 4)]
       script: python -m pip install ./mjx/ --no-deps -vv
     requirements:
       host:
@@ -321,9 +336,10 @@ outputs:
   - name: {{ name }}
     requirements:
       run:
-        - {{ pin_subpackage(namecxx, exact=True) }}
-        - {{ pin_subpackage('mujoco-samples', exact=True) }}
-        - {{ pin_subpackage('mujoco-simulate', exact=True) }}
+        # We do not use exact to avoid re-building the metapackage for all microarch_levels, see https://github.com/conda/conda-build/issues/4142
+        - {{ pin_subpackage(namecxx, max_pin='x.x.x') }}
+        - {{ pin_subpackage('mujoco-samples', max_pin='x.x.x') }}
+        - {{ pin_subpackage('mujoco-simulate', max_pin='x.x.x') }}
         - {{ pin_subpackage(namepython, max_pin='x.x.x') }}
     test:
       imports:
