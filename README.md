@@ -22,15 +22,6 @@ Package license: Apache-2.0
 
 Summary: Package for the C/C++ MuJoCo library, plugins and models.
 
-About mujoco-python
--------------------
-
-Home: https://github.com/deepmind/mujoco
-
-Package license: Apache-2.0
-
-Summary: Python bindings for MuJoCo.
-
 About mujoco-samples
 --------------------
 
@@ -67,6 +58,15 @@ Home: https://github.com/deepmind/mujoco
 Package license: Apache-2.0
 
 Summary: Meta-package that depends on `libmujoco`, `mujoco-samples`,`mujoco-simulate` and `mujoco-python`.
+
+About mujoco-python
+-------------------
+
+Home: https://github.com/deepmind/mujoco
+
+Package license: Apache-2.0
+
+Summary: Python bindings for MuJoCo.
 
 About mujoco-mjx
 ----------------
