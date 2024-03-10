@@ -132,6 +132,7 @@ outputs:
       commands:
         - test -f ${PREFIX}/bin/mujoco-testspeed  # [unix]
         - test ! -f ${PREFIX}/bin/testspeed  # [unix]
+        - mujoco-testspeed ${PREFIX}/share/mujoco/model/humanoid/humanoid.xml 100000
         - if not exist %LIBRARY_BIN%\\mujoco-testspeed.exe exit 1  # [win]
         - if exist %LIBRARY_BIN%\\testspeed.exe exit 1  # [win]
     about:
