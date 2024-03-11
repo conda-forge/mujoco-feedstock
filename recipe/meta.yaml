@@ -29,7 +29,7 @@ source:
 build:
   # See https://github.com/conda-forge/mujoco-feedstock/issues/22
   skip: true  # [(aarch64 or ppc64le or osx) and python_impl == 'pypy']
-  number: 0
+  number: 1
 
 outputs:
   - name: {{ namecxx }}
@@ -114,6 +114,8 @@ outputs:
         - libmujoco
         - glfw
       run:
+        # Somehow the libmujoco run_exports is ignored here, let's add explicitly the run dependency
+        - {{ pin_subpackage(namecxx, max_pin='x.x.x') }}
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx and x86_64]
 
     test:
@@ -154,6 +156,8 @@ outputs:
         - libmujoco
         - glfw
       run:
+        # Somehow the libmujoco run_exports is ignored here, let's add explicitly the run dependency
+        - {{ pin_subpackage(namecxx, max_pin='x.x.x') }}
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx and x86_64]
 
     test:
