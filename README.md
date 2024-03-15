@@ -123,20 +123,6 @@ Current build status
                 </a>
               </td>
             </tr><tr>
-              <td>linux_64_microarch_level4python_implcpython</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=16475&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/mujoco-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_microarch_level4python_implcpython" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>linux_64_microarch_level4python_implpypy</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=16475&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/mujoco-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_microarch_level4python_implpypy" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
               <td>linux_aarch64_python_implcpython</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=16475&branchName=main">
@@ -151,24 +137,10 @@ Current build status
                 </a>
               </td>
             </tr><tr>
-              <td>osx_64_microarch_level1python_implcpython</td>
+              <td>osx_64_python_implcpython</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=16475&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/mujoco-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_microarch_level1python_implcpython" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>osx_64_microarch_level3python_implcpython</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=16475&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/mujoco-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_microarch_level3python_implcpython" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>osx_64_microarch_level4python_implcpython</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=16475&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/mujoco-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_microarch_level4python_implcpython" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/mujoco-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_python_implcpython" alt="variant">
                 </a>
               </td>
             </tr><tr>

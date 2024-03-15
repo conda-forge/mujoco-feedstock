@@ -24,14 +24,6 @@ jobs:
         CONFIG: linux_64_microarch_level3python_implpypy
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_64_microarch_level4python_implcpython:
-        CONFIG: linux_64_microarch_level4python_implcpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_64_microarch_level4python_implpypy:
-        CONFIG: linux_64_microarch_level4python_implpypy
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
       linux_aarch64_python_implcpython:
         CONFIG: linux_aarch64_python_implcpython
         UPLOAD_PACKAGES: 'True'
@@ -41,6 +33,7 @@ jobs:
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
   timeoutInMinutes: 360
+  variables: {}
 
   steps:
   # configure qemu binfmt-misc running.  This allows us to run docker containers
