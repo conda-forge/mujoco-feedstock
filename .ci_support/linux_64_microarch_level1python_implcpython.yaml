@@ -16,7 +16,13 @@ docker_image:
 - quay.io/condaforge/linux-anvil-cos7-x86_64
 libabseil:
 - '20240116'
+microarch_level:
+- '1'
 numpy:
+- '1.22'
+- '1.23'
+- '1.26'
+- '1.22'
 - '1.22'
 pin_run_as_build:
   python:
@@ -25,9 +31,17 @@ pin_run_as_build:
 pybind11_abi:
 - '4'
 python:
-- 3.9.* *_73_pypy
+- 3.10.* *_cpython
+- 3.11.* *_cpython
+- 3.12.* *_cpython
+- 3.8.* *_cpython
+- 3.9.* *_cpython
 python_impl:
-- pypy
+- cpython
+- cpython
+- cpython
+- cpython
+- cpython
 target_platform:
 - linux-64
 tinyxml2:

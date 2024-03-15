@@ -22,15 +22,6 @@ Package license: Apache-2.0
 
 Summary: Package for the C/C++ MuJoCo library, plugins and models.
 
-About mujoco-python
--------------------
-
-Home: https://github.com/deepmind/mujoco
-
-Package license: Apache-2.0
-
-Summary: Python bindings for MuJoCo.
-
 About mujoco-samples
 --------------------
 
@@ -68,6 +59,15 @@ Package license: Apache-2.0
 
 Summary: Meta-package that depends on `libmujoco`, `mujoco-samples`,`mujoco-simulate` and `mujoco-python`.
 
+About mujoco-python
+-------------------
+
+Home: https://github.com/deepmind/mujoco
+
+Package license: Apache-2.0
+
+Summary: Python bindings for MuJoCo.
+
 About mujoco-mjx
 ----------------
 
@@ -95,17 +95,31 @@ Current build status
         <table>
           <thead><tr><th>Variant</th><th>Status</th></tr></thead>
           <tbody><tr>
-              <td>linux_64_python_implcpython</td>
+              <td>linux_64_microarch_level1python_implcpython</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=16475&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/mujoco-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_python_implcpython" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/mujoco-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_microarch_level1python_implcpython" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>linux_64_python_implpypy</td>
+              <td>linux_64_microarch_level1python_implpypy</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=16475&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/mujoco-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_python_implpypy" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/mujoco-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_microarch_level1python_implpypy" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>linux_64_microarch_level3python_implcpython</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=16475&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/mujoco-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_microarch_level3python_implcpython" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>linux_64_microarch_level3python_implpypy</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=16475&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/mujoco-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_microarch_level3python_implpypy" alt="variant">
                 </a>
               </td>
             </tr><tr>
