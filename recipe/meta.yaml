@@ -1,7 +1,7 @@
 {% set name = "mujoco" %}
 {% set namecxx = "libmujoco" %}
 {% set namepython = "mujoco-python" %}
-{% set version = "3.1.4" %}
+{% set version = "3.1.5" %}
 
 package:
   name: {{ name }}
@@ -9,7 +9,7 @@ package:
 
 source:
   url: https://github.com/deepmind/mujoco/archive/refs/tags/{{ version }}.tar.gz
-  sha256: 6f38e65054417241229797153be792e6518d5237f4d690b8c3b37c30e342e032
+  sha256: a051c9d6efa871081cf561073c4d9a8226969582285868430af1a0a6637467ae
   patches:
     - python_remove_avx.patch
     - cxx_devendor.patch
@@ -46,6 +46,7 @@ outputs:
       build:
         - cmake
         - {{ compiler('c') }}
+        - {{ stdlib("c") }}
         - {{ compiler('cxx') }}
         - make                                   # [not win]
         - ninja
@@ -61,7 +62,6 @@ outputs:
         - libabseil
         - lodepng
       run:
-        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx and x86_64]
       run_constrained:
         # Older version of this package were named mujoco-cxx, we want to avoid that they are installed
         - mujoco-cxx <0
@@ -101,6 +101,7 @@ outputs:
       build:
         - cmake
         - {{ compiler('c') }}
+        - {{ stdlib("c") }}
         - {{ compiler('cxx') }}
         - ninja
         - {{ cdt('mesa-libgl-devel') }}  # [linux]
@@ -116,7 +117,6 @@ outputs:
       run:
         # Somehow the libmujoco run_exports is ignored here, let's add explicitly the run dependency
         - {{ pin_subpackage(namecxx, max_pin='x.x.x') }}
-        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx and x86_64]
 
     test:
       commands:
@@ -143,6 +143,7 @@ outputs:
       build:
         - cmake
         - {{ compiler('c') }}
+        - {{ stdlib("c") }}
         - {{ compiler('cxx') }}
         - ninja
         - {{ cdt('mesa-libgl-devel') }}  # [linux]
@@ -158,7 +159,6 @@ outputs:
       run:
         # Somehow the libmujoco run_exports is ignored here, let's add explicitly the run dependency
         - {{ pin_subpackage(namecxx, max_pin='x.x.x') }}
-        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx and x86_64]
 
     test:
       commands:
@@ -184,6 +184,7 @@ outputs:
     requirements:
       build:
         - {{ compiler('c') }}
+        - {{ stdlib("c") }}
         - {{ compiler('cxx') }}
         - make                                   # [not win]
         - ninja                                  # [win]
@@ -233,7 +234,6 @@ outputs:
         - absl-py
         - pyglfw
         - pyopengl
-        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx and x86_64]
         # Transitive dependencies of etils[epath], not directly available on conda-forge
         - etils  # [py!=38 or py!=39]
         # Workaround for https://github.com/conda-forge/mujoco-feedstock/pull/32#issuecomment-1821254102
