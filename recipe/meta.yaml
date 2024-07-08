@@ -29,7 +29,7 @@ source:
 build:
   # See https://github.com/conda-forge/mujoco-feedstock/issues/22
   skip: true  # [(aarch64 or ppc64le or osx) and python_impl == 'pypy']
-  number: 0
+  number: 1
 
 outputs:
   - name: {{ namecxx }}
