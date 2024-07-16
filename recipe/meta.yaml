@@ -29,6 +29,8 @@ source:
 build:
   # See https://github.com/conda-forge/mujoco-feedstock/issues/22
   skip: true  # [(aarch64 or ppc64le or osx) and python_impl == 'pypy']
+  # Workaround for https://github.com/conda-forge/mujoco-feedstock/pull/56#issuecomment-2230334963
+  skip: true  # [py == 38]
   number: 0
 
 outputs:
