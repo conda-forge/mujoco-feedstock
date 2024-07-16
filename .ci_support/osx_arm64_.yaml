@@ -46,6 +46,8 @@ python_impl:
 - cpython
 - cpython
 - cpython
+qhull:
+- '2020.2'
 target_platform:
 - osx-arm64
 tinyxml2:

@@ -22,6 +22,8 @@ python:
 - 3.9.* *_73_pypy
 python_impl:
 - pypy
+qhull:
+- '2020.2'
 target_platform:
 - win-64
 tinyxml2:
