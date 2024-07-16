@@ -48,6 +48,8 @@ python_impl:
 - cpython
 - cpython
 - cpython
+qhull:
+- '2020.2'
 target_platform:
 - linux-aarch64
 tinyxml2:
