@@ -11,7 +11,10 @@ cxx_compiler:
 libabseil:
 - '20240116'
 numpy:
-- '1.22'
+- '2.0'
+- '2.0'
+- '2.0'
+- '2.0'
 pin_run_as_build:
   python:
     min_pin: x.x
@@ -19,9 +22,15 @@ pin_run_as_build:
 pybind11_abi:
 - '4'
 python:
-- 3.9.* *_73_pypy
+- 3.10.* *_cpython
+- 3.11.* *_cpython
+- 3.12.* *_cpython
+- 3.9.* *_cpython
 python_impl:
-- pypy
+- cpython
+- cpython
+- cpython
+- cpython
 qhull:
 - '2020.2'
 target_platform:
