@@ -8,8 +8,8 @@ jobs:
     vmImage: macOS-12
   strategy:
     matrix:
-      osx_64_python_implcpython:
-        CONFIG: osx_64_python_implcpython
+      osx_64_:
+        CONFIG: osx_64_
         UPLOAD_PACKAGES: 'True'
       osx_arm64_:
         CONFIG: osx_arm64_

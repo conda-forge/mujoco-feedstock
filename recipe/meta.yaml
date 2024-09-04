@@ -31,7 +31,7 @@ build:
   skip: true  # [(aarch64 or ppc64le or osx) and python_impl == 'pypy']
   # Workaround for https://github.com/conda-forge/mujoco-feedstock/pull/56#issuecomment-2230334963
   skip: true  # [py == 38]
-  number: 0
+  number: 1
 
 outputs:
   - name: {{ namecxx }}
@@ -282,6 +282,7 @@ outputs:
     requirements:
       host:
         - pip
+        - setuptools
         - python >=3.7
       run:
         # jax minimum version based on ./mjx/requirements.txt file
