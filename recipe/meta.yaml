@@ -25,7 +25,6 @@ source:
     - add_samples_prefix.patch
     - add_simulate_prefix.patch
     - 1477.patch
-    - disable_usd_test.patch
 
 build:
   # See https://github.com/conda-forge/mujoco-feedstock/issues/22
