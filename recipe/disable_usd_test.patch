@@ -1,0 +1,35 @@
+From afdafd70ce3e0ed272096cfcc751b25b23567fb2 Mon Sep 17 00:00:00 2001
+From: Silvio Traversaro <silvio@traversaro.it>
+Date: Sun, 22 Sep 2024 16:26:44 +0200
+Subject: [PATCH] Disable usd exporter_test.py if usd is not available
+
+---
+ python/mujoco/usd/exporter_test.py | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/python/mujoco/usd/exporter_test.py b/python/mujoco/usd/exporter_test.py
+index 321593a7d8..857d0fe636 100644
+--- a/python/mujoco/usd/exporter_test.py
++++ b/python/mujoco/usd/exporter_test.py
+@@ -20,12 +20,20 @@
+ from absl.testing import absltest
+ from etils import epath
+ import mujoco
+-from mujoco.usd import exporter as exporter_module  # pylint: disable=g-import-not-at-top
+ 
++# USD is not fully supported on all MuJoCo architectures.
++execute_test = True
++try:
++  from mujoco.usd import exporter as exporter_module  # pylint: disable=g-import-not-at-top
++except ImportError:
++  logging.warning("Skipping test due to missing import")
++  execute_test = False
+ 
+ class ExporterTest(absltest.TestCase):
+ 
+   def test_usd_export(self):
++    if not execute_test:
++      self.fail("Test test_usd_export failed to execute.")
+ 
+     output_dir_root = os.getenv(
+         "TEST_UNDECLARED_OUTPUTS_DIR", tempfile.gettempdir()
