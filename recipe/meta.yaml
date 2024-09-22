@@ -129,7 +129,7 @@ outputs:
     about:
       home: https://github.com/deepmind/mujoco
       license: Apache-2.0
-      license_file:f
+      license_file:
         - LICENSE
       summary: 'MuJoCo sample executables package.'
       description: |
