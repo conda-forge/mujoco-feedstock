@@ -255,7 +255,7 @@ outputs:
       commands:
         # pypy skipped as a workaround for https://github.com/conda-forge/mujoco-feedstock/issues/37
         # usd test skipped as usd-core is not in conda-forge
-        - pytest --pyargs mujoco -v -k "not render" --ignore-glob=*usd* # [python_impl != 'pypy']
+        - pytest "--ignore-glob=*usd*" --pyargs mujoco -v -k "not render"  # [python_impl != 'pypy']
         - pip check
     about:
       home: https://github.com/deepmind/mujoco
