@@ -29,8 +29,6 @@ source:
 build:
   # See https://github.com/conda-forge/mujoco-feedstock/issues/22
   skip: true  # [(aarch64 or ppc64le or osx) and python_impl == 'pypy']
-  # Workaround for https://github.com/conda-forge/mujoco-feedstock/pull/56#issuecomment-2230334963
-  skip: true  # [py == 38]
   number: 2
 
 outputs:
@@ -278,6 +276,9 @@ outputs:
       # even if it the mujoco-python was just build
       skip: true  # [arm64]
       skip: true  # [aarch64]
+      # jax upstream does not support anymore Python 3.9 
+      # See https://github.com/conda-forge/jax-feedstock/pull/156
+      skip: true  # [py == 39]
       script: python -m pip install ./mjx/ --no-deps -vv
     requirements:
       host:
