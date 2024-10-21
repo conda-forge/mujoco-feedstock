@@ -253,7 +253,8 @@ outputs:
         - pip
       commands:
         # pypy skipped as a workaround for https://github.com/conda-forge/mujoco-feedstock/issues/37
-        - pytest --pyargs mujoco -v -k "not render"  # [python_impl != 'pypy']
+        # test_delete and test_load_xml disabled due to https://github.com/google-deepmind/mujoco/pull/2160
+        - pytest --pyargs mujoco -v -k "not (render or test_delete or test_load_xml "  # [python_impl != 'pypy']
         - pip check
     about:
       home: https://github.com/deepmind/mujoco
