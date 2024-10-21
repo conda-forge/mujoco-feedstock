@@ -8,6 +8,8 @@ set CMAKE_GENERATOR_PLATFORM=
 set CMAKE_GENERATOR_TOOLSET=
 
 cd %SRC_DIR%\python
+# Workaround for missing pxr import https://github.com/conda-forge/mujoco-feedstock/pull/62
+del /F .\mujoco\usd\exporter_test.py
 bash make_sdist.sh
 if errorlevel 1 exit 1
 
