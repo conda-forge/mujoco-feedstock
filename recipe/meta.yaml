@@ -233,9 +233,12 @@ outputs:
       requires:
         - pytest
         - pip
-      commands:
+        - mesalib  # [linux]
+      commands:        
         # pypy skipped as a workaround for https://github.com/conda-forge/mujoco-feedstock/issues/37
         # test_delete and test_load_xml disabled due to https://github.com/google-deepmind/mujoco/pull/2160
+        # EGL driver in centos7 has some problems when running on Azure, so we use osmesa for now on Linux
+        - export MUJOCO_GL="osmesa"  # [linux]
         - pytest --pyargs mujoco -v -k "not (test_delete or test_load_xml)"  # [python_impl != 'pypy']
         - pip check
     about:
