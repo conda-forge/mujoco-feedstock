@@ -6,6 +6,8 @@ if [[ "${target_platform}" == osx-* ]]; then
 fi
 
 cd $SRC_DIR/python
+# Workaround for missing pxr import https://github.com/conda-forge/mujoco-feedstock/pull/62
+rm -rf ./mujoco/usd/exporter_test.py
 bash make_sdist.sh
 cd dist
 export MUJOCO_PATH=$PREFIX
