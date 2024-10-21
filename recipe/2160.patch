@@ -1,0 +1,48 @@
+From 3bd4ae216e986b8030b9c0cec2eacf12eae2cbeb Mon Sep 17 00:00:00 2001
+From: Silvio Traversaro <silvio@traversaro.it>
+Date: Mon, 21 Oct 2024 11:25:28 +0200
+Subject: [PATCH] Fix running tests out of a installed mujoco python package
+
+---
+ python/mujoco/specs_test.py | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/python/mujoco/specs_test.py b/python/mujoco/specs_test.py
+index 84f10995be..9572a69ad6 100644
+--- a/python/mujoco/specs_test.py
++++ b/python/mujoco/specs_test.py
+@@ -15,9 +15,11 @@
+ """Tests for mjSpec bindings."""
+ 
+ import inspect
++import os
+ import textwrap
+ 
+ from absl.testing import absltest
++from etils import epath
+ import mujoco
+ import numpy as np
+ 
+@@ -433,7 +435,9 @@ def test_kwarg(self):
+     )
+ 
+   def test_load_xml(self):
+-    filename = '../../test/testdata/model.xml'
++    filename = os.path.join(
++      epath.resource_path("mujoco"), "testdata", "model.xml"
++    )
+     state_type = mujoco.mjtState.mjSTATE_INTEGRATION
+ 
+     # Load from file.
+@@ -692,8 +696,9 @@ def test_include(self):
+                      mujoco.mjtGeom.mjGEOM_BOX)
+ 
+   def test_delete(self):
+-    filename = '../../test/testdata/model.xml'
+-
++    filename = os.path.join(
++      epath.resource_path("mujoco"), "testdata", "model.xml"
++    )
+     spec = mujoco.MjSpec.from_file(filename)
+ 
+     model = spec.compile()
