@@ -26,6 +26,7 @@ source:
     - add_simulate_prefix.patch
     - 1477.patch
     - 2160.patch
+    - allow_osmesa_on_win_and_mac.patch
 
 build:
   # See https://github.com/conda-forge/mujoco-feedstock/issues/22
@@ -233,12 +234,12 @@ outputs:
       requires:
         - pytest
         - pip
-        - mesalib  # [linux]
+        - mesalib  # [unix]
       commands:        
         # pypy skipped as a workaround for https://github.com/conda-forge/mujoco-feedstock/issues/37
         # test_delete and test_load_xml disabled due to https://github.com/google-deepmind/mujoco/pull/2160
         # EGL driver in centos7 has some problems when running on Azure, so we use osmesa for now on Linux
-        - export MUJOCO_GL="osmesa"  # [linux]
+        - export MUJOCO_GL="osmesa"  # [unix]
         - pytest --pyargs mujoco -v -k "not (test_delete or test_load_xml)"  # [python_impl != 'pypy']
         - pip check
     about:
