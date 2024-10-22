@@ -242,7 +242,7 @@ outputs:
         # on this platforms, so we pass MUJOCO_GL disable there
         - export MUJOCO_GL="osmesa"  # [linux]
         - export MUJOCO_GL="disable"  # [osx]
-        - set MUJOCO_GL="disable"  # [win]
+        - set MUJOCO_GL=disable  # [win]
         - pytest --pyargs mujoco -v -k "not (test_delete or test_load_xml)"  # [python_impl != 'pypy']
         - pip check
     about:
