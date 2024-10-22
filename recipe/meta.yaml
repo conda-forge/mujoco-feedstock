@@ -105,14 +105,8 @@ outputs:
         - {{ stdlib("c") }}
         - {{ compiler('cxx') }}
         - ninja
-        - {{ cdt('mesa-libgl-devel') }}  # [linux]
-        - {{ cdt('mesa-dri-drivers') }}  # [linux]
-        - {{ cdt('libselinux') }}  # [linux]
-        - {{ cdt('libxdamage') }}  # [linux]
-        - {{ cdt('libxxf86vm') }}  # [linux]
-        - {{ cdt('libxext') }}     # [linux]
       host:
-        - xorg-libxfixes  # [linux]
+        - libgl-devel  # [linux]
         - libmujoco
         - glfw
       run:
@@ -147,14 +141,8 @@ outputs:
         - {{ stdlib("c") }}
         - {{ compiler('cxx') }}
         - ninja
-        - {{ cdt('mesa-libgl-devel') }}  # [linux]
-        - {{ cdt('mesa-dri-drivers') }}  # [linux]
-        - {{ cdt('libselinux') }}  # [linux]
-        - {{ cdt('libxdamage') }}  # [linux]
-        - {{ cdt('libxxf86vm') }}  # [linux]
-        - {{ cdt('libxext') }}     # [linux]
       host:
-        - xorg-libxfixes  # [linux]
+        - libgl-devel  # [linux]
         - libmujoco
         - glfw
       run:
@@ -204,12 +192,6 @@ outputs:
         - llvm-tools 16.*                        # [win]
         - bash                                   # [not win]
         - posix                                  # [win]
-        - {{ cdt('mesa-libgl-devel') }}  # [linux]
-        - {{ cdt('mesa-dri-drivers') }}  # [linux]
-        - {{ cdt('libselinux') }}  # [linux]
-        - {{ cdt('libxdamage') }}  # [linux]
-        - {{ cdt('libxxf86vm') }}  # [linux]
-        - {{ cdt('libxext') }}     # [linux]
       host:
         - {{ pin_subpackage(namecxx, exact=True) }}
         - eigen
@@ -227,7 +209,7 @@ outputs:
         - glfw
         - pyglfw
         - pyopengl
-        - xorg-libxfixes  # [linux]
+        - libgl-devel  # [linux]
       run:
         - {{ pin_subpackage(namecxx, exact=True) }}
         - python
@@ -251,10 +233,17 @@ outputs:
       requires:
         - pytest
         - pip
-      commands:
+        - mesalib  # [unix]
+      commands:        
         # pypy skipped as a workaround for https://github.com/conda-forge/mujoco-feedstock/issues/37
         # test_delete and test_load_xml disabled due to https://github.com/google-deepmind/mujoco/pull/2160
-        - pytest --pyargs mujoco -v -k "not (render or test_delete or test_load_xml)"  # [python_impl != 'pypy']
+        # EGL driver in centos7 has some problems when running on Azure, so we use osmesa for now on Linux
+        # On macOS and Linux the Azure runners can't load opengl and mujoco does not support loading osmesa
+        # on this platforms, so we pass MUJOCO_GL disable there
+        - export MUJOCO_GL="osmesa"  # [linux]
+        - export MUJOCO_GL="disable"  # [osx]
+        - set MUJOCO_GL=disable  # [win]
+        - pytest --pyargs mujoco -v -k "not (test_delete or test_load_xml)"  # [python_impl != 'pypy']
         - pip check
     about:
       home: https://github.com/deepmind/mujoco
