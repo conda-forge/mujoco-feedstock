@@ -1,7 +1,7 @@
 {% set name = "mujoco" %}
 {% set namecxx = "libmujoco" %}
 {% set namepython = "mujoco-python" %}
-{% set version = "3.2.4" %}
+{% set version = "3.2.5" %}
 
 package:
   name: {{ name }}
@@ -9,7 +9,7 @@ package:
 
 source:
   url: https://github.com/deepmind/mujoco/archive/refs/tags/{{ version }}.tar.gz
-  sha256: 59d5d75dc66361aa3bdbdd409b96d7f6ecd86abcda06475233c796fc655b7b46
+  sha256: e8881e3e2133c51e2e7629c0b7f132f0da6291ee241d6b8045cadcc757817775
   patches:
     - python_remove_avx.patch
     - cxx_devendor.patch
@@ -25,12 +25,11 @@ source:
     - add_samples_prefix.patch
     - add_simulate_prefix.patch
     - 1477.patch
-    - 2160.patch
 
 build:
   # See https://github.com/conda-forge/mujoco-feedstock/issues/22
   skip: true  # [(aarch64 or ppc64le or osx) and python_impl == 'pypy']
-  number: 1
+  number: 0
 
 outputs:
   - name: {{ namecxx }}
@@ -234,7 +233,7 @@ outputs:
         - pytest
         - pip
         - mesalib  # [unix]
-      commands:        
+      commands:
         # pypy skipped as a workaround for https://github.com/conda-forge/mujoco-feedstock/issues/37
         # test_delete and test_load_xml disabled due to https://github.com/google-deepmind/mujoco/pull/2160
         # EGL driver in centos7 has some problems when running on Azure, so we use osmesa for now on Linux
