@@ -1,7 +1,7 @@
 {% set name = "mujoco" %}
 {% set namecxx = "libmujoco" %}
 {% set namepython = "mujoco-python" %}
-{% set version = "3.2.6" %}
+{% set version = "3.2.7" %}
 
 package:
   name: {{ name }}
@@ -9,7 +9,7 @@ package:
 
 source:
   url: https://github.com/deepmind/mujoco/archive/refs/tags/{{ version }}.tar.gz
-  sha256: 5963da29393cd6eb242640138f1a8fb72f4733a86e943581674459f4e46635f1
+  sha256: c93d92aac96abb3a66ff28d89619e3bf3906c66f8636bd4803fda41198b19c74
   patches:
     - python_remove_avx.patch
     - cxx_devendor.patch
