@@ -29,7 +29,7 @@ source:
 build:
   # See https://github.com/conda-forge/mujoco-feedstock/issues/22
   skip: true  # [(aarch64 or ppc64le or osx) and python_impl == 'pypy']
-  number: 0
+  number: 1
 
 outputs:
   - name: {{ namecxx }}
@@ -274,7 +274,7 @@ outputs:
       host:
         - pip
         - setuptools
-        - python >=3.7
+        - python {{ python_min }}
       run:
         # jax minimum version based on ./mjx/requirements.txt file
         - jaxlib >=0.4.13
@@ -295,6 +295,7 @@ outputs:
       requires:
         - pip
         - pytest
+        - python {{ python_min }}
       commands:
         - pip check
         # Skipping test_box_box as it also fails upstream https://github.com/conda-forge/mujoco-feedstock/pull/31#issuecomment-1770520403
