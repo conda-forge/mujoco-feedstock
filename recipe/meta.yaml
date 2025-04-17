@@ -25,6 +25,7 @@ source:
     - add_samples_prefix.patch
     - add_simulate_prefix.patch
     - 1477.patch
+    - cmake-required-link-options.patch
 
 build:
   # See https://github.com/conda-forge/mujoco-feedstock/issues/22
