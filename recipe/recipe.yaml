@@ -310,7 +310,7 @@ outputs:
       # even if it the mujoco-python was just build
       # jax upstream does not support anymore Python 3.9
       # See https://github.com/conda-forge/jax-feedstock/pull/156
-      skip: "win or ppc64le or arm64 or aarch64 or py==39"
+      skip: "python_impl=='pypy' or win or ppc64le or arm64 or aarch64 or py==39"
       noarch: python
       script: python -m pip install ./mjx/ --no-deps -vv
     requirements:
