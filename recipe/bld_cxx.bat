@@ -8,6 +8,7 @@ cmake ^
     -G "Ninja" ^
     -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX% ^
     -DCMAKE_BUILD_TYPE=Release ^
+    -DCMAKE_POLICY_VERSION_MINIMUM=3.5 ^
     -DBUILD_SHARED_LIBS:BOOL=ON ^
     -DBUILD_TESTING:BOOL=OFF ^
     -DMUJOCO_BUILD_TESTS:BOOL=ON ^
@@ -31,5 +32,3 @@ if errorlevel 1 exit 1
 :: Test.
 ctest --output-on-failure -C Release 
 if errorlevel 1 exit 1
-
-
