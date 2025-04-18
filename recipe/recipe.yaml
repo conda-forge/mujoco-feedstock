@@ -1,0 +1,385 @@
+schema_version: 1
+
+context:
+  name: mujoco
+  namecxx: libmujoco
+  namepython: mujoco-python
+  version: 3.3.1
+
+recipe:
+  name: ${{ name }}
+  version: ${{ version }}
+
+source:
+  url: https://github.com/deepmind/mujoco/archive/refs/tags/${{ version }}.tar.gz
+  sha256: 199457f83e15ddd14bf45e6cb089dc20f56c78a3975a84c424f4a67d59f1be66
+  patches:
+    - python_remove_avx.patch
+    - cxx_devendor.patch
+    - python_devendor.patch
+    - ccd_vec3_origin_link_problem.patch
+    - disable_copy_cxx_files_in_python_package.patch
+    - do_not_install_via_pip.patch
+    - unvendor_simulate.patch
+    - workaround_cmake_19072.patch
+    - 619bis.patch
+    - simulate_unvendor_lodepng.patch
+    - disable-isolation-and-dep-check-python-build.patch
+    - add_samples_prefix.patch
+    - add_simulate_prefix.patch
+    - 1477.patch
+    - cmake-required-link-options.patch
+
+build:
+  # See https://github.com/conda-forge/mujoco-feedstock/issues/22
+  number: 0
+  skip: "(aarch64 or ppc64le or osx) and python_impl == 'pypy'"
+
+outputs:
+  - package:
+      name: ${{ namecxx }}
+    build:
+      script: 
+        - if: unix
+          then: build_cxx.sh
+        - if: win
+          then: bld_cxx.bat
+    requirements:
+      build:
+        - ${{ compiler('c') }}
+        - ${{ compiler('cxx') }}
+        - ${{ stdlib("c") }}
+        - cmake
+        - ninja
+        - if: not win
+          then: make
+        - if: win
+          then: 
+            - clang 16.*
+            - lld 16.*
+            # This provides llvm-lib that is used during the linking
+            - llvm-tools 16.*
+      host:
+        - eigen
+        - libabseil
+        - libccd-double
+        - lodepng
+        - qhull
+        - tinyxml2
+      run:
+      run_exports:
+        - ${{ pin_subpackage(namecxx, upper_bound='x.x.x') }}
+      # libabseil is used only for tests, we can
+      # safely ignore its run_exports
+      ignore_run_exports:
+        by_name:
+          - libabseil
+      run_constraints:
+        - mujoco-cxx <0
+    tests:
+      - script:
+          - if: not win
+            then: 
+              - test -f ${PREFIX}/include/mujoco/mujoco.h
+          - if: unix
+            then: 
+              - test -f ${PREFIX}/lib/libmujoco${SHLIB_EXT}
+              - test -f ${PREFIX}/bin/mujoco_plugin/libactuator${SHLIB_EXT}
+              - test -f ${PREFIX}/bin/mujoco_plugin/libelasticity${SHLIB_EXT}
+              - test -f ${PREFIX}/bin/mujoco_plugin/libsensor${SHLIB_EXT}
+              - test -f ${PREFIX}/bin/mujoco_plugin/libsdf${SHLIB_EXT}
+          - if: win
+            then: 
+              - if not exist %LIBRARY_INC%\\mujoco\\mujoco.h exit 1
+              - if not exist %LIBRARY_LIB%\\mujoco.lib exit 1
+              - if not exist %LIBRARY_BIN%\\mujoco.dll exit 1
+              - if not exist %LIBRARY_BIN%\\mujoco_plugin\\actuator.dll exit 1
+              - if exist %LIBRARY_BIN%\\mujoco_plugin\\actuator.lib exit 1
+              - if not exist %LIBRARY_BIN%\\mujoco_plugin\\elasticity.dll exit 1
+              - if exist %LIBRARY_BIN%\\mujoco_plugin\\elasticity.lib exit 1
+              - if not exist %LIBRARY_BIN%\\mujoco_plugin\\sensor.dll exit 1
+              - if exist %LIBRARY_BIN%\\mujoco_plugin\\sensor.lib exit 1
+              - if not exist %LIBRARY_BIN%\\mujoco_plugin\\sdf.dll exit 1
+              - if exist %LIBRARY_BIN%\\mujoco_plugin\\sdf.lib exit 1
+    about:
+      license: Apache-2.0
+      license_file:
+        - LICENSE
+        - build_cxx/_deps/tinyobjloader-src/LICENSE
+        - build_cxx/_deps/sdflib-src/LICENSE
+      summary: Package for the C/C++ MuJoCo library, plugins and models.
+      homepage: https://github.com/deepmind/mujoco
+
+  - package:
+      name: mujoco-samples
+    build:
+      script:
+        - if: unix
+          then: build_samples.sh
+        - if: win
+          then: bld_samples.bat
+    requirements:
+      build:
+        - ${{ compiler('c') }}
+        - ${{ compiler('cxx') }}
+        - ${{ stdlib("c") }}
+        - cmake
+        - ninja
+      host:
+        - glfw
+        - libmujoco
+        - if: linux
+          then: libgl-devel
+      run:
+        # Somehow the libmujoco run_exports is ignored here, let's add explicitly the run dependency
+        - ${{ pin_subpackage(namecxx, upper_bound='x.x.x') }}
+    tests:
+      - script:
+          - if: unix
+            then:
+              - test -f ${PREFIX}/bin/mujoco-testspeed
+              - test ! -f ${PREFIX}/bin/testspeed
+          - if: win
+            then:
+              - if not exist %LIBRARY_BIN%\\mujoco-testspeed.exe exit 1
+              - if exist %LIBRARY_BIN%\\testspeed.exe exit 1
+    about:
+      license: Apache-2.0
+      license_file:
+        - LICENSE
+      summary: MuJoCo sample executables package.
+      description: |
+        This package contains the `mujoco-basic`, `mujoco-compile`, `mujoco-record` and `mujoco-testspeed`.
+        With respect to the upstream binaries, where the executables are called `basic`, `compile`, `record` and `testspeed`,
+        in this package the command names are prefixed by a `mujoco-` prefix to avoid naming collisions.
+      homepage: https://github.com/deepmind/mujoco
+
+  - package:
+      name: mujoco-simulate
+    build:
+      script:
+        - if: unix
+          then: build_simulate.sh
+        - if: win
+          then: bld_simulate.bat
+    requirements:
+      build:
+        - ${{ compiler('c') }}
+        - ${{ compiler('cxx') }}
+        - ${{ stdlib("c") }}
+        - cmake
+        - ninja
+      host:
+        - glfw
+        - libmujoco
+        - if: linux
+          then: libgl-devel
+      run:
+        # Somehow the libmujoco run_exports is ignored here, let's add explicitly the run dependency
+        - ${{ pin_subpackage(namecxx, upper_bound='x.x.x') }}
+    tests:
+      - script:
+          - if: unix
+            then: 
+              - test -f ${PREFIX}/bin/mujoco-simulate
+              - test ! -f ${PREFIX}/bin/simulate
+          - if: win
+            then:
+              - if not exist %LIBRARY_BIN%\\mujoco-simulate.exe exit 1
+              - if exist %LIBRARY_BIN%\\simulate.exe exit 1
+    about:
+      license: Apache-2.0
+      license_file:
+        - LICENSE
+      summary: MuJoCo simulate executable package.
+      description: |
+        This package contains the `mujoco-simulate` executable.
+        With respect to the upstream binaries, where the executable is called `simulate`,
+        in this package the command name is prefixed by a `mujoco-` prefix to avoid naming collisions.
+      homepage: https://github.com/deepmind/mujoco
+
+  - package:
+      name: ${{ namepython }}
+    build:
+      script:
+        - if: unix
+          then: build_py.sh
+        - if: win
+          then: bld_py.bat
+    requirements:
+      build:
+        - ${{ compiler('c') }}
+        - ${{ compiler('cxx') }}
+        - ${{ stdlib("c") }}
+        - cmake
+        - if: not win
+          then:
+            - bash
+            - make
+        - if: win
+          then: 
+            - clang 16.*
+            - lld 16.*
+            - llvm-tools 16.*
+            - ninja
+            - posix
+        - if: build_platform != target_platform
+          then: 
+            - absl-py
+            - cross-python_${{ target_platform }}
+            - numpy
+            - pip
+            - python
+            - python-build
+            - setuptools
+            - virtualenv
+      host:
+        - ${{ pin_subpackage(namecxx, exact=True) }}
+        - absl-py
+        - eigen
+        - glfw
+        - libabseil
+        - lodepng
+        - numpy
+        - pip
+        - pybind11
+        - pybind11-abi
+        - pyglfw
+        - pyopengl
+        - python
+        - python-build
+        - setuptools
+        - virtualenv
+        - if: linux
+          then: libgl-devel
+      run:
+        - ${{ pin_subpackage(namecxx, exact=True) }}
+        - absl-py
+        - fsspec
+        - importlib_resources
+        - numpy
+        - pyglfw
+        - pyopengl
+        - python
+        - typing_extensions
+        - zipp
+        # Transitive dependencies of etils[epath], not directly available on conda-forge
+        - if: match(python, "!=3.8") or match(python, "!=3.9")
+          then: etils
+        # Workaround for https://github.com/conda-forge/mujoco-feedstock/pull/32#issuecomment-1821254102
+        - if: match(python, "==3.8")
+          then: etils <=1.3.0
+        # Workaround for https://github.com/conda-forge/mujoco-feedstock/pull/33#issuecomment-1854821962
+        - if: match(python, "==3.9")
+          then: etils <=1.5.1
+    tests:
+      - python:
+          imports:
+            - mujoco
+      - requirements:
+          run:
+            - pip
+            - pytest
+            - if: unix
+              then: mesalib
+        script:
+          - if: linux
+            then: "export MUJOCO_GL=\"osmesa\""
+          - if: osx
+            then: "export MUJOCO_GL=\"disable\""
+          - if: win
+            then: set MUJOCO_GL=disable
+          - if: "python_impl != 'pypy'"
+            then: "pytest --pyargs mujoco -v -k \"not (test_delete or test_load_xml)\""
+          - pip check
+    about:
+      license: Apache-2.0
+      license_file:
+        - LICENSE
+      summary: Python bindings for MuJoCo.
+      homepage: https://github.com/deepmind/mujoco
+
+  - package:
+      name: mujoco-mjx
+    build:
+      # Skip platforms for which jax is not available
+      # note that this only influences tests, in the end the package is noarch
+      # so only one package will be uploaded, and can be installed on any platform,
+      # as soon as the dependencies become available
+      # Skip platforms for which for some reason the test is failing for not finding mujoco-python,
+      # even if it the mujoco-python was just build
+      # jax upstream does not support anymore Python 3.9
+      # See https://github.com/conda-forge/jax-feedstock/pull/156
+      skip: "win or ppc64le or arm64 or aarch64 or py==39"
+      noarch: python
+      script: python -m pip install ./mjx/ --no-deps -vv
+    requirements:
+      host:
+        - pip
+        - python >=3.7
+        - setuptools
+      run:
+        - absl-py
+        # Transitive dependencies of etils[epath], not directly available on conda-forge
+        - etils
+        - fsspec
+        - importlib_resources
+        # jax minimum version based on ./mjx/requirements.txt file
+        - jax >=0.4.13
+        - jaxlib >=0.4.13
+        - mujoco-python >=${{ version }}
+        - scipy
+        - trimesh
+        - typing_extensions
+        - zipp
+    tests:
+      - python:
+          imports:
+            - mujoco.mjx
+      - requirements:
+          run:
+            - pip
+            - pytest
+        script:
+          - pip check
+          - "pytest --pyargs mujoco.mjx -v -k \"not (test_collision_driver or test_box_box)\""
+    about:
+      license: Apache-2.0
+      license_file:
+        - LICENSE
+      summary: Package for the jax-based MuJoCo XLA (mjx) simulator, that can also run on GPU.
+      homepage: https://github.com/deepmind/mujoco
+
+  - package:
+      name: ${{ name }}
+    requirements:
+      run:
+        - ${{ pin_subpackage(namecxx, exact=True) }}
+        - ${{ pin_subpackage(namepython, upper_bound='x.x.x') }}
+        - ${{ pin_subpackage('mujoco-samples', exact=True) }}
+        - ${{ pin_subpackage('mujoco-simulate', exact=True) }}
+    tests:
+      - python:
+          imports:
+            - mujoco
+    about:
+      license: Apache-2.0
+      license_file:
+        - LICENSE
+        - build_cxx/_deps/sdflib-src/LICENSE
+        - build_cxx/_deps/tinyobjloader-src/LICENSE
+      summary: Meta-package that depends on `libmujoco`, `mujoco-samples`,`mujoco-simulate` and `mujoco-python`.
+      homepage: https://github.com/deepmind/mujoco
+
+about:
+  license: Apache-2.0
+  license_file:
+    - LICENSE
+    - build_cxx/_deps/sdflib-src/LICENSE
+    - build_cxx/_deps/tinyobjloader-src/LICENSE
+  summary: Multi-Joint dynamics with Contact. A general purpose multi-body dynamics simulator.
+  homepage: https://github.com/deepmind/mujoco
+
+extra:
+  recipe-maintainers:
+    - traversaro
