@@ -303,15 +303,6 @@ outputs:
   - package:
       name: mujoco-mjx
     build:
-      # Skip platforms for which jax is not available
-      # note that this only influences tests, in the end the package is noarch
-      # so only one package will be uploaded, and can be installed on any platform,
-      # as soon as the dependencies become available
-      # Skip platforms for which for some reason the test is failing for not finding mujoco-python,
-      # even if it the mujoco-python was just build
-      # jax upstream does not support anymore Python 3.9
-      # See https://github.com/conda-forge/jax-feedstock/pull/156
-      skip: "python_impl=='pypy' or win or ppc64le or arm64 or aarch64 or py==39"
       noarch: python
       script: python -m pip install ./mjx/ --no-deps -vv
     requirements:
@@ -334,16 +325,29 @@ outputs:
         - typing_extensions
         - zipp
     tests:
-      - python:
-          imports:
-            - mujoco.mjx
-      - requirements:
-          run:
-            - pip
-            - pytest
-        script:
-          - pip check
-          - "pytest --pyargs mujoco.mjx -v -k \"not (test_collision_driver or test_box_box)\""
+      # Skip platforms for which jax is not available
+      # note that this only influences tests, in the end the package is noarch
+      # so only one package will be uploaded, and can be installed on any platform,
+      # as soon as the dependencies become available
+      # Skip platforms for which for some reason the test is failing for not finding mujoco-python,
+      # even if it the mujoco-python was just build
+      # jax upstream does not support anymore Python 3.9
+      # See https://github.com/conda-forge/jax-feedstock/pull/156
+      # skip: "python_impl=='pypy' or win or ppc64le or arm64 or aarch64 or py==39"
+      - if: "not (python_impl=='pypy' or win or ppc64le or arm64 or aarch64 or py==39)"
+        then:
+        - python:
+            imports:
+              - mujoco.mjx
+      - if: "not (python_impl=='pypy' or win or ppc64le or arm64 or aarch64 or py==39)"
+        then:
+        - requirements:
+            run:
+              - pip
+              - pytest
+          script:
+            - pip check
+            - "pytest --pyargs mujoco.mjx -v -k \"not (test_collision_driver or test_box_box)\""
     about:
       license: Apache-2.0
       license_file:
