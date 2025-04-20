@@ -22,6 +22,24 @@ Package license: Apache-2.0
 
 Summary: Package for the C/C++ MuJoCo library, plugins and models.
 
+About mujoco
+------------
+
+Home: https://github.com/deepmind/mujoco
+
+Package license: Apache-2.0
+
+Summary: Meta-package that depends on `libmujoco`, `mujoco-samples`,`mujoco-simulate` and `mujoco-python`.
+
+About mujoco-mjx
+----------------
+
+Home: https://github.com/deepmind/mujoco
+
+Package license: Apache-2.0
+
+Summary: Package for the jax-based MuJoCo XLA (mjx) simulator, that can also run on GPU.
+
 About mujoco-python
 -------------------
 
@@ -58,24 +76,6 @@ This package contains the `mujoco-simulate` executable.
 With respect to the upstream binaries, where the executable is called `simulate`,
 in this package the command name is prefixed by a `mujoco-` prefix to avoid naming collisions.
 
-
-About mujoco
-------------
-
-Home: https://github.com/deepmind/mujoco
-
-Package license: Apache-2.0
-
-Summary: Meta-package that depends on `libmujoco`, `mujoco-samples`,`mujoco-simulate` and `mujoco-python`.
-
-About mujoco-mjx
-----------------
-
-Home: https://github.com/deepmind/mujoco
-
-Package license: Apache-2.0
-
-Summary: Package for the jax-based MuJoCo XLA (mjx) simulator, that can also run on GPU.
 
 Current build status
 ====================
