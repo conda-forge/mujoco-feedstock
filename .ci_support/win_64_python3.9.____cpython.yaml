@@ -22,6 +22,8 @@ python:
 - 3.9.* *_cpython
 python_impl:
 - cpython
+python_min:
+- '3.9'
 qhull:
 - '2020.2'
 target_platform:
