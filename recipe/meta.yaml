@@ -2,6 +2,9 @@
 {% set namecxx = "libmujoco" %}
 {% set namepython = "mujoco-python" %}
 {% set version = "3.3.2" %}
+# jax upstream does not support anymore Python 3.9 
+# See https://github.com/conda-forge/jax-feedstock/pull/156
+{% set python_min = "3.10" %}
 
 package:
   name: {{ name }}
@@ -29,9 +32,7 @@ source:
     - add-msys-windows-platform.patch
 
 build:
-  # See https://github.com/conda-forge/mujoco-feedstock/issues/22
-  skip: true  # [(aarch64 or ppc64le or osx) and python_impl == 'pypy']
-  number: 0
+  number: 1
 
 outputs:
   - name: {{ namecxx }}
@@ -236,7 +237,6 @@ outputs:
         - pip
         - mesalib  # [unix]
       commands:
-        # pypy skipped as a workaround for https://github.com/conda-forge/mujoco-feedstock/issues/37
         # test_delete and test_load_xml disabled due to https://github.com/google-deepmind/mujoco/pull/2160
         # EGL driver in centos7 has some problems when running on Azure, so we use osmesa for now on Linux
         # On macOS and Linux the Azure runners can't load opengl and mujoco does not support loading osmesa
@@ -244,7 +244,7 @@ outputs:
         - export MUJOCO_GL="osmesa"  # [linux]
         - export MUJOCO_GL="disable"  # [osx]
         - set MUJOCO_GL=disable  # [win]
-        - pytest --pyargs mujoco -v -k "not (test_delete or test_load_xml)"  # [python_impl != 'pypy']
+        - pytest --pyargs mujoco -v -k "not (test_delete or test_load_xml)"
         - pip check
     about:
       home: https://github.com/deepmind/mujoco
@@ -261,23 +261,25 @@ outputs:
       # note that this only influences tests, in the end the package is noarch
       # so only one package will be uploaded, and can be installed on any platform,
       # as soon as the dependencies become available
-      skip: true  # [python_impl == 'pypy']
       skip: true  # [win]
       skip: true  # [ppc64le]
       # Skip platforms for which for some reason the test is failing for not finding mujoco-python,
       # even if it the mujoco-python was just build
       skip: true  # [arm64]
-      skip: true  # [aarch64]
+      # We only build for python_min otherwise the test will fail
+      {% if py != python_min.replace(".", "") %}
+      skip: true
+      {% endif %}
       # jax upstream does not support anymore Python 3.9 
       # See https://github.com/conda-forge/jax-feedstock/pull/156
-      skip: true  # [py == 39]
       script: python -m pip install ./mjx/ --no-deps -vv
     requirements:
       host:
         - pip
         - setuptools
-        - python >=3.7
+        - python {{ python_min }}
       run:
+        - python >={{ python_min }}
         # jax minimum version based on ./mjx/requirements.txt file
         - jaxlib >=0.4.13
         - jax >=0.4.13
@@ -297,6 +299,7 @@ outputs:
       requires:
         - pip
         - pytest
+        - python {{ python_min }}
       commands:
         - pip check
         # Skipping test_box_box as it also fails upstream https://github.com/conda-forge/mujoco-feedstock/pull/31#issuecomment-1770520403

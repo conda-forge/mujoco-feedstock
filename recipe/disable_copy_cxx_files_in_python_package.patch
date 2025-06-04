@@ -35,9 +35,9 @@ index 5fb63ec44..3db713d28 100644
 -HEADERS_DIR = os.path.join(os.path.dirname(__file__), 'include/mujoco')
 -PLUGINS_DIR = os.path.join(os.path.dirname(__file__), 'plugin')
 +if _SYSTEM == 'Windows':
-+  _MJ_INSTALL_DIR = os.path.join(os.environ.get('CONDA_PREFIX'), 'Library')
++  _MJ_INSTALL_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))), 'Library')
 +else:
-+  _MJ_INSTALL_DIR = os.environ.get('CONDA_PREFIX')
++  _MJ_INSTALL_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))))
 +
 +HEADERS_DIR = os.path.join(_MJ_INSTALL_DIR, 'include/mujoco')
 +PLUGINS_DIR = os.path.join(_MJ_INSTALL_DIR, 'bin/mujoco_plugin')
