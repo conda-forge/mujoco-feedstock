@@ -267,7 +267,9 @@ outputs:
       # even if it the mujoco-python was just build
       skip: true  # [arm64]
       # We only build for python_min otherwise the test will fail
-      skip: true  # [py != python_min.replace(".", "")]
+      {% if py != python_min.replace(".", "") %}
+      skip: true
+      {% endif %}
       # jax upstream does not support anymore Python 3.9 
       # See https://github.com/conda-forge/jax-feedstock/pull/156
       script: python -m pip install ./mjx/ --no-deps -vv
