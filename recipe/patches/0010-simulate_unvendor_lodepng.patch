@@ -1,0 +1,24 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Silvio Traversaro <silvio.traversaro@iit.it>
+Date: Sun, 8 Jun 2025 09:21:38 +0200
+Subject: [PATCH] simulate_unvendor_lodepng
+
+---
+ simulate/CMakeLists.txt | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/simulate/CMakeLists.txt b/simulate/CMakeLists.txt
+index c198e6cb..4396b7bf 100644
+--- a/simulate/CMakeLists.txt
++++ b/simulate/CMakeLists.txt
+@@ -79,6 +79,7 @@ if(MUJOCO_HARDEN)
+   endif()
+ endif()
+ 
++find_package(lodepng REQUIRED)
+ # Fetch lodepng dependency.
+ if(NOT TARGET lodepng)
+   FetchContent_Declare(
+-- 
+2.43.0
+

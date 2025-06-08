@@ -1,0 +1,32 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Silvio Traversaro <silvio.traversaro@iit.it>
+Date: Sun, 8 Jun 2025 09:21:38 +0200
+Subject: [PATCH] unvendor_simulate
+
+---
+ simulate/cmake/SimulateDependencies.cmake | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/simulate/cmake/SimulateDependencies.cmake b/simulate/cmake/SimulateDependencies.cmake
+index 5141406c..dbbcd244 100644
+--- a/simulate/cmake/SimulateDependencies.cmake
++++ b/simulate/cmake/SimulateDependencies.cmake
+@@ -22,12 +22,12 @@ else()
+ endif()
+ 
+ option(MUJOCO_SIMULATE_USE_SYSTEM_MUJOCO "Use installed MuJoCo version."
+-       ${DEFAULT_USE_SYSTEM_MUJOCO}
++       ON
+ )
+ unset(DEFAULT_USE_SYSTEM_MUJOCO)
+ 
+-option(MUJOCO_SIMULATE_USE_SYSTEM_MUJOCO "Use installed MuJoCo version." OFF)
+-option(MUJOCO_SIMULATE_USE_SYSTEM_GLFW "Use installed GLFW version." OFF)
++option(MUJOCO_SIMULATE_USE_SYSTEM_MUJOCO "Use installed MuJoCo version." ON)
++option(MUJOCO_SIMULATE_USE_SYSTEM_GLFW "Use installed GLFW version." ON)
+ 
+ set(MUJOCO_DEP_VERSION_glfw3
+     7482de6071d21db77a7236155da44c172a7f6c9e # 3.3.8
+-- 
+2.43.0
+

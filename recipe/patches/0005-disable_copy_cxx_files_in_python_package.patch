@@ -1,0 +1,165 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Silvio Traversaro <silvio.traversaro@iit.it>
+Date: Sun, 8 Jun 2025 09:21:38 +0200
+Subject: [PATCH] 0005-disable_copy_cxx_files_in_python_package
+
+---
+ CMakeLists.txt                   |  1 +
+ plugin/actuator/CMakeLists.txt   | 14 ++++++++++++++
+ plugin/elasticity/CMakeLists.txt | 14 ++++++++++++++
+ plugin/sdf/CMakeLists.txt        | 15 +++++++++++++++
+ plugin/sensor/CMakeLists.txt     | 14 ++++++++++++++
+ python/mujoco/__init__.py        | 11 ++++++++---
+ python/setup.py                  |  6 +++---
+ 7 files changed, 69 insertions(+), 6 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 9cffdcf7..3302a789 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -42,6 +42,7 @@ option(MUJOCO_BUILD_EXAMPLES "Build samples for MuJoCo" ON)
+ option(MUJOCO_BUILD_SIMULATE "Build simulate library for MuJoCo" ON)
+ option(MUJOCO_BUILD_TESTS "Build tests for MuJoCo" ON)
+ option(MUJOCO_TEST_PYTHON_UTIL "Build and test utility libraries for Python bindings" ON)
++option(MUJOCO_INSTALL_PLUGINS "Install MuJoCo plugins" OFF)
+ 
+ if(APPLE AND (MUJOCO_BUILD_EXAMPLES OR MUJOCO_BUILD_SIMULATE))
+   enable_language(OBJC)
+diff --git a/plugin/actuator/CMakeLists.txt b/plugin/actuator/CMakeLists.txt
+index 6cc79944..a738f03e 100644
+--- a/plugin/actuator/CMakeLists.txt
++++ b/plugin/actuator/CMakeLists.txt
+@@ -39,3 +39,17 @@ target_link_options(
+   ${MUJOCO_MACOS_LINK_OPTIONS}
+   ${EXTRA_LINK_OPTIONS}
+ )
++
++if(MUJOCO_INSTALL_PLUGINS)
++  if(WIN32)
++    install(TARGETS actuator
++            ARCHIVE DESTINATION "$ENV{TEMP}"
++            LIBRARY DESTINATION "$ENV{TEMP}"
++            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin")
++  else()
++    install(TARGETS actuator
++            ARCHIVE DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin"
++            LIBRARY DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin"
++            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin")
++  endif()
++endif()
+diff --git a/plugin/elasticity/CMakeLists.txt b/plugin/elasticity/CMakeLists.txt
+index f6186261..463e9e69 100644
+--- a/plugin/elasticity/CMakeLists.txt
++++ b/plugin/elasticity/CMakeLists.txt
+@@ -43,3 +43,17 @@ target_link_options(
+   ${MUJOCO_MACOS_LINK_OPTIONS}
+   ${EXTRA_LINK_OPTIONS}
+ )
++
++if(MUJOCO_INSTALL_PLUGINS)
++  if(WIN32)
++    install(TARGETS elasticity
++            ARCHIVE DESTINATION "$ENV{TEMP}"
++            LIBRARY DESTINATION "$ENV{TEMP}"
++            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin")
++  else()
++    install(TARGETS elasticity
++            ARCHIVE DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin"
++            LIBRARY DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin"
++            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin")
++  endif()
++endif()
+diff --git a/plugin/sdf/CMakeLists.txt b/plugin/sdf/CMakeLists.txt
+index 3e216fc4..b82c8d32 100644
+--- a/plugin/sdf/CMakeLists.txt
++++ b/plugin/sdf/CMakeLists.txt
+@@ -51,3 +51,18 @@ target_link_options(
+   ${MUJOCO_MACOS_LINK_OPTIONS}
+   ${EXTRA_LINK_OPTIONS}
+ )
++
++if(MUJOCO_INSTALL_PLUGINS)
++  if(WIN32)
++    install(TARGETS sdf
++            ARCHIVE DESTINATION "$ENV{TEMP}"
++            LIBRARY DESTINATION "$ENV{TEMP}"
++            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin")
++  else()
++    install(TARGETS sdf
++            ARCHIVE DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin"
++            LIBRARY DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin"
++            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin")
++  endif()
++endif()
++
+diff --git a/plugin/sensor/CMakeLists.txt b/plugin/sensor/CMakeLists.txt
+index 4dac6d0a..6c990870 100644
+--- a/plugin/sensor/CMakeLists.txt
++++ b/plugin/sensor/CMakeLists.txt
+@@ -40,3 +40,17 @@ target_link_options(
+   ${MUJOCO_MACOS_LINK_OPTIONS}
+   ${EXTRA_LINK_OPTIONS}
+ )
++
++if(MUJOCO_INSTALL_PLUGINS)
++  if(WIN32)
++    install(TARGETS sensor
++            ARCHIVE DESTINATION "$ENV{TEMP}"
++            LIBRARY DESTINATION "$ENV{TEMP}"
++            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin")
++  else()
++    install(TARGETS sensor
++            ARCHIVE DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin"
++            LIBRARY DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin"
++            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin")
++  endif()
++endif()
+diff --git a/python/mujoco/__init__.py b/python/mujoco/__init__.py
+index de578935..175cb249 100644
+--- a/python/mujoco/__init__.py
++++ b/python/mujoco/__init__.py
+@@ -35,7 +35,7 @@ __path__ = __import__('pkgutil').extend_path(__path__, __name__)
+ 
+ _SYSTEM = platform.system()
+ if _SYSTEM == 'Windows':
+-  ctypes.WinDLL(os.path.join(os.path.dirname(__file__), 'mujoco.dll'))
++  ctypes.WinDLL('mujoco.dll')
+ elif _SYSTEM == 'Darwin':
+   proc_translated = subprocess.run(
+       ['sysctl', '-n', 'sysctl.proc_translated'], capture_output=True).stdout
+@@ -198,8 +198,13 @@ _specs.MjSpec.to_zip = to_zip
+ _structs.MjData.bind = _bind_data
+ _structs.MjModel.bind = _bind_model
+ 
+-HEADERS_DIR = os.path.join(os.path.dirname(__file__), 'include/mujoco')
+-PLUGINS_DIR = os.path.join(os.path.dirname(__file__), 'plugin')
++if _SYSTEM == 'Windows':
++  _MJ_INSTALL_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))), 'Library')
++else:
++  _MJ_INSTALL_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))))
++
++HEADERS_DIR = os.path.join(_MJ_INSTALL_DIR, 'include/mujoco')
++PLUGINS_DIR = os.path.join(_MJ_INSTALL_DIR, 'bin/mujoco_plugin')
+ 
+ PLUGIN_HANDLES = []
+ 
+diff --git a/python/setup.py b/python/setup.py
+index cebdec84..849e73d7 100644
+--- a/python/setup.py
++++ b/python/setup.py
+@@ -157,9 +157,9 @@ class BuildCMakeExtension(build_ext.build_ext):
+       assert ext.name.startswith(EXT_PREFIX)
+       assert '.' not in ext.name[len(EXT_PREFIX) :]
+       self.build_extension(ext)
+-    self._copy_external_libraries()
+-    self._copy_mujoco_headers()
+-    self._copy_plugin_libraries()
++    # self._copy_external_libraries()
++    # self._copy_mujoco_headers()
++    # self._copy_plugin_libraries()
+     if self._is_apple:
+       self._copy_mjpython()
+ 
+-- 
+2.43.0
+
