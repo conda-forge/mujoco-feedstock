@@ -14,22 +14,22 @@ source:
   - url: https://github.com/deepmind/mujoco/archive/refs/tags/${{ version }}.tar.gz
     sha256: 6ab615adc0f6533cc9dbc63b8255017ee9a10d0c9ba1c4298ef948480e790946
     patches:
-      - python_remove_avx.patch
-      - cxx_devendor.patch
-      - python_devendor.patch
-      - ccd_vec3_origin_link_problem.patch
-      - disable_copy_cxx_files_in_python_package.patch
-      - do_not_install_via_pip.patch
-      - unvendor_simulate.patch
-      - workaround_cmake_19072.patch
-      - 619bis.patch
-      - simulate_unvendor_lodepng.patch
-      - disable-isolation-and-dep-check-python-build.patch
-      - add_samples_prefix.patch
-      - add_simulate_prefix.patch
-      - 1477.patch
-      - cmake-required-link-options.patch
-      - add-msys-windows-platform.patch
+      - patches/0001-python_remove_avx.patch
+      - patches/0002-cxx_devendor.patch
+      - patches/0003-python_devendor.patch
+      - patches/0004-ccd_vec3_origin_link_problem.patch
+      - patches/0005-disable_copy_cxx_files_in_python_package.patch
+      - patches/0006-do_not_install_via_pip.patch
+      - patches/0007-unvendor_simulate.patch
+      - patches/0008-workaround_cmake_19072.patch
+      - patches/0009-619bis.patch
+      - patches/0010-simulate_unvendor_lodepng.patch
+      - patches/0011-disable-isolation-and-dep-check-python-build.patch
+      - patches/0012-add_samples_prefix.patch
+      - patches/0013-add_simulate_prefix.patch
+      - patches/0014-1477.patch
+      - patches/0015-cmake-required-link-options.patch
+      - patches/0016-add-msys-windows-platform.patch
 
 build:
   number: 2
