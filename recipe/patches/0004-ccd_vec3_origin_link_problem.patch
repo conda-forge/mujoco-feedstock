@@ -1,8 +1,17 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Silvio Traversaro <silvio.traversaro@iit.it>
+Date: Sun, 8 Jun 2025 09:21:38 +0200
+Subject: [PATCH] ccd_vec3_origin_link_problem
+
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 8a76576a5f..934f586906 100644
+index bbea8706..9cffdcf7 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -92,7 +92,7 @@ add_subdirectory(src/render)
+@@ -95,7 +95,7 @@ add_subdirectory(src/render)
  add_subdirectory(src/thread)
  add_subdirectory(src/ui)
  
@@ -11,3 +20,6 @@ index 8a76576a5f..934f586906 100644
  if(MUJOCO_ENABLE_AVX_INTRINSICS)
    target_compile_definitions(mujoco PUBLIC mjUSEPLATFORMSIMD)
  endif()
+-- 
+2.43.0
+

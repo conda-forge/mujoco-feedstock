@@ -1,8 +1,25 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Silvio Traversaro <silvio.traversaro@iit.it>
+Date: Sun, 8 Jun 2025 09:21:38 +0200
+Subject: [PATCH] cxx_devendor
+
+---
+ cmake/MujocoDependencies.cmake | 47 +++++++++++++++-------------------
+ 1 file changed, 20 insertions(+), 27 deletions(-)
+
 diff --git a/cmake/MujocoDependencies.cmake b/cmake/MujocoDependencies.cmake
-index 56a1e64..89912dd 100644
+index 9d5dc01c..59faf267 100644
 --- a/cmake/MujocoDependencies.cmake
 +++ b/cmake/MujocoDependencies.cmake
-@@ -106,9 +106,9 @@ find_package(Git REQUIRED)
+@@ -90,6 +90,7 @@ set(BUILD_SHARED_LIBS
+     CACHE INTERNAL "Build SHARED libraries"
+ )
+ 
++find_package(lodepng REQUIRED)
+ if(NOT TARGET lodepng)
+   FetchContent_Declare(
+     lodepng
+@@ -128,9 +129,9 @@ set(QHULL_ENABLE_TESTING OFF)
  
  findorfetch(
    USE_SYSTEM_PACKAGE
@@ -14,8 +31,8 @@ index 56a1e64..89912dd 100644
    LIBRARY_NAME
    qhull
    GIT_REPO
-@@ -130,18 +130,22 @@ findorfetch(
-   "true"
+@@ -141,18 +142,22 @@ findorfetch(
+   qhull
    EXCLUDE_FROM_ALL
  )
 -# MuJoCo includes a file from libqhull_r which is not exported by the qhull include directories.
@@ -45,7 +62,7 @@ index 56a1e64..89912dd 100644
    PACKAGE_NAME
    tinyxml2
    LIBRARY_NAME
-@@ -154,8 +158,6 @@ findorfetch(
+@@ -165,8 +170,6 @@ findorfetch(
    tinyxml2
    EXCLUDE_FROM_ALL
  )
@@ -54,7 +71,7 @@ index 56a1e64..89912dd 100644
  
  findorfetch(
    USE_SYSTEM_PACKAGE
-@@ -177,7 +179,7 @@ set(ENABLE_DOUBLE_PRECISION ON)
+@@ -209,7 +212,7 @@ set(ENABLE_DOUBLE_PRECISION ON)
  set(CCD_HIDE_ALL_SYMBOLS ON)
  findorfetch(
    USE_SYSTEM_PACKAGE
@@ -63,7 +80,7 @@ index 56a1e64..89912dd 100644
    PACKAGE_NAME
    ccd
    LIBRARY_NAME
-@@ -190,19 +192,6 @@ findorfetch(
+@@ -222,19 +225,6 @@ findorfetch(
    ccd
    EXCLUDE_FROM_ALL
  )
@@ -83,7 +100,7 @@ index 56a1e64..89912dd 100644
  
  if(MUJOCO_BUILD_TESTS)
    set(ABSL_PROPAGATE_CXX_STD ON)
-@@ -217,7 +206,7 @@ if(MUJOCO_BUILD_TESTS)
+@@ -249,7 +239,7 @@ if(MUJOCO_BUILD_TESTS)
    set(ABSL_BUILD_TESTING OFF)
    findorfetch(
      USE_SYSTEM_PACKAGE
@@ -92,7 +109,7 @@ index 56a1e64..89912dd 100644
      PACKAGE_NAME
      absl
      LIBRARY_NAME
-@@ -297,6 +286,9 @@ endif()
+@@ -329,6 +319,9 @@ endif()
  
  if(MUJOCO_TEST_PYTHON_UTIL)
    add_compile_definitions(EIGEN_MPL2_ONLY)
@@ -102,16 +119,6 @@ index 56a1e64..89912dd 100644
    if(NOT TARGET eigen)
      # Support new IN_LIST if() operator.
      set(CMAKE_POLICY_DEFAULT_CMP0057 NEW)
+-- 
+2.43.0
 
-diff --git a/cmake/MujocoDependencies.cmake b/cmake/MujocoDependencies.cmake
-index 56a1e64..b27528e 100644
---- a/cmake/MujocoDependencies.cmake
-+++ b/cmake/MujocoDependencies.cmake
-@@ -79,6 +79,7 @@ set(BUILD_SHARED_LIBS
-     CACHE INTERNAL "Build SHARED libraries"
- )
- 
-+find_package(lodepng REQUIRED)
- if(NOT TARGET lodepng)
-   FetchContent_Declare(
-     lodepng

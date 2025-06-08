@@ -1,8 +1,17 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Silvio Traversaro <silvio.traversaro@iit.it>
+Date: Sun, 8 Jun 2025 09:21:38 +0200
+Subject: [PATCH] python_devendor
+
+---
+ python/mujoco/CMakeLists.txt | 19 ++-----------------
+ 1 file changed, 2 insertions(+), 17 deletions(-)
+
 diff --git a/python/mujoco/CMakeLists.txt b/python/mujoco/CMakeLists.txt
-index 9e5242f..668c529 100644
+index 663f1158..93ca641e 100644
 --- a/python/mujoco/CMakeLists.txt
 +++ b/python/mujoco/CMakeLists.txt
-@@ -119,7 +119,7 @@ endif()
+@@ -132,7 +132,7 @@ endif()
  set(MUJOCO_PYTHON_ABSL_TARGETS absl::core_headers absl::flat_hash_map absl::span)
  findorfetch(
    USE_SYSTEM_PACKAGE
@@ -11,7 +20,7 @@ index 9e5242f..668c529 100644
    PACKAGE_NAME
    absl
    LIBRARY_NAME
-@@ -132,27 +132,12 @@ findorfetch(
+@@ -145,27 +145,12 @@ findorfetch(
    ${MUJOCO_PYTHON_ABSL_TARGETS}
    EXCLUDE_FROM_ALL
  )
@@ -40,3 +49,6 @@ index 9e5242f..668c529 100644
    PACKAGE_NAME
    Eigen3
    LIBRARY_NAME
+-- 
+2.43.0
+

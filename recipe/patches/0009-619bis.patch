@@ -1,5 +1,14 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Silvio Traversaro <silvio.traversaro@iit.it>
+Date: Sun, 8 Jun 2025 09:21:38 +0200
+Subject: [PATCH] 619bis
+
+---
+ simulate/cmake/SimulateDependencies.cmake | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 diff --git a/simulate/cmake/SimulateDependencies.cmake b/simulate/cmake/SimulateDependencies.cmake
-index 6616d6f4f..0d73abfcb 100644
+index dbbcd244..97f9303b 100644
 --- a/simulate/cmake/SimulateDependencies.cmake
 +++ b/simulate/cmake/SimulateDependencies.cmake
 @@ -98,7 +98,7 @@ if(MUJOCO_EXTRAS_STATIC_GLFW)
@@ -11,3 +20,6 @@ index 6616d6f4f..0d73abfcb 100644
    target_compile_options(glfw PRIVATE ${MUJOCO_MACOS_COMPILE_OPTIONS})
    target_link_options(glfw PRIVATE ${MUJOCO_MACOS_LINK_OPTIONS})
  endif()
+-- 
+2.43.0
+

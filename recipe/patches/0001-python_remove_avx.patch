@@ -1,8 +1,17 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Silvio Traversaro <silvio.traversaro@iit.it>
+Date: Sun, 8 Jun 2025 09:21:38 +0200
+Subject: [PATCH] python_remove_avx
+
+---
+ python/mujoco/CMakeLists.txt | 3 ---
+ 1 file changed, 3 deletions(-)
+
 diff --git a/python/mujoco/CMakeLists.txt b/python/mujoco/CMakeLists.txt
-index 9e5242f..cbd9b5e 100644
+index faceca26..663f1158 100644
 --- a/python/mujoco/CMakeLists.txt
 +++ b/python/mujoco/CMakeLists.txt
-@@ -265,12 +265,9 @@ target_link_libraries(
+@@ -311,12 +311,9 @@ target_link_libraries(
              tuple_tools
  )
  
@@ -13,5 +22,8 @@ index 9e5242f..cbd9b5e 100644
    pybind11_add_module(${name} ${ARGN})
 -  target_compile_options(${name} PRIVATE ${AVX_COMPILE_OPTIONS})
    if(NOT MSVC)
-     target_compile_options(${name} PRIVATE -Wall -Werror)
-     if(CMAKE_C_COMPILER_ID STREQUAL GNU)
+     target_compile_options(
+       ${name}
+-- 
+2.43.0
+
