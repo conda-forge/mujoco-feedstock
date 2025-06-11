@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
 context:
-  version: "3.3.2"
+  version: "3.3.3"
   # jax upstream does not support anymore Python 3.9
   # See https://github.com/conda-forge/jax-feedstock/pull/156
   python_min: "3.10"
@@ -12,7 +12,7 @@ recipe:
 
 source:
   - url: https://github.com/deepmind/mujoco/archive/refs/tags/${{ version }}.tar.gz
-    sha256: 6ab615adc0f6533cc9dbc63b8255017ee9a10d0c9ba1c4298ef948480e790946
+    sha256: db05b995b7711412f7e9114e04177cb5dae83d667212535f7cf1706bf185a2cc
     patches:
       - patches/0001-python_remove_avx.patch
       - patches/0002-cxx_devendor.patch
@@ -32,7 +32,7 @@ source:
       - patches/0016-Add-MSYS-as-a-Windows-platform.patch
 
 build:
-  number: 2
+  number: 0
 
 outputs:
   - package:
