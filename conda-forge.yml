@@ -14,3 +14,6 @@ provider:
   linux_aarch64: default
   linux_ppc64le: default
 test: native_and_emulated
+remote_ci_setup:
+# Workaround for https://github.com/conda-forge/mujoco-feedstock/pull/87#issuecomment-3117337449
+- rattler-build=0.43.*
