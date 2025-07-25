@@ -13,9 +13,8 @@ github:
 provider:
   linux_aarch64: default
   linux_ppc64le: default
-test: native_and_emulated
 remote_ci_setup:
-# Workaround for https://github.com/conda-forge/mujoco-feedstock/pull/87#issuecomment-3117337449
 - conda-build>=24.1
 - conda-forge-ci-setup=4.*
 - rattler-build=0.43.*
+test: native_and_emulated
