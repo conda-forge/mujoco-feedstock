@@ -9,7 +9,7 @@ channel_targets:
 cxx_compiler:
 - vs2022
 libabseil:
-- '20250127'
+- '20250512'
 numpy:
 - '2'
 pin_run_as_build:
