@@ -32,7 +32,7 @@ source:
       - patches/0016-Add-MSYS-as-a-Windows-platform.patch
 
 build:
-  number: 4
+  number: 5
 
 outputs:
   - package:
