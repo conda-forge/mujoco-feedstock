@@ -359,4 +359,5 @@ about:
   summary: "Multi-Joint dynamics with Contact (MuJoCo): physics engine, CLI tools, GUI, Python bindings, and MJX."
 extra:
   recipe-maintainers:
+    - oursland
     - traversaro
