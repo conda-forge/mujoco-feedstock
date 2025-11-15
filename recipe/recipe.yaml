@@ -51,9 +51,9 @@ outputs:
         - ninja
         - if: win
           then:
-            - clang 16.*
-            - lld 16.*
-            - llvm-tools 16.*          # provides llvm-lib
+            - clang 19.*
+            - lld 19.*
+            - llvm-tools 19.*          # provides llvm-lib
       host:
         - eigen
         - qhull
@@ -188,10 +188,10 @@ outputs:
         - if: win
           then:
             - ninja
-            - clang 16.*
-            - lld 16.*
-            - llvm-tools 16.*
-            - posix
+            - clang 19.*
+            - lld 19.*
+            - llvm-tools 19.*
+            - m2-base
         - cmake
         - if: build_platform != target_platform
           then:
