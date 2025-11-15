@@ -85,7 +85,7 @@ outputs:
               - test -f ${PREFIX}/bin/mujoco_plugin/libactuator${SHLIB_EXT}
               - test -f ${PREFIX}/bin/mujoco_plugin/libelasticity${SHLIB_EXT}
               - test -f ${PREFIX}/bin/mujoco_plugin/libsensor${SHLIB_EXT}
-              - test -f ${PREFIX}/bin/mujoco_plugin/libsdf${SHLIB_EXT}
+              - test -f ${PREFIX}/bin/mujoco_plugin/libsdf_plugin${SHLIB_EXT}
           - if: win
             then:
               - if not exist %LIBRARY_BIN%\mujoco_plugin\actuator.dll exit 1
@@ -94,8 +94,8 @@ outputs:
               - if exist     %LIBRARY_BIN%\mujoco_plugin\elasticity.lib exit 1
               - if not exist %LIBRARY_BIN%\mujoco_plugin\sensor.dll exit 1
               - if exist     %LIBRARY_BIN%\mujoco_plugin\sensor.lib exit 1
-              - if not exist %LIBRARY_BIN%\mujoco_plugin\sdf.dll exit 1
-              - if exist     %LIBRARY_BIN%\mujoco_plugin\sdf.lib exit 1
+              - if not exist %LIBRARY_BIN%\mujoco_plugin\sdf_plugin.dll exit 1
+              - if exist     %LIBRARY_BIN%\mujoco_plugin\sdf_plugin.lib exit 1
 
   # -------------------------------------------------------------------------
   # Command-line samples
@@ -230,15 +230,7 @@ outputs:
         - absl-py
         - pyglfw
         - pyopengl
-        - if: py != 38 and py != 39
-          then:
-            - etils
-        - if: py == 38
-          then:
-            - etils <=1.3.0
-        - if: py == 39
-          then:
-            - etils <=1.5.1
+        - etils
         - fsspec
         - importlib_resources
         - typing_extensions
