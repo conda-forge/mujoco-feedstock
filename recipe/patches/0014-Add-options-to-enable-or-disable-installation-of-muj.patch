@@ -10,10 +10,10 @@ Subject: [PATCH] Add options to enable or disable installation of mujoco
  2 files changed, 39 insertions(+), 31 deletions(-)
 
 diff --git a/sample/CMakeLists.txt b/sample/CMakeLists.txt
-index 85d50c6e..68e5682f 100644
+index 7ace2b00..35d9d1f3 100644
 --- a/sample/CMakeLists.txt
 +++ b/sample/CMakeLists.txt
-@@ -129,24 +129,28 @@ if(APPLE AND MUJOCO_BUILD_MACOS_FRAMEWORKS)
+@@ -138,26 +138,29 @@ if(APPLE AND MUJOCO_BUILD_MACOS_FRAMEWORKS)
    set(_INSTALL_SAMPLES OFF)
  endif()
  
@@ -26,6 +26,7 @@ index 85d50c6e..68e5682f 100644
 -    TARGETS
 -    basic
 -    compile
+-    dependencies
 -    record
 -    testspeed
 -    INSTALL_DIRECTORY
@@ -35,6 +36,7 @@ index 85d50c6e..68e5682f 100644
 -    DEPENDS
 -    MUJOCO_ENABLE_RPATH
 -  )
+-
 +option(MUJOCO_SAMPLES_INSTALL "If ON, also install samples executables." ${_INSTALL_SAMPLES})
 +
 +if(MUJOCO_SAMPLES_INSTALL)
@@ -57,14 +59,15 @@ index 85d50c6e..68e5682f 100644
 +      MUJOCO_ENABLE_RPATH
 +    )
 +  endif()
- 
++ 
    install(
      TARGETS basic
+             compile
 diff --git a/simulate/CMakeLists.txt b/simulate/CMakeLists.txt
-index 554e007e..d93fe992 100644
+index 684c186c..6903dda8 100644
 --- a/simulate/CMakeLists.txt
 +++ b/simulate/CMakeLists.txt
-@@ -233,21 +233,25 @@ if(SIMULATE_BUILD_EXECUTABLE)
+@@ -246,21 +246,25 @@ if(SIMULATE_BUILD_EXECUTABLE)
      set(_INSTALL_SIMULATE OFF)
    endif()
  
@@ -101,8 +104,7 @@ index 554e007e..d93fe992 100644
 +      )
 +    endif()
  
-     install(
-       TARGETS simulate
+     if (MUJOCO_WITH_USD)
+       target_compile_definitions(simulate PUBLIC mjUSEUSD)
 -- 
 2.43.0
-
