@@ -1,7 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Silvio Traversaro <silvio.traversaro@iit.it>
 Date: Sun, 8 Jun 2025 09:21:38 +0200
-Subject: [PATCH] 0005-disable_copy_cxx_files_in_python_package
+Subject: [PATCH] disable_copy_cxx_files_in_python_package
 
 ---
  CMakeLists.txt                   |  1 +
@@ -13,18 +13,6 @@ Subject: [PATCH] 0005-disable_copy_cxx_files_in_python_package
  python/setup.py                  |  6 +++---
  7 files changed, 69 insertions(+), 6 deletions(-)
 
-diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 9cffdcf7..3302a789 100644
---- a/CMakeLists.txt
-+++ b/CMakeLists.txt
-@@ -42,6 +42,7 @@ option(MUJOCO_BUILD_EXAMPLES "Build samples for MuJoCo" ON)
- option(MUJOCO_BUILD_SIMULATE "Build simulate library for MuJoCo" ON)
- option(MUJOCO_BUILD_TESTS "Build tests for MuJoCo" ON)
- option(MUJOCO_TEST_PYTHON_UTIL "Build and test utility libraries for Python bindings" ON)
-+option(MUJOCO_INSTALL_PLUGINS "Install MuJoCo plugins" OFF)
- 
- if(APPLE AND (MUJOCO_BUILD_EXAMPLES OR MUJOCO_BUILD_SIMULATE))
-   enable_language(OBJC)
 diff --git a/plugin/actuator/CMakeLists.txt b/plugin/actuator/CMakeLists.txt
 index 6cc79944..a738f03e 100644
 --- a/plugin/actuator/CMakeLists.txt
@@ -80,12 +68,12 @@ index 3e216fc4..b82c8d32 100644
 +
 +if(MUJOCO_INSTALL_PLUGINS)
 +  if(WIN32)
-+    install(TARGETS sdf
++    install(TARGETS sdf_plugin 
 +            ARCHIVE DESTINATION "$ENV{TEMP}"
 +            LIBRARY DESTINATION "$ENV{TEMP}"
 +            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin")
 +  else()
-+    install(TARGETS sdf
++    install(TARGETS sdf_plugin  
 +            ARCHIVE DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin"
 +            LIBRARY DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin"
 +            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin")
