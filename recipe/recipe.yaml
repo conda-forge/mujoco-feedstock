@@ -18,7 +18,6 @@ source:
       - patches/0006-do_not_install_via_pip.patch
       - patches/0007-unvendor_simulate.patch
       - patches/0008-workaround_cmake_19072.patch
-      - patches/0009-619bis.patch
       - patches/0010-simulate_unvendor_lodepng.patch
       - patches/0011-Disable-isolation-and-dependency-check-in-python-bui.patch
       - patches/0012-Add-MUJOCO_SAMPLE_COMMAND_PREFIX-to-add-prefix-to-OU.patch

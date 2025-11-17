@@ -8,7 +8,7 @@ Subject: [PATCH] unvendor_simulate
  1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/simulate/cmake/SimulateDependencies.cmake b/simulate/cmake/SimulateDependencies.cmake
-index 5141406c..dbbcd244 100644
+index 7885f5f9..70ed6bd0 100644
 --- a/simulate/cmake/SimulateDependencies.cmake
 +++ b/simulate/cmake/SimulateDependencies.cmake
 @@ -22,12 +22,12 @@ else()
@@ -26,7 +26,6 @@ index 5141406c..dbbcd244 100644
 +option(MUJOCO_SIMULATE_USE_SYSTEM_GLFW "Use installed GLFW version." ON)
  
  set(MUJOCO_DEP_VERSION_glfw3
-     7482de6071d21db77a7236155da44c172a7f6c9e # 3.3.8
+     7b6aead9fb88b3623e3b3725ebb42670cbe4c579 # 3.4
 -- 
 2.43.0
-
