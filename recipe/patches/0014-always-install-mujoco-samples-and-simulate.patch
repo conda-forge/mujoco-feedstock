@@ -34,3 +34,42 @@ index 48be3d0936..58cd609b5e 100644
  endif()
  
  list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
+
+ diff --git a/sample/CMakeLists.txt b/sample/CMakeLists.txt
+index fcdd4d341e..5ca0bea53e 100644
+--- a/sample/CMakeLists.txt
++++ b/sample/CMakeLists.txt
+@@ -128,6 +128,7 @@ endif()
+ 
+ if(_INSTALL_SAMPLES)
+ 
++  if(FALSE)
+   include(TargetAddRpath)
+ 
+   # Add support to RPATH for the samples.
+@@ -145,6 +146,7 @@ if(_INSTALL_SAMPLES)
+     DEPENDS
+     MUJOCO_ENABLE_RPATH
+   )
++  endif()
+ 
+   install(
+     TARGETS basic
+diff --git a/simulate/CMakeLists.txt b/simulate/CMakeLists.txt
+index 58cd609b5e..30fa0ee0bd 100644
+--- a/simulate/CMakeLists.txt
++++ b/simulate/CMakeLists.txt
+@@ -251,6 +251,7 @@ if(SIMULATE_BUILD_EXECUTABLE)
+ 
+   if(_INSTALL_SIMULATE)
+ 
++    if(FALSE)
+     include(TargetAddRpath)
+ 
+     # Add support to RPATH for the samples.
+@@ -264,4 +265,5 @@ if(SIMULATE_BUILD_EXECUTABLE)
+       DEPENDS
+       MUJOCO_ENABLE_RPATH
+     )
++    endif()
+ 
