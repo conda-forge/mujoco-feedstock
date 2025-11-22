@@ -1,0 +1,75 @@
+From d2104cfc00feab3564c4f913eedbc0430f6ba756 Mon Sep 17 00:00:00 2001
+From: Silvio Traversaro <silvio@traversaro.it>
+Date: Sat, 22 Nov 2025 19:24:23 +0100
+Subject: [PATCH] Always install samples and simulate
+
+---
+ sample/CMakeLists.txt   | 2 +-
+ simulate/CMakeLists.txt | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/sample/CMakeLists.txt b/sample/CMakeLists.txt
+index f0ea153a79..fcdd4d341e 100644
+--- a/sample/CMakeLists.txt
++++ b/sample/CMakeLists.txt
+@@ -42,7 +42,7 @@ set(_INSTALL_SAMPLES ON)
+ if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
+   set(SAMPLE_STANDALONE ON)
+   # If standalone, do not install the samples.
+-  set(_INSTALL_SAMPLES OFF)
++  # set(_INSTALL_SAMPLES OFF)
+ endif()
+ 
+ list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
+diff --git a/simulate/CMakeLists.txt b/simulate/CMakeLists.txt
+index 48be3d0936..58cd609b5e 100644
+--- a/simulate/CMakeLists.txt
++++ b/simulate/CMakeLists.txt
+@@ -51,7 +51,7 @@ set(_INSTALL_SIMULATE ON)
+ if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
+   set(SIMULATE_STANDALONE ON)
+   # If standalone, do not install the samples.
+-  set(_INSTALL_SIMULATE OFF)
++  # set(_INSTALL_SIMULATE OFF)
+ endif()
+ 
+ list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
+
+ diff --git a/sample/CMakeLists.txt b/sample/CMakeLists.txt
+index fcdd4d341e..5ca0bea53e 100644
+--- a/sample/CMakeLists.txt
++++ b/sample/CMakeLists.txt
+@@ -128,6 +128,7 @@ endif()
+ 
+ if(_INSTALL_SAMPLES)
+ 
++  if(FALSE)
+   include(TargetAddRpath)
+ 
+   # Add support to RPATH for the samples.
+@@ -145,6 +146,7 @@ if(_INSTALL_SAMPLES)
+     DEPENDS
+     MUJOCO_ENABLE_RPATH
+   )
++  endif()
+ 
+   install(
+     TARGETS basic
+diff --git a/simulate/CMakeLists.txt b/simulate/CMakeLists.txt
+index 58cd609b5e..30fa0ee0bd 100644
+--- a/simulate/CMakeLists.txt
++++ b/simulate/CMakeLists.txt
+@@ -251,6 +251,7 @@ if(SIMULATE_BUILD_EXECUTABLE)
+ 
+   if(_INSTALL_SIMULATE)
+ 
++    if(FALSE)
+     include(TargetAddRpath)
+ 
+     # Add support to RPATH for the samples.
+@@ -264,4 +265,5 @@ if(SIMULATE_BUILD_EXECUTABLE)
+       DEPENDS
+       MUJOCO_ENABLE_RPATH
+     )
++    endif()
+ 

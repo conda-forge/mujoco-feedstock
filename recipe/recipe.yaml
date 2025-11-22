@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
 context:
-  version: "3.3.3"
+  version: "3.3.4"
 
 recipe:
   name: mujoco-split
@@ -8,7 +8,7 @@ recipe:
 
 source:
   - url: https://github.com/deepmind/mujoco/archive/refs/tags/${{ version }}.tar.gz
-    sha256: db05b995b7711412f7e9114e04177cb5dae83d667212535f7cf1706bf185a2cc
+    sha256: 11b00fd801da0e38b67a1567f4dfb0c752a1d3d6f1f14fb91d2871683e0f18a2
     patches:
       - patches/0001-python_remove_avx.patch
       - patches/0002-cxx_devendor.patch
@@ -23,7 +23,7 @@ source:
       - patches/0011-Disable-isolation-and-dependency-check-in-python-bui.patch
       - patches/0012-Add-MUJOCO_SAMPLE_COMMAND_PREFIX-to-add-prefix-to-OU.patch
       - patches/0013-Add-optional-prefix-for-simulate-command.patch
-      - patches/0014-Add-options-to-enable-or-disable-installation-of-muj.patch
+      - patches/0014-always-install-mujoco-samples-and-simulate.patch
       - patches/0015-CMake-use-CMAKE_REQUIRED_LINK_OPTIONS-instead-of-CMA.patch
       - patches/0016-Add-MSYS-as-a-Windows-platform.patch
 
