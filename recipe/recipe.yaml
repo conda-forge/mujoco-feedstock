@@ -23,7 +23,6 @@ source:
       - patches/0011-Disable-isolation-and-dependency-check-in-python-bui.patch
       - patches/0012-Add-MUJOCO_SAMPLE_COMMAND_PREFIX-to-add-prefix-to-OU.patch
       - patches/0013-Add-optional-prefix-for-simulate-command.patch
-      - patches/0014-Add-options-to-enable-or-disable-installation-of-muj.patch
       - patches/0015-CMake-use-CMAKE_REQUIRED_LINK_OPTIONS-instead-of-CMA.patch
       - patches/0016-Add-MSYS-as-a-Windows-platform.patch
 
