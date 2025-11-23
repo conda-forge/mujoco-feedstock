@@ -291,6 +291,10 @@ outputs:
       # jax upstream does not support anymore Python 3.9
       # See https://github.com/conda-forge/jax-feedstock/pull/156
       script: python -m pip install ./mjx/ --no-deps -vv
+      python:
+        entry_points:
+          - mjx-testspeed = mujoco.mjx.testspeed:main
+          - mjx-viewer = mujoco.mjx.viewer:main
     requirements:
       host:
         - pip
