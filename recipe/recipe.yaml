@@ -16,7 +16,6 @@ source:
       - patches/0004-ccd_vec3_origin_link_problem.patch
       - patches/0005-disable_copy_cxx_files_in_python_package.patch
       - patches/0006-do_not_install_via_pip.patch
-      - patches/0007-unvendor_simulate.patch
       - patches/0008-workaround_cmake_19072.patch
       - patches/0009-619bis.patch
       - patches/0010-simulate_unvendor_lodepng.patch
