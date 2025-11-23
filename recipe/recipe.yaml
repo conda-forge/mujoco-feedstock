@@ -27,7 +27,7 @@ source:
       - patches/0016-Add-MSYS-as-a-Windows-platform.patch
 
 build:
-  number: 1
+  number: 0
 
 outputs:
   - package:
