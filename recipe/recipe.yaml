@@ -28,7 +28,7 @@ source:
       - patches/0016-Add-MSYS-as-a-Windows-platform.patch
 
 build:
-  number: 0
+  number: 1
 
 outputs:
   - package:
@@ -288,9 +288,11 @@ outputs:
         # We only build for python_min otherwise the test will fail
         - if: py < python_min
           then: true
-      # jax upstream does not support anymore Python 3.9
-      # See https://github.com/conda-forge/jax-feedstock/pull/156
       script: python -m pip install ./mjx/ --no-deps -vv
+      python:
+        entry_points:
+          - mjx-testspeed = mujoco.mjx.testspeed:main
+          - mjx-viewer = mujoco.mjx.viewer:main
     requirements:
       host:
         - pip
@@ -324,6 +326,32 @@ outputs:
             - pytest
             - python ${{ python_min }}.*
 
+
+  - package:
+      name: mujoco-mjx-warp
+    build:
+      noarch: python
+      skip:
+        # This is a noarch: python package, so we only build it on linux64
+        - if: not linux64
+          then: true
+        # We only build for python_min otherwise the test will fail
+        - if: py < python_min
+          then: true
+    requirements:
+      host:
+        - python ${{ python_min }}.*
+      run:
+        - python >=${{ python_min }}
+        - ${{ pin_subpackage("mujoco-mjx", exact=True) }}
+        - warp-lang 1.8.1.*
+    tests:
+      - python:
+          imports:
+            - mujoco.mjx
+      - script:
+          - echo "Meta package to document the mujoco-mjx[warp] optional dependency on warp"
+
   - package:
       name: mujoco
     requirements:
@@ -331,7 +359,6 @@ outputs:
         - ${{ pin_subpackage("libmujoco", exact=True) }}
         - ${{ pin_subpackage("mujoco-samples", exact=True) }}
         - ${{ pin_subpackage("mujoco-simulate", exact=True) }}
-        - ${{ pin_subpackage("mujoco-python", upper_bound="x.x.x") }}
     tests:
       - python:
           imports:
