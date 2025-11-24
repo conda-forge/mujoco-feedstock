@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
 context:
-  version: "3.3.5"
+  version: "3.3.6"
 
 recipe:
   name: mujoco-split
@@ -8,7 +8,7 @@ recipe:
 
 source:
   - url: https://github.com/deepmind/mujoco/archive/refs/tags/${{ version }}.tar.gz
-    sha256: ae19ac122b0ec06001a1a49cdb11775d4af3fae90e059a558ab913c5a512715d
+    sha256: 1592c33d37a090d1c301a774dc1a020b5a822717a14415fd0c9ac37d6a80ee6b
     patches:
       - patches/0001-python_remove_avx.patch
       - patches/0002-cxx_devendor.patch
@@ -16,7 +16,6 @@ source:
       - patches/0004-ccd_vec3_origin_link_problem.patch
       - patches/0005-disable_copy_cxx_files_in_python_package.patch
       - patches/0006-do_not_install_via_pip.patch
-      - patches/0007-unvendor_simulate.patch
       - patches/0008-workaround_cmake_19072.patch
       - patches/0009-619bis.patch
       - patches/0010-simulate_unvendor_lodepng.patch
@@ -291,6 +290,10 @@ outputs:
       # jax upstream does not support anymore Python 3.9
       # See https://github.com/conda-forge/jax-feedstock/pull/156
       script: python -m pip install ./mjx/ --no-deps -vv
+      python:
+        entry_points:
+          - mjx-testspeed = mujoco.mjx.testspeed:main
+          - mjx-viewer = mujoco.mjx.viewer:main
     requirements:
       host:
         - pip
