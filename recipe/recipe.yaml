@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
 context:
-  version: "3.3.6"
+  version: "3.3.7"
 
 recipe:
   name: mujoco-split
@@ -8,7 +8,7 @@ recipe:
 
 source:
   - url: https://github.com/deepmind/mujoco/archive/refs/tags/${{ version }}.tar.gz
-    sha256: 1592c33d37a090d1c301a774dc1a020b5a822717a14415fd0c9ac37d6a80ee6b
+    sha256: a410cfc3623c34f45cb541ffe11094d7d99ff4b9cc242460819e51fdad14630a
     patches:
       - patches/0001-python_remove_avx.patch
       - patches/0002-cxx_devendor.patch
@@ -17,7 +17,6 @@ source:
       - patches/0005-disable_copy_cxx_files_in_python_package.patch
       - patches/0006-do_not_install_via_pip.patch
       - patches/0008-workaround_cmake_19072.patch
-      - patches/0009-619bis.patch
       - patches/0010-simulate_unvendor_lodepng.patch
       - patches/0011-Disable-isolation-and-dependency-check-in-python-bui.patch
       - patches/0012-Add-MUJOCO_SAMPLE_COMMAND_PREFIX-to-add-prefix-to-OU.patch
@@ -275,20 +274,9 @@ outputs:
     build:
       noarch: python
       skip:
-        # Skip platforms for which jax is not available
-        - if: win
+        # Only build on linux64, as noarch it will be then available everywhere
+        - if: not (linux and x86_64)
           then: true
-        - if: ppc64le
-          then: true
-        # Skip platforms for which for some reason the test is failing for not finding mujoco-python,
-        # even if it the mujoco-python was just build
-        - if: arm64
-          then: true
-        # We only build for python_min otherwise the test will fail
-        - if: py < python_min
-          then: true
-      # jax upstream does not support anymore Python 3.9
-      # See https://github.com/conda-forge/jax-feedstock/pull/156
       script: python -m pip install ./mjx/ --no-deps -vv
       python:
         entry_points:
@@ -320,12 +308,17 @@ outputs:
           # Skipping test_box_box as it also fails upstream https://github.com/conda-forge/mujoco-feedstock/pull/31#issuecomment-1770520403
           # Skipping test_collision_driver tests to speed up the tests and as some integration tests make the remote runner crash/hang
           pip check
-          pytest --pyargs mujoco.mjx -v -k "not (test_collision_driver or test_box_box)"
+          pytest --pyargs mujoco.mjx -v -k "not ()"
         requirements:
           run:
             - pip
             - pytest
             - python ${{ python_min }}.*
+            # The [warp] extra is needed to run some of the tests, but we do not package it as 
+            # mujoco-mjx-warp to avoid confusion with https://github.com/google-deepmind/mujoco_warp
+            # This pin is taken from https://github.com/google-deepmind/mujoco/blob/3.3.7/mjx/pyproject.toml#L37-L40
+            - warp-lang 1.9.1.*
+
 
   - package:
       name: mujoco

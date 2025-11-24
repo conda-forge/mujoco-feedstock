@@ -9,7 +9,7 @@ Subject: [PATCH] Add MUJOCO_SAMPLE_COMMAND_PREFIX to add prefix to OUTPUT_NAME
  1 file changed, 11 insertions(+)
 
 diff --git a/sample/CMakeLists.txt b/sample/CMakeLists.txt
-index b1789412..85d50c6e 100644
+index fed247f5..7ace2b00 100644
 --- a/sample/CMakeLists.txt
 +++ b/sample/CMakeLists.txt
 @@ -56,6 +56,13 @@ include(SampleDependencies)
@@ -26,11 +26,18 @@ index b1789412..85d50c6e 100644
  
  if(MUJOCO_HARDEN)
    if(WIN32)
-@@ -75,11 +82,13 @@ add_executable(compile compile.cc)
+@@ -75,17 +82,20 @@ add_executable(compile compile.cc)
  target_compile_options(compile PUBLIC ${MUJOCO_SAMPLE_COMPILE_OPTIONS})
  target_link_libraries(compile Threads::Threads)
  target_link_options(compile PRIVATE ${MUJOCO_SAMPLE_LINK_OPTIONS})
 +mujoco_sample_set_command_prefix(compile)
+ 
+ # Build sample binaries
+ add_executable(dependencies dependencies.cc)
+ target_compile_options(dependencies PUBLIC ${MUJOCO_SAMPLE_COMPILE_OPTIONS})
+ target_link_libraries(dependencies Threads::Threads)
+ target_link_options(dependencies PRIVATE ${MUJOCO_SAMPLE_LINK_OPTIONS})
++mujoco_sample_set_command_prefix(dependencies)
  
  add_executable(testspeed testspeed.cc)
  target_compile_options(testspeed PUBLIC ${MUJOCO_SAMPLE_COMPILE_OPTIONS})
@@ -39,8 +46,8 @@ index b1789412..85d50c6e 100644
 +mujoco_sample_set_command_prefix(testspeed)
  
  target_link_libraries(compile mujoco::mujoco)
- target_link_libraries(testspeed mujoco::mujoco)
-@@ -95,6 +104,7 @@ target_link_libraries(
+ target_link_libraries(dependencies mujoco::mujoco)
+@@ -102,6 +112,7 @@ target_link_libraries(
    Threads::Threads
  )
  target_link_options(basic PRIVATE ${MUJOCO_SAMPLE_LINK_OPTIONS})
@@ -48,7 +55,7 @@ index b1789412..85d50c6e 100644
  
  add_executable(record record.cc array_safety.h)
  target_compile_options(record PUBLIC ${MUJOCO_SAMPLE_COMPILE_OPTIONS})
-@@ -105,6 +115,7 @@ target_link_libraries(
+@@ -112,6 +123,7 @@ target_link_libraries(
    Threads::Threads
  )
  target_link_options(record PRIVATE ${MUJOCO_SAMPLE_LINK_OPTIONS})
@@ -58,4 +65,3 @@ index b1789412..85d50c6e 100644
    embed_in_bundle(basic simulate)
 -- 
 2.43.0
-
