@@ -274,20 +274,9 @@ outputs:
     build:
       noarch: python
       skip:
-        # Skip platforms for which jax is not available
-        - if: win
+        # Only build on linux64, as noarch it will be then available everywhere
+        - if: not (linux and x86_64)
           then: true
-        - if: ppc64le
-          then: true
-        # Skip platforms for which for some reason the test is failing for not finding mujoco-python,
-        # even if it the mujoco-python was just build
-        - if: arm64
-          then: true
-        # We only build for python_min otherwise the test will fail
-        - if: py < python_min
-          then: true
-      # jax upstream does not support anymore Python 3.9
-      # See https://github.com/conda-forge/jax-feedstock/pull/156
       script: python -m pip install ./mjx/ --no-deps -vv
       python:
         entry_points:
@@ -319,12 +308,17 @@ outputs:
           # Skipping test_box_box as it also fails upstream https://github.com/conda-forge/mujoco-feedstock/pull/31#issuecomment-1770520403
           # Skipping test_collision_driver tests to speed up the tests and as some integration tests make the remote runner crash/hang
           pip check
-          pytest --pyargs mujoco.mjx -v -k "not (test_collision_driver or test_box_box)"
+          pytest --pyargs mujoco.mjx -v -k "not ()"
         requirements:
           run:
             - pip
             - pytest
             - python ${{ python_min }}.*
+            # The [warp] extra is needed to run some of the tests, but we do not package it as 
+            # mujoco-mjx-warp to avoid confusion with https://github.com/google-deepmind/mujoco_warp
+            # This pin is taken from https://github.com/google-deepmind/mujoco/blob/3.3.7/mjx/pyproject.toml#L37-L40
+            - warp-lang 1.9.1.*
+
 
   - package:
       name: mujoco
