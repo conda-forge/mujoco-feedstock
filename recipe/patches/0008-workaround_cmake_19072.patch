@@ -14,7 +14,7 @@ index ff64d734..c198e6cb 100644
 @@ -114,8 +114,12 @@ if(APPLE)
  endif()
  target_include_directories(
-   platform_ui_adapter PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
+   platform_ui_adapter PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
 -                             $<TARGET_PROPERTY:glfw,INTERFACE_INCLUDE_DIRECTORIES>
  )
 +# Upstream MuJoCo is carefully not linking glfw here, and so it is just include its directories
