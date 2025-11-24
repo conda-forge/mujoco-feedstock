@@ -14,6 +14,7 @@ cmake ${CMAKE_ARGS} -GNinja \
       -DMUJOCO_EXTRAS_STATIC_GLFW:BOOL=OFF \
       -DMUJOCO_ENABLE_RPATH:BOOL=OFF \
       -DSIMULATE_COMMAND_PREFIX:STRING="mujoco-" \
+      -DCMAKE_PROJECT_TOP_LEVEL_INCLUDES=${RECIPE_DIR}/fetchcontent_to_find_package_provider.cmake \
       ${SRC_DIR}/simulate
 
 cmake --build . --config Release

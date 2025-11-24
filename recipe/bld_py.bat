@@ -22,6 +22,6 @@ set TEMP=%SRC_DIR%\tempbuilddir
 cd dist
 set MUJOCO_PATH=%PREFIX%\Library
 set MUJOCO_PLUGIN_PATH=%MUJOCO_PATH%\bin\mujoco_plugin
-set MUJOCO_CMAKE_ARGS="-DMUJOCO_PYTHON_USE_SYSTEM_PYBIND11:BOOL=ON %CMAKE_ARGS%"
+set MUJOCO_CMAKE_ARGS="-DMUJOCO_PYTHON_USE_SYSTEM_PYBIND11:BOOL=ON %CMAKE_ARGS% -DCMAKE_PROJECT_TOP_LEVEL_INCLUDES=%RECIPE_DIR%\fetchcontent_to_find_package_provider.cmake"
 python -m pip install --no-deps mujoco-%PKG_VERSION%.tar.gz
 if errorlevel 1 exit 1

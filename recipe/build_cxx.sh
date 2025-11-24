@@ -16,6 +16,7 @@ cmake ${CMAKE_ARGS} -GNinja \
       -DMUJOCO_ENABLE_AVX_INTRINSICS:BOOL=OFF \
       -DCMAKE_INTERPROCEDURAL_OPTIMIZATION:BOOL=ON \
       -DMUJOCO_INSTALL_PLUGINS:BOOL=ON \
+      -DCMAKE_PROJECT_TOP_LEVEL_INCLUDES=${RECIPE_DIR}/fetchcontent_to_find_package_provider.cmake \
       $SRC_DIR
 
 cmake --build . --config Release
