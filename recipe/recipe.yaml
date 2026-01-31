@@ -24,6 +24,7 @@ source:
       - patches/0014-always-install-mujoco-samples-and-simulate.patch
       - patches/0015-CMake-use-CMAKE_REQUIRED_LINK_OPTIONS-instead-of-CMA.patch
       - patches/0016-Add-MSYS-as-a-Windows-platform.patch
+      - patches/0017-upstream_fix_gainprm.patch
 
 build:
   number: 0
