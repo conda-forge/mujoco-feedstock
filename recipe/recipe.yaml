@@ -275,11 +275,8 @@ outputs:
     build:
       noarch: python
       skip:
-        # Temporary disable the build of mjx, this can be re-enabled later
-        - true
         # Only build on linux64, as noarch it will be then available everywhere
-        #- if: not (linux and x86_64)
-        #  then: true
+        - not (linux and x86_64)
       script: python -m pip install ./mjx/ --no-deps -vv
       python:
         entry_points:
@@ -316,7 +313,8 @@ outputs:
           run:
             - pip
             - pytest
-            - python ${{ python_min }}.*
+            # this should be - python ${{ python_min }}.*, but rattler-build is confused by this
+            - python
             # The [warp] extra is needed to run some of the tests, but we do not package it as 
             # mujoco-mjx-warp to avoid confusion with https://github.com/google-deepmind/mujoco_warp
             # This pin is taken from https://github.com/google-deepmind/mujoco/blob/3.3.7/mjx/pyproject.toml#L37-L40
