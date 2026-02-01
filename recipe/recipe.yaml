@@ -275,9 +275,11 @@ outputs:
     build:
       noarch: python
       skip:
+        # Temporary disable the build of mjx, this can be re-enabled later
+        - true
         # Only build on linux64, as noarch it will be then available everywhere
-        - if: not (linux and x86_64)
-          then: true
+        #- if: not (linux and x86_64)
+        #  then: true
       script: python -m pip install ./mjx/ --no-deps -vv
       python:
         entry_points:
