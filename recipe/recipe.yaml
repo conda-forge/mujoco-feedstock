@@ -133,8 +133,11 @@ outputs:
           - if: win
             then: if exist %LIBRARY_BIN%\testspeed.exe exit 1
 
+  # This used to be mujoco-simulate, but since mujoco 3.3.7 and https://github.com/google-deepmind/mujoco/pull/2713,
+  # it now installs the simulate shared library, so we renamed the output to libmujoco-simulate, and we add a run_exports
+  # for backward compatibility, a dummy mujoco-simulate output is also present
   - package:
-      name: mujoco-simulate
+      name: libmujoco-simulate
     build:
       script:
         - if: unix
@@ -154,18 +157,37 @@ outputs:
             - libgl-devel
         - ${{ pin_subpackage("libmujoco", exact=True) }}
         - glfw
+        - lodepng
       run:
         # Somehow the libmujoco run_exports is ignored here, let's add explicitly the run dependency
         - ${{ pin_subpackage("libmujoco", upper_bound="x.x.x") }}
+      run_exports:
+        - ${{ pin_subpackage("libmujoco-simulate", upper_bound="x.x.x") }}
     tests:
       - package_contents:
           bin:
             - mujoco-simulate
+          lib:
+            - simulate
+          include:
+            - simulate/simulate.h
       - script:
           - if: unix
             then: test ! -f "$PREFIX/bin/simulate"
           - if: win
             then: if exist %LIBRARY_BIN%\simulate.exe exit 1
+
+  - package:
+      name: mujoco-simulate
+    requirements:
+      run:
+        - ${{ pin_subpackage("libmujoco-simulate", exact=True) }}
+    tests:
+      - script:
+          - if: unix
+            then: test -f "$PREFIX/bin/mujoco-simulate"
+          - if: win
+            then: if exist %LIBRARY_BIN%\mujoco-simulate.exe exit 1
 
   - package:
       name: mujoco-python
@@ -325,6 +347,7 @@ outputs:
       run:
         - ${{ pin_subpackage("libmujoco", exact=True) }}
         - ${{ pin_subpackage("mujoco-samples", exact=True) }}
+        - ${{ pin_subpackage("libmujoco-simulate", exact=True) }}
         - ${{ pin_subpackage("mujoco-simulate", exact=True) }}
         - ${{ pin_subpackage("mujoco-python", upper_bound="x.x.x") }}
     tests:
