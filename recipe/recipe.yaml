@@ -305,15 +305,13 @@ outputs:
           imports:
             - mujoco.mjx
       - script: |
-          # Skipping test_box_box as it also fails upstream https://github.com/conda-forge/mujoco-feedstock/pull/31#issuecomment-1770520403
-          # Skipping test_collision_driver tests to speed up the tests and as some integration tests make the remote runner crash/hang
           pip check
-          pytest --pyargs mujoco.mjx -v -k "not ()"
+          pytest --pyargs mujoco.mjx -v
         requirements:
           run:
             - pip
             - pytest
-            # this should be - python ${{ python_min }}.*, but rattler-build is confused by this
+            # We do not use python ${{ python_min }}.* as warp-lang may have other constraints
             - python
             # The [warp] extra is needed to run some of the tests, but we do not package it as 
             # mujoco-mjx-warp to avoid confusion with https://github.com/google-deepmind/mujoco_warp
