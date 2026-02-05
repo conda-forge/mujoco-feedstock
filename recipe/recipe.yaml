@@ -70,6 +70,7 @@ outputs:
         # safely ignore its run_exports
         from_package:
           - libabseil
+          - lodepng
     tests:
       # Header and core shared library via rattler-build helper
       - package_contents:
