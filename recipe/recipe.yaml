@@ -171,6 +171,7 @@ outputs:
   - package:
       name: mujoco-python
     build:
+      skip: true
       script:
         - if: unix
           then: build_py.sh
