@@ -239,7 +239,8 @@ outputs:
             - mujoco
 
       - script:
-          - if: linux
+          # egl for emulated tests does not work nice
+          - if: linux and host_platform == target_platform
             then: |
               # test_delete and test_load_xml disabled due to https://github.com/google-deepmind/mujoco/pull/2160
               export MUJOCO_GL=egl
@@ -255,7 +256,7 @@ outputs:
               # Regression test for https://github.com/conda-forge/mujoco-feedstock/issues/64
               # Commented out until it is fixed, see https://github.com/conda-forge/mujoco-feedstock/pull/85#issuecomment-2953716989
               # mjpython --version
-          - if: win
+          - if: win or (linux and host_platform != target_platform)
             then: |
               set MUJOCO_GL=disable
               pytest --pyargs mujoco -v -k "not (test_delete or test_load_xml)"
