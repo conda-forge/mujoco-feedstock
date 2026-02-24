@@ -16,12 +16,11 @@ source:
       - patches/0004-ccd_vec3_origin_link_problem.patch
       - patches/0005-disable_copy_cxx_files_in_python_package.patch
       - patches/0006-do_not_install_via_pip.patch
-      - patches/0008-workaround_cmake_19072.patch
-      - patches/0010-simulate_unvendor_lodepng.patch
+      - patches/0008-simulate_as_shared_library.patch
       - patches/0011-Disable-isolation-and-dependency-check-in-python-bui.patch
       - patches/0012-Add-MUJOCO_SAMPLE_COMMAND_PREFIX-to-add-prefix-to-OU.patch
       - patches/0013-Add-optional-prefix-for-simulate-command.patch
-      - patches/0014-always-install-mujoco-samples-and-simulate.patch
+      - patches/0014-always-install-mujoco-samples.patch
       - patches/0015-CMake-use-CMAKE_REQUIRED_LINK_OPTIONS-instead-of-CMA.patch
       - patches/0016-Add-MSYS-as-a-Windows-platform.patch
       - patches/0017-upstream_fix_gainprm.patch
@@ -60,6 +59,14 @@ outputs:
         - libccd-double
         - libabseil
         - lodepng
+        - glfw
+        - if: linux
+          then:
+            - libgl-devel
+      run:
+        - if: linux
+          then:
+            - libgl-devel
       run_exports:
         - ${{ pin_subpackage("libmujoco", upper_bound="x.x.x") }}
       run_constraints:
@@ -75,16 +82,22 @@ outputs:
       - package_contents:
           include:
             - mujoco/mujoco.h
+            - simulate/simulate.h
           lib:
             - mujoco
+            - simulate
+          bin:
+            - mujoco-simulate
       # Manual checks for plugins (needed on Windows where there is no .lib)
       - script:
+          - cmake-package-check mujoco --targets mujoco::mujoco mujoco::libmujoco_simulate
           - if: unix
             then:
               - test -f ${PREFIX}/bin/mujoco_plugin/libactuator${SHLIB_EXT}
               - test -f ${PREFIX}/bin/mujoco_plugin/libelasticity${SHLIB_EXT}
               - test -f ${PREFIX}/bin/mujoco_plugin/libsensor${SHLIB_EXT}
               - test -f ${PREFIX}/bin/mujoco_plugin/libsdf_plugin${SHLIB_EXT}
+              - test ! -f "$PREFIX/bin/simulate"
           - if: win
             then:
               - if not exist %LIBRARY_BIN%\mujoco_plugin\actuator.dll exit 1
@@ -95,6 +108,12 @@ outputs:
               - if exist     %LIBRARY_BIN%\mujoco_plugin\sensor.lib exit 1
               - if not exist %LIBRARY_BIN%\mujoco_plugin\sdf_plugin.dll exit 1
               - if exist     %LIBRARY_BIN%\mujoco_plugin\sdf_plugin.lib exit 1
+              - if exist %LIBRARY_BIN%\simulate.exe exit 1
+        requirements:
+          run:
+            - cmake-package-check
+            - ${{ compiler('c') }}
+            - ${{ compiler('cxx') }}
 
   # -------------------------------------------------------------------------
   # Command-line samples
@@ -133,55 +152,12 @@ outputs:
           - if: win
             then: if exist %LIBRARY_BIN%\testspeed.exe exit 1
 
-  # This used to be mujoco-simulate, but since mujoco 3.3.7 and https://github.com/google-deepmind/mujoco/pull/2713,
-  # it now installs the simulate shared library, so we renamed the output to libmujoco-simulate, and we add a run_exports
-  # for backward compatibility, a dummy mujoco-simulate output is also present
-  - package:
-      name: libmujoco-simulate
-    build:
-      script:
-        - if: unix
-          then: build_simulate.sh
-        - if: win
-          then: bld_simulate.bat
-    requirements:
-      build:
-        - cmake
-        - ${{ compiler('c') }}
-        - ${{ stdlib('c') }}
-        - ${{ compiler('cxx') }}
-        - ninja
-      host:
-        - if: linux
-          then:
-            - libgl-devel
-        - ${{ pin_subpackage("libmujoco", exact=True) }}
-        - glfw
-        - lodepng
-      run:
-        # Somehow the libmujoco run_exports is ignored here, let's add explicitly the run dependency
-        - ${{ pin_subpackage("libmujoco", upper_bound="x.x.x") }}
-      run_exports:
-        - ${{ pin_subpackage("libmujoco-simulate", upper_bound="x.x.x") }}
-    tests:
-      - package_contents:
-          bin:
-            - mujoco-simulate
-          lib:
-            - simulate
-          include:
-            - simulate/simulate.h
-      - script:
-          - if: unix
-            then: test ! -f "$PREFIX/bin/simulate"
-          - if: win
-            then: if exist %LIBRARY_BIN%\simulate.exe exit 1
-
+  # Dummy output, ketps for back compatibility
   - package:
       name: mujoco-simulate
     requirements:
       run:
-        - ${{ pin_subpackage("libmujoco-simulate", exact=True) }}
+        - ${{ pin_subpackage("libmujoco", exact=True) }}
     tests:
       - script:
           - if: unix
@@ -234,7 +210,8 @@ outputs:
         - setuptools
         - python-build
         - virtualenv
-        - pybind11
+        # workaround for some build failures in 3.3.7 with pybind11 3.0.2, if that works in newer mujoco version we can remove it
+        - pybind11 3.0.1.*
         - pybind11-abi
         - numpy
         - absl-py
@@ -265,14 +242,13 @@ outputs:
           - if: linux
             then: |
               # test_delete and test_load_xml disabled due to https://github.com/google-deepmind/mujoco/pull/2160
-              # EGL driver in centos7 has some problems when running on Azure, so we use osmesa for now on Linux
-              export MUJOCO_GL=osmesa
+              export MUJOCO_GL=egl
               pytest --pyargs mujoco -v -k "not (test_delete or test_load_xml)"
               pip check
           - if: osx
             then: |
-              # On macOS and Linux the Azure runners can't load opengl and mujoco does not support loading osmesa
-              # on this platforms, so we pass MUJOCO_GL disable there
+              # On macOS and Linux the Azure runners can't load opengl and mujoco does not support loading egl
+              # with software rendering on this platforms, so we pass MUJOCO_GL disable there
               export MUJOCO_GL=disable
               pytest --pyargs mujoco -v -k "not (test_delete or test_load_xml)"
               pip check
@@ -288,9 +264,6 @@ outputs:
           run:
             - pytest
             - pip
-            - if: linux or osx
-              then:
-                - mesalib
 
   - package:
       name: mujoco-mjx
@@ -347,7 +320,6 @@ outputs:
       run:
         - ${{ pin_subpackage("libmujoco", exact=True) }}
         - ${{ pin_subpackage("mujoco-samples", exact=True) }}
-        - ${{ pin_subpackage("libmujoco-simulate", exact=True) }}
         - ${{ pin_subpackage("mujoco-simulate", exact=True) }}
         - ${{ pin_subpackage("mujoco-python", upper_bound="x.x.x") }}
     tests:
