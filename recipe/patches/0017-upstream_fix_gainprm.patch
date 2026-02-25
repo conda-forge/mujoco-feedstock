@@ -1,0 +1,24 @@
+From 5febca9eeb4d7fd8a296b7e3ca22316c529319c2 Mon Sep 17 00:00:00 2001
+From: Alessio Quaglino <quaglino@google.com>
+Date: Wed, 7 Jan 2026 06:58:51 -0800
+Subject: [PATCH] Remove gainprm trailing dimension in test_actuator_shortname.
+
+PiperOrigin-RevId: 853243753
+Change-Id: Ia46df64a2308ef0bbc94a396f0732e221e174ea0
+---
+ python/mujoco/specs_test.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/python/mujoco/specs_test.py b/python/mujoco/specs_test.py
+index f8ba454e32..d2f07eca87 100644
+--- a/python/mujoco/specs_test.py
++++ b/python/mujoco/specs_test.py
+@@ -1323,7 +1323,7 @@ def test_address(self):
+   def test_actuator_shortname(self):
+     spec = mujoco.MjSpec()
+     actuator = spec.add_actuator(
+-        gainprm=np.zeros((10, 1)),
++        gainprm=np.zeros((10,)),
+         dyntype=mujoco.mjtDyn.mjDYN_FILTER,
+         gaintype=mujoco.mjtGain.mjGAIN_AFFINE,
+         biastype=mujoco.mjtBias.mjBIAS_AFFINE,

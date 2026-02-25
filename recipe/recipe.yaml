@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
 context:
-  version: "3.3.6"
+  version: "3.3.7"
 
 recipe:
   name: mujoco-split
@@ -8,7 +8,7 @@ recipe:
 
 source:
   - url: https://github.com/deepmind/mujoco/archive/refs/tags/${{ version }}.tar.gz
-    sha256: 1592c33d37a090d1c301a774dc1a020b5a822717a14415fd0c9ac37d6a80ee6b
+    sha256: a410cfc3623c34f45cb541ffe11094d7d99ff4b9cc242460819e51fdad14630a
     patches:
       - patches/0001-python_remove_avx.patch
       - patches/0002-cxx_devendor.patch
@@ -16,15 +16,14 @@ source:
       - patches/0004-ccd_vec3_origin_link_problem.patch
       - patches/0005-disable_copy_cxx_files_in_python_package.patch
       - patches/0006-do_not_install_via_pip.patch
-      - patches/0008-workaround_cmake_19072.patch
-      - patches/0009-619bis.patch
-      - patches/0010-simulate_unvendor_lodepng.patch
+      - patches/0008-simulate_as_shared_library.patch
       - patches/0011-Disable-isolation-and-dependency-check-in-python-bui.patch
       - patches/0012-Add-MUJOCO_SAMPLE_COMMAND_PREFIX-to-add-prefix-to-OU.patch
       - patches/0013-Add-optional-prefix-for-simulate-command.patch
-      - patches/0014-always-install-mujoco-samples-and-simulate.patch
+      - patches/0014-always-install-mujoco-samples.patch
       - patches/0015-CMake-use-CMAKE_REQUIRED_LINK_OPTIONS-instead-of-CMA.patch
       - patches/0016-Add-MSYS-as-a-Windows-platform.patch
+      - patches/0017-upstream_fix_gainprm.patch
 
 build:
   number: 0
@@ -60,6 +59,14 @@ outputs:
         - libccd-double
         - libabseil
         - lodepng
+        - glfw
+        - if: linux
+          then:
+            - libgl-devel
+      run:
+        - if: linux
+          then:
+            - libgl-devel
       run_exports:
         - ${{ pin_subpackage("libmujoco", upper_bound="x.x.x") }}
       run_constraints:
@@ -75,16 +82,22 @@ outputs:
       - package_contents:
           include:
             - mujoco/mujoco.h
+            - simulate/simulate.h
           lib:
             - mujoco
+            - simulate
+          bin:
+            - mujoco-simulate
       # Manual checks for plugins (needed on Windows where there is no .lib)
       - script:
+          - cmake-package-check mujoco --targets mujoco::mujoco mujoco::libmujoco_simulate
           - if: unix
             then:
               - test -f ${PREFIX}/bin/mujoco_plugin/libactuator${SHLIB_EXT}
               - test -f ${PREFIX}/bin/mujoco_plugin/libelasticity${SHLIB_EXT}
               - test -f ${PREFIX}/bin/mujoco_plugin/libsensor${SHLIB_EXT}
               - test -f ${PREFIX}/bin/mujoco_plugin/libsdf_plugin${SHLIB_EXT}
+              - test ! -f "$PREFIX/bin/simulate"
           - if: win
             then:
               - if not exist %LIBRARY_BIN%\mujoco_plugin\actuator.dll exit 1
@@ -95,6 +108,12 @@ outputs:
               - if exist     %LIBRARY_BIN%\mujoco_plugin\sensor.lib exit 1
               - if not exist %LIBRARY_BIN%\mujoco_plugin\sdf_plugin.dll exit 1
               - if exist     %LIBRARY_BIN%\mujoco_plugin\sdf_plugin.lib exit 1
+              - if exist %LIBRARY_BIN%\simulate.exe exit 1
+        requirements:
+          run:
+            - cmake-package-check
+            - ${{ compiler('c') }}
+            - ${{ compiler('cxx') }}
 
   # -------------------------------------------------------------------------
   # Command-line samples
@@ -133,39 +152,18 @@ outputs:
           - if: win
             then: if exist %LIBRARY_BIN%\testspeed.exe exit 1
 
+  # Dummy output, ketps for back compatibility
   - package:
       name: mujoco-simulate
-    build:
-      script:
-        - if: unix
-          then: build_simulate.sh
-        - if: win
-          then: bld_simulate.bat
     requirements:
-      build:
-        - cmake
-        - ${{ compiler('c') }}
-        - ${{ stdlib('c') }}
-        - ${{ compiler('cxx') }}
-        - ninja
-      host:
-        - if: linux
-          then:
-            - libgl-devel
-        - ${{ pin_subpackage("libmujoco", exact=True) }}
-        - glfw
       run:
-        # Somehow the libmujoco run_exports is ignored here, let's add explicitly the run dependency
-        - ${{ pin_subpackage("libmujoco", upper_bound="x.x.x") }}
+        - ${{ pin_subpackage("libmujoco", exact=True) }}
     tests:
-      - package_contents:
-          bin:
-            - mujoco-simulate
       - script:
           - if: unix
-            then: test ! -f "$PREFIX/bin/simulate"
+            then: test -f "$PREFIX/bin/mujoco-simulate"
           - if: win
-            then: if exist %LIBRARY_BIN%\simulate.exe exit 1
+            then: if not exist %LIBRARY_BIN%\mujoco-simulate.exe exit 1
 
   - package:
       name: mujoco-python
@@ -212,7 +210,8 @@ outputs:
         - setuptools
         - python-build
         - virtualenv
-        - pybind11
+        # workaround for some build failures in 3.3.7 with pybind11 3.0.2, if that works in newer mujoco version we can remove it
+        - pybind11 3.0.1.*
         - pybind11-abi
         - numpy
         - absl-py
@@ -240,17 +239,17 @@ outputs:
             - mujoco
 
       - script:
-          - if: linux
+          # egl for emulated tests does not work nice
+          - if: linux and x86_64
             then: |
               # test_delete and test_load_xml disabled due to https://github.com/google-deepmind/mujoco/pull/2160
-              # EGL driver in centos7 has some problems when running on Azure, so we use osmesa for now on Linux
-              export MUJOCO_GL=osmesa
+              export MUJOCO_GL=egl
               pytest --pyargs mujoco -v -k "not (test_delete or test_load_xml)"
               pip check
           - if: osx
             then: |
-              # On macOS and Linux the Azure runners can't load opengl and mujoco does not support loading osmesa
-              # on this platforms, so we pass MUJOCO_GL disable there
+              # On macOS and Linux the Azure runners can't load opengl and mujoco does not support loading egl
+              # with software rendering on this platforms, so we pass MUJOCO_GL disable there
               export MUJOCO_GL=disable
               pytest --pyargs mujoco -v -k "not (test_delete or test_load_xml)"
               pip check
@@ -262,33 +261,21 @@ outputs:
               set MUJOCO_GL=disable
               pytest --pyargs mujoco -v -k "not (test_delete or test_load_xml)"
               pip check
+          - if: linux and not x86_64
+            then: |
+              pip check
         requirements:
           run:
             - pytest
             - pip
-            - if: linux or osx
-              then:
-                - mesalib
 
   - package:
       name: mujoco-mjx
     build:
       noarch: python
       skip:
-        # Skip platforms for which jax is not available
-        - if: win
-          then: true
-        - if: ppc64le
-          then: true
-        # Skip platforms for which for some reason the test is failing for not finding mujoco-python,
-        # even if it the mujoco-python was just build
-        - if: arm64
-          then: true
-        # We only build for python_min otherwise the test will fail
-        - if: py < python_min
-          then: true
-      # jax upstream does not support anymore Python 3.9
-      # See https://github.com/conda-forge/jax-feedstock/pull/156
+        # Only build on linux64, as noarch it will be then available everywhere
+        - not (linux and x86_64)
       script: python -m pip install ./mjx/ --no-deps -vv
       python:
         entry_points:
@@ -317,15 +304,28 @@ outputs:
           imports:
             - mujoco.mjx
       - script: |
-          # Skipping test_box_box as it also fails upstream https://github.com/conda-forge/mujoco-feedstock/pull/31#issuecomment-1770520403
-          # Skipping test_collision_driver tests to speed up the tests and as some integration tests make the remote runner crash/hang
           pip check
-          pytest --pyargs mujoco.mjx -v -k "not (test_collision_driver or test_box_box)"
+          # High-signal, fast(ish) smoke tests:
+          # - import + JAX PyTree utilities
+          # - MJX<->MuJoCo data roundtrip
+          # - a single compiled `mjx.step` against MuJoCo reference
+          pytest -v --pyargs \
+            mujoco.mjx._src.dataclasses_test \
+            mujoco.mjx._src.io_test \
+            mujoco.mjx._src.forward_test \
+            mujoco.mjx._src.support_test \
+            -k "test_pytree_structure or test_fluid_params or test_get_data_runs or test_get_data_simplebody or test_make_matches_put or ForwardTest and test_step or test_custom or test_names_and_ids"
         requirements:
           run:
             - pip
             - pytest
-            - python ${{ python_min }}.*
+            # We do not use python ${{ python_min }}.* as warp-lang may have other constraints
+            - python
+            # The [warp] extra is needed to run some of the tests, but we do not package it as 
+            # mujoco-mjx-warp to avoid confusion with https://github.com/google-deepmind/mujoco_warp
+            # This pin is taken from https://github.com/google-deepmind/mujoco/blob/3.3.7/mjx/pyproject.toml#L37-L40
+            - warp-lang 1.9.1.*
+
 
   - package:
       name: mujoco
