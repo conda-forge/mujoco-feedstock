@@ -205,6 +205,3 @@ Feedstock Maintainers
 * [@oursland](https://github.com/oursland/)
 * [@traversaro](https://github.com/traversaro/)
 
-
-<!-- dummy commit to enable rerendering -->
-
