@@ -267,6 +267,17 @@ outputs:
           run:
             - pytest
             - pip
+            # sysid deps
+            - absl-py
+            - colorama
+            - imageio-ffmpeg
+            - jinja
+            - matplotlib-base
+            - plotly
+            - pyyaml
+            - scipy
+            - tabulate
+            - typing_extensions
 
   - package:
       name: mujoco-mjx
