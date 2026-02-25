@@ -1,17 +1,7 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: Silvio Traversaro <silvio.traversaro@iit.it>
-Date: Sun, 8 Jun 2025 09:21:38 +0200
-Subject: [PATCH] cxx_devendor
-
----
- cmake/MujocoDependencies.cmake | 47 +++++++++++++++-------------------
- 1 file changed, 20 insertions(+), 27 deletions(-)
-
 diff --git a/cmake/MujocoDependencies.cmake b/cmake/MujocoDependencies.cmake
-index ca935cbc..9b14b173 100644
 --- a/cmake/MujocoDependencies.cmake
 +++ b/cmake/MujocoDependencies.cmake
-@@ -90,6 +90,7 @@ set(BUILD_SHARED_LIBS
+@@ -90,6 +90,7 @@
      CACHE INTERNAL "Build SHARED libraries"
  )
  
@@ -19,7 +9,7 @@ index ca935cbc..9b14b173 100644
  if(NOT TARGET lodepng)
    FetchContent_Declare(
      lodepng
-@@ -128,11 +129,11 @@ set(QHULL_ENABLE_TESTING OFF)
+@@ -136,9 +137,9 @@
  
  findorfetch(
    USE_SYSTEM_PACKAGE
@@ -31,14 +21,10 @@ index ca935cbc..9b14b173 100644
    LIBRARY_NAME
    qhull
    GIT_REPO
-   https://github.com/qhull/qhull.git
-   GIT_TAG
-@@ -141,18 +142,22 @@ findorfetch(
-   qhull
-   EXCLUDE_FROM_ALL
+@@ -152,16 +153,21 @@
  )
--# MuJoCo includes a file from libqhull_r which is not exported by the qhull include directories.
--# Add it to the target.
+ # MuJoCo includes a file from libqhull_r which is not exported by the qhull include directories.
+ # Add it to the target.
 -target_include_directories(
 -  qhullstatic_r INTERFACE $<BUILD_INTERFACE:${qhull_SOURCE_DIR}/src/libqhull_r>
 -)
@@ -53,7 +39,6 @@ index ca935cbc..9b14b173 100644
 +  foreach(qhull_include_dir IN LISTS qhull_include_dirs)
 +    target_include_directories(qhullstatic_r INTERFACE ${qhull_include_dirs}/libqhull_r)
 +  endforeach()
-+  target_include_directories(qhullstatic_r INTERFACE )
 +endif()
  
  set(tinyxml2_BUILD_TESTING OFF)
@@ -64,7 +49,7 @@ index ca935cbc..9b14b173 100644
    PACKAGE_NAME
    tinyxml2
    LIBRARY_NAME
-@@ -165,8 +170,6 @@ findorfetch(
+@@ -174,8 +180,6 @@
    tinyxml2
    EXCLUDE_FROM_ALL
  )
@@ -73,7 +58,7 @@ index ca935cbc..9b14b173 100644
  
  # update cmake_minimum_required version for compatibility with newer version of cmake
  if(NOT DEFINED CMAKE_POLICY_VERSION_MINIMUM)
-@@ -226,7 +229,7 @@ if(NOT DEFINED CMAKE_POLICY_VERSION_MINIMUM)
+@@ -241,7 +245,7 @@
  endif()
  findorfetch(
    USE_SYSTEM_PACKAGE
@@ -82,7 +67,7 @@ index ca935cbc..9b14b173 100644
    PACKAGE_NAME
    ccd
    LIBRARY_NAME
-@@ -243,19 +246,6 @@ if(CMAKE_POLICY_VERSION_MINIMUM_LOCALLY_DEFINED)
+@@ -259,19 +263,6 @@
    unset(CMAKE_POLICY_VERSION_MINIMUM)
    unset(CMAKE_POLICY_VERSION_MINIMUM_LOCALLY_DEFINED)
  endif()
@@ -100,9 +85,9 @@ index ca935cbc..9b14b173 100644
 -  endif()
 -endif()
  
- if(MUJOCO_BUILD_TESTS)
+ if(MUJOCO_BUILD_TESTS OR MUJOCO_BUILD_STUDIO OR MUJOCO_USE_FILAMENT)
    set(ABSL_PROPAGATE_CXX_STD ON)
-@@ -270,7 +260,7 @@ if(MUJOCO_BUILD_TESTS)
+@@ -286,7 +277,7 @@
    set(ABSL_BUILD_TESTING OFF)
    findorfetch(
      USE_SYSTEM_PACKAGE
@@ -111,7 +96,7 @@ index ca935cbc..9b14b173 100644
      PACKAGE_NAME
      absl
      LIBRARY_NAME
-@@ -350,6 +340,9 @@ endif()
+@@ -369,6 +360,9 @@
  
  if(MUJOCO_TEST_PYTHON_UTIL)
    add_compile_definitions(EIGEN_MPL2_ONLY)
@@ -120,6 +105,4 @@ index ca935cbc..9b14b173 100644
 +  add_library(eigen ALIAS Eigen3::Eigen)
    if(NOT TARGET eigen)
      # Support new IN_LIST if() operator.
-     set(CMAKE_POLICY_DEFAULT_CMP0057 NEW)
--- 
-2.43.0
+   set(CMAKE_POLICY_DEFAULT_CMP0057 NEW)

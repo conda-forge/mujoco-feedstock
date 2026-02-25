@@ -1,30 +1,16 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: Jacob Oursland <jacob.oursland@gmail.com>
-Date: Thu, 17 Apr 2025 13:32:58 -0700
-Subject: [PATCH] CMake: use CMAKE_REQUIRED_LINK_OPTIONS instead of
- CMAKE_REQUIRED_FLAGS for linker flags.
-
-See https://github.com/google-deepmind/mujoco_mpc/pull/253
----
- cmake/MujocoLinkOptions.cmake          | 10 +++++-----
- sample/cmake/MujocoLinkOptions.cmake   | 10 +++++-----
- simulate/cmake/MujocoLinkOptions.cmake | 10 +++++-----
- 3 files changed, 15 insertions(+), 15 deletions(-)
-
 diff --git a/cmake/MujocoLinkOptions.cmake b/cmake/MujocoLinkOptions.cmake
-index 242767f9..1762ba79 100644
 --- a/cmake/MujocoLinkOptions.cmake
 +++ b/cmake/MujocoLinkOptions.cmake
-@@ -23,7 +23,7 @@ function(get_mujoco_extra_link_options OUTPUT_VAR)
-     set(EXTRA_LINK_OPTIONS)
+@@ -24,7 +24,7 @@ function(get_mujoco_extra_link_options OUTPUT_VAR)
  
      if(WIN32)
+       set(EXTRA_LINK_OPTIONS ${EXTRA_LINK_OPTIONS} -Wl,/STACK:16777216)
 -      set(CMAKE_REQUIRED_FLAGS "-fuse-ld=lld-link")
 +      set(CMAKE_REQUIRED_LINK_OPTIONS "-fuse-ld=lld-link")
        check_c_source_compiles("int main() {}" SUPPORTS_LLD)
        if(SUPPORTS_LLD)
          set(EXTRA_LINK_OPTIONS
-@@ -34,24 +34,24 @@ function(get_mujoco_extra_link_options OUTPUT_VAR)
+@@ -39,24 +39,24 @@ function(get_mujoco_extra_link_options OUTPUT_VAR)
          )
        endif()
      else()
@@ -54,19 +40,18 @@ index 242767f9..1762ba79 100644
          if(SUPPORTS_DEAD_STRIP)
            set(EXTRA_LINK_OPTIONS ${EXTRA_LINK_OPTIONS} -Wl,-dead_strip)
 diff --git a/sample/cmake/MujocoLinkOptions.cmake b/sample/cmake/MujocoLinkOptions.cmake
-index 242767f9..1762ba79 100644
 --- a/sample/cmake/MujocoLinkOptions.cmake
 +++ b/sample/cmake/MujocoLinkOptions.cmake
-@@ -23,7 +23,7 @@ function(get_mujoco_extra_link_options OUTPUT_VAR)
-     set(EXTRA_LINK_OPTIONS)
+@@ -24,7 +24,7 @@ function(get_mujoco_extra_link_options OUTPUT_VAR)
  
      if(WIN32)
+       set(EXTRA_LINK_OPTIONS ${EXTRA_LINK_OPTIONS} -Wl,/STACK:16777216)
 -      set(CMAKE_REQUIRED_FLAGS "-fuse-ld=lld-link")
 +      set(CMAKE_REQUIRED_LINK_OPTIONS "-fuse-ld=lld-link")
        check_c_source_compiles("int main() {}" SUPPORTS_LLD)
        if(SUPPORTS_LLD)
          set(EXTRA_LINK_OPTIONS
-@@ -34,24 +34,24 @@ function(get_mujoco_extra_link_options OUTPUT_VAR)
+@@ -39,24 +39,24 @@ function(get_mujoco_extra_link_options OUTPUT_VAR)
          )
        endif()
      else()
@@ -96,19 +81,18 @@ index 242767f9..1762ba79 100644
          if(SUPPORTS_DEAD_STRIP)
            set(EXTRA_LINK_OPTIONS ${EXTRA_LINK_OPTIONS} -Wl,-dead_strip)
 diff --git a/simulate/cmake/MujocoLinkOptions.cmake b/simulate/cmake/MujocoLinkOptions.cmake
-index 242767f9..1762ba79 100644
 --- a/simulate/cmake/MujocoLinkOptions.cmake
 +++ b/simulate/cmake/MujocoLinkOptions.cmake
-@@ -23,7 +23,7 @@ function(get_mujoco_extra_link_options OUTPUT_VAR)
-     set(EXTRA_LINK_OPTIONS)
+@@ -24,7 +24,7 @@ function(get_mujoco_extra_link_options OUTPUT_VAR)
  
      if(WIN32)
+       set(EXTRA_LINK_OPTIONS ${EXTRA_LINK_OPTIONS} -Wl,/STACK:16777216)
 -      set(CMAKE_REQUIRED_FLAGS "-fuse-ld=lld-link")
 +      set(CMAKE_REQUIRED_LINK_OPTIONS "-fuse-ld=lld-link")
        check_c_source_compiles("int main() {}" SUPPORTS_LLD)
        if(SUPPORTS_LLD)
          set(EXTRA_LINK_OPTIONS
-@@ -34,24 +34,24 @@ function(get_mujoco_extra_link_options OUTPUT_VAR)
+@@ -39,24 +39,24 @@ function(get_mujoco_extra_link_options OUTPUT_VAR)
          )
        endif()
      else()
@@ -137,6 +121,3 @@ index 242767f9..1762ba79 100644
          check_c_source_compiles("int main() {}" SUPPORTS_DEAD_STRIP)
          if(SUPPORTS_DEAD_STRIP)
            set(EXTRA_LINK_OPTIONS ${EXTRA_LINK_OPTIONS} -Wl,-dead_strip)
--- 
-2.43.0
-
