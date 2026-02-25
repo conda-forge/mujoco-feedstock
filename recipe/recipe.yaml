@@ -271,7 +271,7 @@ outputs:
             - absl-py
             - colorama
             - imageio-ffmpeg
-            - jinja
+            - jinja2
             - matplotlib-base
             - plotly
             - pyyaml
