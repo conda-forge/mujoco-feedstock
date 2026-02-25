@@ -256,10 +256,13 @@ outputs:
               # Regression test for https://github.com/conda-forge/mujoco-feedstock/issues/64
               # Commented out until it is fixed, see https://github.com/conda-forge/mujoco-feedstock/pull/85#issuecomment-2953716989
               # mjpython --version
-          - if: win or (linux and not x86_64)
+          - if: win
             then: |
               set MUJOCO_GL=disable
               pytest --pyargs mujoco -v -k "not (test_delete or test_load_xml)"
+              pip check
+          - if: linux and not x86_64
+            then: |
               pip check
         requirements:
           run:
