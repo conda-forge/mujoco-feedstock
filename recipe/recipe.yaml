@@ -323,7 +323,7 @@ outputs:
             # The [warp] extra is needed to run some of the tests, but we do not package it as 
             # mujoco-mjx-warp to avoid confusion with https://github.com/google-deepmind/mujoco_warp
             # This pin is taken from https://github.com/google-deepmind/mujoco/blob/3.3.7/mjx/pyproject.toml#L37-L40
-            - warp-lang 1.9.1.*
+            - warp-lang 1.11.0.*
 
 
   - package:
