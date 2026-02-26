@@ -25,7 +25,7 @@ source:
       - patches/0016-Add-MSYS-as-a-Windows-platform.patch
 
 build:
-  number: 0
+  number: 1
 
 outputs:
   - package:
@@ -335,6 +335,37 @@ outputs:
             # mujoco-mjx-warp to avoid confusion with https://github.com/google-deepmind/mujoco_warp
             # This pin is taken from https://github.com/google-deepmind/mujoco/blob/3.3.7/mjx/pyproject.toml#L37-L40
             - warp-lang 1.11.0.*
+  - package:
+      name: mujoco-sysid
+    build:
+      noarch: python
+    requirements:
+      host:
+        - python ${{ python_min }}.*
+      run:
+        - python >=${{ python_min }}
+        - ${{ pin_subpackage("mujoco-python", upper_bound="x.x.x") }}
+        - absl-py
+        - colorama
+        - imageio
+        - imageio-ffmpeg
+        - jinja2
+        - matplotlib-base
+        - plotly
+        - pyyaml
+        - scipy
+        - tabulate
+        - typing_extensions
+    tests:
+      - python:
+          python_version: ${{ python_min }}.*
+          imports:
+            - mujoco.sysid
+      - script: pip check
+        requirements:
+          run:
+            - pip
+            - python
 
 
   - package:
