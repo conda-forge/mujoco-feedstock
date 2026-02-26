@@ -87,6 +87,7 @@ Current release info
 | [![Conda Recipe](https://img.shields.io/badge/recipe-mujoco--python-green.svg)](https://anaconda.org/conda-forge/mujoco-python) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/mujoco-python.svg)](https://anaconda.org/conda-forge/mujoco-python) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/mujoco-python.svg)](https://anaconda.org/conda-forge/mujoco-python) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/mujoco-python.svg)](https://anaconda.org/conda-forge/mujoco-python) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-mujoco--samples-green.svg)](https://anaconda.org/conda-forge/mujoco-samples) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/mujoco-samples.svg)](https://anaconda.org/conda-forge/mujoco-samples) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/mujoco-samples.svg)](https://anaconda.org/conda-forge/mujoco-samples) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/mujoco-samples.svg)](https://anaconda.org/conda-forge/mujoco-samples) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-mujoco--simulate-green.svg)](https://anaconda.org/conda-forge/mujoco-simulate) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/mujoco-simulate.svg)](https://anaconda.org/conda-forge/mujoco-simulate) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/mujoco-simulate.svg)](https://anaconda.org/conda-forge/mujoco-simulate) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/mujoco-simulate.svg)](https://anaconda.org/conda-forge/mujoco-simulate) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-mujoco--sysid-green.svg)](https://anaconda.org/conda-forge/mujoco-sysid) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/mujoco-sysid.svg)](https://anaconda.org/conda-forge/mujoco-sysid) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/mujoco-sysid.svg)](https://anaconda.org/conda-forge/mujoco-sysid) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/mujoco-sysid.svg)](https://anaconda.org/conda-forge/mujoco-sysid) |
 
 Installing libmujoco
 ====================
@@ -98,16 +99,16 @@ conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `libmujoco, mujoco, mujoco-mjx, mujoco-python, mujoco-samples, mujoco-simulate` can be installed with `conda`:
+Once the `conda-forge` channel has been enabled, `libmujoco, mujoco, mujoco-mjx, mujoco-python, mujoco-samples, mujoco-simulate, mujoco-sysid` can be installed with `conda`:
 
 ```
-conda install libmujoco mujoco mujoco-mjx mujoco-python mujoco-samples mujoco-simulate
+conda install libmujoco mujoco mujoco-mjx mujoco-python mujoco-samples mujoco-simulate mujoco-sysid
 ```
 
 or with `mamba`:
 
 ```
-mamba install libmujoco mujoco mujoco-mjx mujoco-python mujoco-samples mujoco-simulate
+mamba install libmujoco mujoco mujoco-mjx mujoco-python mujoco-samples mujoco-simulate mujoco-sysid
 ```
 
 It is possible to list all of the versions of `libmujoco` available on your platform with `conda`:
