@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
 context:
-  version: "3.4.0"
+  version: "3.5.0"
 
 recipe:
   name: mujoco-split
@@ -8,7 +8,7 @@ recipe:
 
 source:
   - url: https://github.com/deepmind/mujoco/archive/refs/tags/${{ version }}.tar.gz
-    sha256: adff5e9397aac20189ee1525aabf1fbecc63c43697e8ad66a61220222983810f
+    sha256: ce6208a7889049161516c20afea5f587ed17ecad3f32e68f6647c08094f99577
     patches:
       - patches/0001-python_remove_avx.patch
       - patches/0002-cxx_devendor.patch
@@ -23,7 +23,6 @@ source:
       - patches/0014-always-install-mujoco-samples.patch
       - patches/0015-CMake-use-CMAKE_REQUIRED_LINK_OPTIONS-instead-of-CMA.patch
       - patches/0016-Add-MSYS-as-a-Windows-platform.patch
-      - patches/0017-upstream_fix_gainprm.patch
 
 build:
   number: 0
@@ -268,6 +267,17 @@ outputs:
           run:
             - pytest
             - pip
+            # sysid deps
+            - absl-py
+            - colorama
+            - imageio-ffmpeg
+            - jinja2
+            - matplotlib-base
+            - plotly
+            - pyyaml
+            - scipy
+            - tabulate
+            - typing_extensions
 
   - package:
       name: mujoco-mjx
@@ -324,7 +334,7 @@ outputs:
             # The [warp] extra is needed to run some of the tests, but we do not package it as 
             # mujoco-mjx-warp to avoid confusion with https://github.com/google-deepmind/mujoco_warp
             # This pin is taken from https://github.com/google-deepmind/mujoco/blob/3.3.7/mjx/pyproject.toml#L37-L40
-            - warp-lang 1.9.1.*
+            - warp-lang 1.11.0.*
 
 
   - package:
