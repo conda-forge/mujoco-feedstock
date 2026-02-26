@@ -13,8 +13,4 @@ github:
 provider:
   linux_aarch64: default
   linux_ppc64le: default
-remote_ci_setup:
-- conda-build>=24.1
-- conda-forge-ci-setup=4.*
-- rattler-build=0.43.*
 test: native_and_emulated

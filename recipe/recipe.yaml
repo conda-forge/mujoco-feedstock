@@ -361,11 +361,7 @@ outputs:
           python_version: ${{ python_min }}.*
           imports:
             - mujoco.sysid
-      - script: pip check
-        requirements:
-          run:
-            - pip
-            - python
+      - pip_check: true
 
 
   - package:
