@@ -382,7 +382,6 @@ about:
   license_file:
     - LICENSE
     - build_cxx/_deps/tinyobjloader-src/LICENSE
-    - build_cxx/_deps/sdflib-src/LICENSE
   summary: "Multi-Joint dynamics with Contact (MuJoCo): physics engine, CLI tools, GUI, Python bindings, and MJX."
 extra:
   recipe-maintainers:
