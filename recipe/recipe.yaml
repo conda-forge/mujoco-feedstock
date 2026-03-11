@@ -160,10 +160,6 @@ outputs:
             then: test ! -f "$PREFIX/bin/testspeed"
           - if: win
             then: if exist %LIBRARY_BIN%\testspeed.exe exit 1
-    about:
-      license: Apache-2.0
-      license_file:
-        - LICENSE
 
   # Dummy output, ketps for back compatibility
   - package:
@@ -177,10 +173,6 @@ outputs:
             then: test -f "$PREFIX/bin/mujoco-simulate"
           - if: win
             then: if not exist %LIBRARY_BIN%\mujoco-simulate.exe exit 1
-    about:
-      license: Apache-2.0
-      license_file:
-        - LICENSE
 
   - package:
       name: mujoco-python
@@ -296,10 +288,6 @@ outputs:
             - scipy
             - tabulate
             - typing_extensions
-    about:
-      license: Apache-2.0
-      license_file:
-        - LICENSE
 
   - package:
       name: mujoco-mjx
@@ -357,11 +345,6 @@ outputs:
             # mujoco-mjx-warp to avoid confusion with https://github.com/google-deepmind/mujoco_warp
             # This pin is taken from https://github.com/google-deepmind/mujoco/blob/3.3.7/mjx/pyproject.toml#L37-L40
             - warp-lang 1.11.0.*
-    about:
-      license: Apache-2.0
-      license_file:
-        - LICENSE
-
   - package:
       name: mujoco-sysid
     build:
@@ -389,10 +372,6 @@ outputs:
           imports:
             - mujoco.sysid
           pip_check: true
-    about:
-      license: Apache-2.0
-      license_file:
-        - LICENSE
 
   - package:
       name: mujoco
@@ -406,14 +385,12 @@ outputs:
       - python:
           imports:
             - mujoco
-    about:
-      license: Apache-2.0
-      license_file:
-        - LICENSE
 
 about:
   homepage: https://github.com/deepmind/mujoco
   license: Apache-2.0
+  license_file:
+    - LICENSE
   summary: "Multi-Joint dynamics with Contact (MuJoCo): physics engine, CLI tools, GUI, Python bindings, and MJX."
 extra:
   recipe-maintainers:
