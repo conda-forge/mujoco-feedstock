@@ -7,11 +7,13 @@ Subject: [PATCH] disable_copy_cxx_files_in_python_package
  CMakeLists.txt                   |  1 +
  plugin/actuator/CMakeLists.txt   | 14 ++++++++++++++
  plugin/elasticity/CMakeLists.txt | 14 ++++++++++++++
+ plugin/obj_decoder/CMakeLists.txt | 13 +++++++++++++
  plugin/sdf/CMakeLists.txt        | 15 +++++++++++++++
  plugin/sensor/CMakeLists.txt     | 14 ++++++++++++++
+ plugin/stl_decoder/CMakeLists.txt | 13 +++++++++++++
  python/mujoco/__init__.py        | 11 ++++++++---
  python/setup.py                  |  6 +++---
- 7 files changed, 69 insertions(+), 6 deletions(-)
+ 9 files changed, 95 insertions(+), 6 deletions(-)
 
 diff --git a/plugin/actuator/CMakeLists.txt b/plugin/actuator/CMakeLists.txt
 index 6cc79944..a738f03e 100644
@@ -102,6 +104,44 @@ index 4dac6d0a..6c990870 100644
 +            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin")
 +  endif()
 +endif()
+diff --git a/plugin/obj_decoder/CMakeLists.txt b/plugin/obj_decoder/CMakeLists.txt
+index 4babfff7..44ac5946 100644
+--- a/plugin/obj_decoder/CMakeLists.txt
++++ b/plugin/obj_decoder/CMakeLists.txt
+@@ -55,5 +55,10 @@ if(NOT EMSCRIPTEN)
+-  install(
+-    TARGETS obj_decoder
+-    LIBRARY DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin"
+-  )
++  if(WIN32)
++    install(TARGETS obj_decoder
++            ARCHIVE DESTINATION "$ENV{TEMP}"
++            LIBRARY DESTINATION "$ENV{TEMP}"
++            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin")
++  else()
++    install(TARGETS obj_decoder
++            LIBRARY DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin")
++  endif()
+ endif()
+diff --git a/plugin/stl_decoder/CMakeLists.txt b/plugin/stl_decoder/CMakeLists.txt
+index f65ba6ea..a6897905 100644
+--- a/plugin/stl_decoder/CMakeLists.txt
++++ b/plugin/stl_decoder/CMakeLists.txt
+@@ -50,5 +50,10 @@ if(NOT EMSCRIPTEN)
+-  install(
+-    TARGETS stl_decoder
+-    LIBRARY DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin"
+-  )
++  if(WIN32)
++    install(TARGETS stl_decoder
++            ARCHIVE DESTINATION "$ENV{TEMP}"
++            LIBRARY DESTINATION "$ENV{TEMP}"
++            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin")
++  else()
++    install(TARGETS stl_decoder
++            LIBRARY DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin")
++  endif()
+ endif()
 diff --git a/python/mujoco/__init__.py b/python/mujoco/__init__.py
 index de578935..175cb249 100644
 --- a/python/mujoco/__init__.py
