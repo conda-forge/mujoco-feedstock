@@ -343,8 +343,9 @@ outputs:
             - python
             # The [warp] extra is needed to run some of the tests, but we do not package it as 
             # mujoco-mjx-warp to avoid confusion with https://github.com/google-deepmind/mujoco_warp
-            # This pin is taken from https://github.com/google-deepmind/mujoco/blob/3.6.0/mjx/pyproject.toml#L37-L40
-            - warp-lang 1.11.1.*
+            # The minimum pin is taken from https://github.com/google-deepmind/mujoco/blob/3.6.0/mjx/pyproject.toml#L37-L40,
+            # but it is changed to a lower bound here to avoid conflicts on warp-lang and protobuf/abseil versions
+            - warp-lang >=1.11.1
   - package:
       name: mujoco-sysid
     build:
