@@ -387,7 +387,6 @@ about:
   license: Apache-2.0
   license_file:
     - LICENSE
-    - build_cxx/_deps/tinyobjloader-src/LICENSE
   summary: "Multi-Joint dynamics with Contact (MuJoCo): physics engine, CLI tools, GUI, Python bindings, and MJX."
 extra:
   recipe-maintainers:
