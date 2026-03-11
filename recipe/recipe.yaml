@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
 context:
-  version: "3.5.0"
+  version: "3.6.0"
 
 recipe:
   name: mujoco-split
@@ -8,7 +8,7 @@ recipe:
 
 source:
   - url: https://github.com/deepmind/mujoco/archive/refs/tags/${{ version }}.tar.gz
-    sha256: ce6208a7889049161516c20afea5f587ed17ecad3f32e68f6647c08094f99577
+    sha256: 0d6bb25612da5d1c398d21cf5b039367d4deef15c064b049c3127043d613b539
     patches:
       - patches/0001-python_remove_avx.patch
       - patches/0002-cxx_devendor.patch
@@ -25,7 +25,7 @@ source:
       - patches/0016-Add-MSYS-as-a-Windows-platform.patch
 
 build:
-  number: 1
+  number: 0
 
 outputs:
   - package:
