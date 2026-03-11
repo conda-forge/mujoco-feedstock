@@ -296,6 +296,10 @@ outputs:
       skip:
         # Only build on linux64, as noarch it will be then available everywhere
         - not (linux and x86_64)
+        # Build during Python 3.11 pass so mujoco-python cp311 is available for
+        # testing (jax/jaxlib >= 0.7 requires Python >= 3.11)
+        - if: match(python, "<3.11")
+          then: true
       script: python -m pip install ./mjx/ --no-deps -vv
       python:
         entry_points:
