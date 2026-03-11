@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
 context:
-  version: "3.5.0"
+  version: "3.6.0"
 
 recipe:
   name: mujoco-split
@@ -8,7 +8,7 @@ recipe:
 
 source:
   - url: https://github.com/deepmind/mujoco/archive/refs/tags/${{ version }}.tar.gz
-    sha256: ce6208a7889049161516c20afea5f587ed17ecad3f32e68f6647c08094f99577
+    sha256: 0d6bb25612da5d1c398d21cf5b039367d4deef15c064b049c3127043d613b539
     patches:
       - patches/0001-python_remove_avx.patch
       - patches/0002-cxx_devendor.patch
@@ -25,7 +25,7 @@ source:
       - patches/0016-Add-MSYS-as-a-Windows-platform.patch
 
 build:
-  number: 1
+  number: 0
 
 outputs:
   - package:
@@ -94,8 +94,10 @@ outputs:
             then:
               - test -f ${PREFIX}/bin/mujoco_plugin/libactuator${SHLIB_EXT}
               - test -f ${PREFIX}/bin/mujoco_plugin/libelasticity${SHLIB_EXT}
+              - test -f ${PREFIX}/bin/mujoco_plugin/libobj_decoder${SHLIB_EXT}
               - test -f ${PREFIX}/bin/mujoco_plugin/libsensor${SHLIB_EXT}
               - test -f ${PREFIX}/bin/mujoco_plugin/libsdf_plugin${SHLIB_EXT}
+              - test -f ${PREFIX}/bin/mujoco_plugin/libstl_decoder${SHLIB_EXT}
               - test ! -f "$PREFIX/bin/simulate"
           - if: win
             then:
@@ -103,17 +105,25 @@ outputs:
               - if exist     %LIBRARY_BIN%\mujoco_plugin\actuator.lib exit 1
               - if not exist %LIBRARY_BIN%\mujoco_plugin\elasticity.dll exit 1
               - if exist     %LIBRARY_BIN%\mujoco_plugin\elasticity.lib exit 1
+              - if not exist %LIBRARY_BIN%\mujoco_plugin\obj_decoder.dll exit 1
+              - if exist     %LIBRARY_BIN%\mujoco_plugin\obj_decoder.lib exit 1
               - if not exist %LIBRARY_BIN%\mujoco_plugin\sensor.dll exit 1
               - if exist     %LIBRARY_BIN%\mujoco_plugin\sensor.lib exit 1
               - if not exist %LIBRARY_BIN%\mujoco_plugin\sdf_plugin.dll exit 1
               - if exist     %LIBRARY_BIN%\mujoco_plugin\sdf_plugin.lib exit 1
+              - if not exist %LIBRARY_BIN%\mujoco_plugin\stl_decoder.dll exit 1
+              - if exist     %LIBRARY_BIN%\mujoco_plugin\stl_decoder.lib exit 1
               - if exist %LIBRARY_BIN%\simulate.exe exit 1
         requirements:
           run:
             - cmake-package-check
             - ${{ compiler('c') }}
             - ${{ compiler('cxx') }}
-
+    about:
+      license: Apache-2.0
+      license_file:
+        - LICENSE
+        - build_cxx/_deps/tinyobjloader-src/LICENSE
   # -------------------------------------------------------------------------
   # Command-line samples
   # -------------------------------------------------------------------------
@@ -286,6 +296,10 @@ outputs:
       skip:
         # Only build on linux64, as noarch it will be then available everywhere
         - not (linux and x86_64)
+        # Build during Python 3.11 pass so mujoco-python cp311 is available for
+        # testing (jax/jaxlib >= 0.7 requires Python >= 3.11)
+        - if: match(python, "<3.11")
+          then: true
       script: python -m pip install ./mjx/ --no-deps -vv
       python:
         entry_points:
@@ -333,8 +347,9 @@ outputs:
             - python
             # The [warp] extra is needed to run some of the tests, but we do not package it as 
             # mujoco-mjx-warp to avoid confusion with https://github.com/google-deepmind/mujoco_warp
-            # This pin is taken from https://github.com/google-deepmind/mujoco/blob/3.3.7/mjx/pyproject.toml#L37-L40
-            - warp-lang 1.11.0.*
+            # The minimum pin is taken from https://github.com/google-deepmind/mujoco/blob/3.6.0/mjx/pyproject.toml#L37-L40,
+            # but it is changed to a lower bound here to avoid conflicts on warp-lang and protobuf/abseil versions
+            - warp-lang >=1.11.1
   - package:
       name: mujoco-sysid
     build:
@@ -381,8 +396,6 @@ about:
   license: Apache-2.0
   license_file:
     - LICENSE
-    - build_cxx/_deps/tinyobjloader-src/LICENSE
-    - build_cxx/_deps/sdflib-src/LICENSE
   summary: "Multi-Joint dynamics with Contact (MuJoCo): physics engine, CLI tools, GUI, Python bindings, and MJX."
 extra:
   recipe-maintainers:
