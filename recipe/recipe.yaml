@@ -23,6 +23,7 @@ source:
       - patches/0014-always-install-mujoco-samples.patch
       - patches/0015-CMake-use-CMAKE_REQUIRED_LINK_OPTIONS-instead-of-CMA.patch
       - patches/0016-Add-MSYS-as-a-Windows-platform.patch
+      - patches/0017-unvendor-tinyobjloader.patch
 
 build:
   number: 1
@@ -59,6 +60,7 @@ outputs:
         - libabseil
         - lodepng
         - glfw
+        - libtinyobjloader >=2.0.0rc13
         - if: linux
           then:
             - libgl-devel
