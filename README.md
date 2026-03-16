@@ -3,6 +3,64 @@ About libmujoco-feedstock
 
 Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/mujoco-feedstock/blob/main/LICENSE.txt)
 
+
+About libmujoco
+---------------
+
+Home: https://github.com/deepmind/mujoco
+
+Package license: Apache-2.0
+
+Summary: Multi-Joint dynamics with Contact (MuJoCo): physics engine, CLI tools, GUI, Python bindings, and MJX.
+
+About mujoco
+------------
+
+Home: https://github.com/deepmind/mujoco
+
+Package license: Apache-2.0
+
+Summary: Multi-Joint dynamics with Contact (MuJoCo): physics engine, CLI tools, GUI, Python bindings, and MJX.
+
+About mujoco-mjx
+----------------
+
+Home: https://github.com/deepmind/mujoco
+
+Package license: Apache-2.0
+
+Summary: Multi-Joint dynamics with Contact (MuJoCo): physics engine, CLI tools, GUI, Python bindings, and MJX.
+
+About mujoco-python
+-------------------
+
+Home: https://github.com/deepmind/mujoco
+
+Package license: Apache-2.0
+
+Summary: Multi-Joint dynamics with Contact (MuJoCo): physics engine, CLI tools, GUI, Python bindings, and MJX.
+
+About mujoco-samples
+--------------------
+
+Home: https://github.com/deepmind/mujoco
+
+Package license: Apache-2.0
+
+Summary: Multi-Joint dynamics with Contact (MuJoCo): physics engine, CLI tools, GUI, Python bindings, and MJX.
+
+About mujoco-simulate
+---------------------
+
+Home: https://github.com/deepmind/mujoco
+
+Package license: Apache-2.0
+
+Summary: Multi-Joint dynamics with Contact (MuJoCo): physics engine, CLI tools, GUI, Python bindings, and MJX.
+
+About mujoco-sysid
+------------------
+
 Home: https://github.com/deepmind/mujoco
 
 Package license: Apache-2.0
