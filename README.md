@@ -22,15 +22,6 @@ Package license: Apache-2.0
 
 Summary: Multi-Joint dynamics with Contact (MuJoCo): physics engine, CLI tools, GUI, Python bindings, and MJX.
 
-About mujoco-mjx
-----------------
-
-Home: https://github.com/deepmind/mujoco
-
-Package license: Apache-2.0
-
-Summary: Multi-Joint dynamics with Contact (MuJoCo): physics engine, CLI tools, GUI, Python bindings, and MJX.
-
 About mujoco-python
 -------------------
 
@@ -51,6 +42,15 @@ Summary: Multi-Joint dynamics with Contact (MuJoCo): physics engine, CLI tools, 
 
 About mujoco-simulate
 ---------------------
+
+Home: https://github.com/deepmind/mujoco
+
+Package license: Apache-2.0
+
+Summary: Multi-Joint dynamics with Contact (MuJoCo): physics engine, CLI tools, GUI, Python bindings, and MJX.
+
+About mujoco-mjx
+----------------
 
 Home: https://github.com/deepmind/mujoco
 
