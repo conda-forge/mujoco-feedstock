@@ -3,64 +3,6 @@ About libmujoco-feedstock
 
 Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/mujoco-feedstock/blob/main/LICENSE.txt)
 
-
-About libmujoco
----------------
-
-Home: https://github.com/deepmind/mujoco
-
-Package license: Apache-2.0
-
-Summary: Multi-Joint dynamics with Contact (MuJoCo): physics engine, CLI tools, GUI, Python bindings, and MJX.
-
-About mujoco
-------------
-
-Home: https://github.com/deepmind/mujoco
-
-Package license: Apache-2.0
-
-Summary: Multi-Joint dynamics with Contact (MuJoCo): physics engine, CLI tools, GUI, Python bindings, and MJX.
-
-About mujoco-python
--------------------
-
-Home: https://github.com/deepmind/mujoco
-
-Package license: Apache-2.0
-
-Summary: Multi-Joint dynamics with Contact (MuJoCo): physics engine, CLI tools, GUI, Python bindings, and MJX.
-
-About mujoco-samples
---------------------
-
-Home: https://github.com/deepmind/mujoco
-
-Package license: Apache-2.0
-
-Summary: Multi-Joint dynamics with Contact (MuJoCo): physics engine, CLI tools, GUI, Python bindings, and MJX.
-
-About mujoco-simulate
----------------------
-
-Home: https://github.com/deepmind/mujoco
-
-Package license: Apache-2.0
-
-Summary: Multi-Joint dynamics with Contact (MuJoCo): physics engine, CLI tools, GUI, Python bindings, and MJX.
-
-About mujoco-mjx
-----------------
-
-Home: https://github.com/deepmind/mujoco
-
-Package license: Apache-2.0
-
-Summary: Multi-Joint dynamics with Contact (MuJoCo): physics engine, CLI tools, GUI, Python bindings, and MJX.
-
-About mujoco-sysid
-------------------
-
 Home: https://github.com/deepmind/mujoco
 
 Package license: Apache-2.0
@@ -96,13 +38,6 @@ Current build status
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=16475&branchName=main">
                   <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/mujoco-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_aarch64_" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>linux_ppc64le</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=16475&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/mujoco-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_ppc64le_" alt="variant">
                 </a>
               </td>
             </tr><tr>
