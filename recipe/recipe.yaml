@@ -125,7 +125,6 @@ outputs:
       license: Apache-2.0
       license_file:
         - LICENSE
-        - build_cxx/_deps/tinyobjloader-src/LICENSE
   # -------------------------------------------------------------------------
   # Command-line samples
   # -------------------------------------------------------------------------
