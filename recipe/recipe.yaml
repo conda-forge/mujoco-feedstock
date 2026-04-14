@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
 context:
-  version: "3.6.0"
+  version: "3.7.0"
 
 recipe:
   name: mujoco-split
@@ -8,7 +8,7 @@ recipe:
 
 source:
   - url: https://github.com/deepmind/mujoco/archive/refs/tags/${{ version }}.tar.gz
-    sha256: 0d6bb25612da5d1c398d21cf5b039367d4deef15c064b049c3127043d613b539
+    sha256: 16d6fce6858c02ebeb1d876a89ca288cb03321639a0ecccb19634a52f35a131f
     patches:
       - patches/0001-python_remove_avx.patch
       - patches/0002-cxx_devendor.patch
@@ -26,7 +26,7 @@ source:
       - patches/0017-unvendor-tinyobjloader.patch
 
 build:
-  number: 1
+  number: 0
 
 outputs:
   - package:
