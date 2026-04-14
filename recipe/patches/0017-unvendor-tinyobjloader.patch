@@ -5,8 +5,8 @@ Subject: [PATCH] Devendor tinyobjloader
 
 ---
  cmake/MujocoDependencies.cmake    | 2 +-
- plugin/obj_decoder/CMakeLists.txt | 2 --
- 2 files changed, 1 insertion(+), 3 deletions(-)
+ plugin/obj_decoder/CMakeLists.txt | 1 -
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/cmake/MujocoDependencies.cmake b/cmake/MujocoDependencies.cmake
 index d2404bc186..0166f0443f 100644
@@ -21,16 +21,20 @@ index d2404bc186..0166f0443f 100644
    PACKAGE_NAME
    tinyobjloader
    LIBRARY_NAME
-diff --git a/plugin/obj_decoder/CMakeLists.txt b/plugin/obj_decoder/CMakeLists.txt
-index 17b671997c..fb2bf6912f 100644
---- a/plugin/obj_decoder/CMakeLists.txt
-+++ b/plugin/obj_decoder/CMakeLists.txt
-@@ -37,8 +37,6 @@ else()
-   )
- endif()
++  
++diff --git a/plugin/obj_decoder/CMakeLists.txt b/plugin/obj_decoder/CMakeLists.txt
++index 17b671997c..fb2bf6912f 100644
++--- a/plugin/obj_decoder/CMakeLists.txt
+++++ b/plugin/obj_decoder/CMakeLists.txt
++@@ -37,8 +37,6 @@ else()
++   )
++ endif()
++ 
++-target_compile_definitions(obj_decoder PRIVATE TINYOBJLOADER_IMPLEMENTATION)
++-
++ target_compile_options(obj_decoder PRIVATE
++   ${AVX_COMPILE_OPTIONS}
++   ${MUJOCO_MACOS_COMPILE_OPTIONS}
  
--target_compile_definitions(obj_decoder PRIVATE TINYOBJLOADER_IMPLEMENTATION)
--
- target_compile_options(obj_decoder PRIVATE
-   ${AVX_COMPILE_OPTIONS}
-   ${MUJOCO_MACOS_COMPILE_OPTIONS}
+-- 
+2.43.0
