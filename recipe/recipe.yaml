@@ -96,10 +96,8 @@ outputs:
             then:
               - test -f ${PREFIX}/bin/mujoco_plugin/libactuator${SHLIB_EXT}
               - test -f ${PREFIX}/bin/mujoco_plugin/libelasticity${SHLIB_EXT}
-              - test -f ${PREFIX}/bin/mujoco_plugin/libobj_decoder${SHLIB_EXT}
               - test -f ${PREFIX}/bin/mujoco_plugin/libsensor${SHLIB_EXT}
               - test -f ${PREFIX}/bin/mujoco_plugin/libsdf_plugin${SHLIB_EXT}
-              - test -f ${PREFIX}/bin/mujoco_plugin/libstl_decoder${SHLIB_EXT}
               - test ! -f "$PREFIX/bin/simulate"
           - if: win
             then:
@@ -107,14 +105,10 @@ outputs:
               - if exist     %LIBRARY_BIN%\mujoco_plugin\actuator.lib exit 1
               - if not exist %LIBRARY_BIN%\mujoco_plugin\elasticity.dll exit 1
               - if exist     %LIBRARY_BIN%\mujoco_plugin\elasticity.lib exit 1
-              - if not exist %LIBRARY_BIN%\mujoco_plugin\obj_decoder.dll exit 1
-              - if exist     %LIBRARY_BIN%\mujoco_plugin\obj_decoder.lib exit 1
               - if not exist %LIBRARY_BIN%\mujoco_plugin\sensor.dll exit 1
               - if exist     %LIBRARY_BIN%\mujoco_plugin\sensor.lib exit 1
               - if not exist %LIBRARY_BIN%\mujoco_plugin\sdf_plugin.dll exit 1
               - if exist     %LIBRARY_BIN%\mujoco_plugin\sdf_plugin.lib exit 1
-              - if not exist %LIBRARY_BIN%\mujoco_plugin\stl_decoder.dll exit 1
-              - if exist     %LIBRARY_BIN%\mujoco_plugin\stl_decoder.lib exit 1
               - if exist %LIBRARY_BIN%\simulate.exe exit 1
         requirements:
           run:
