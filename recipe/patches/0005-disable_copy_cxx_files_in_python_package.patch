@@ -8,9 +8,9 @@ Subject: [PATCH] disable_copy_cxx_files_in_python_package
  plugin/elasticity/CMakeLists.txt | 14 ++++++++++++++
  plugin/sdf/CMakeLists.txt        | 15 +++++++++++++++
  plugin/sensor/CMakeLists.txt     | 14 ++++++++++++++
- python/mujoco/__init__.py        |  8 +++++++
+ python/mujoco/__init__.py        | 10 +++++++++-
  python/setup.py                  |  6 +++---
- 6 files changed, 68 insertions(+), 2 deletions(-)
+ 6 files changed, 70 insertions(+), 3 deletions(-)
 
 diff --git a/plugin/actuator/CMakeLists.txt b/plugin/actuator/CMakeLists.txt
 index 1270d48c..b40d82da 100644
@@ -105,6 +105,15 @@ diff --git a/python/mujoco/__init__.py b/python/mujoco/__init__.py
 index de578935..2aac76f9 100644
 --- a/python/mujoco/__init__.py
 +++ b/python/mujoco/__init__.py
+@@ -32,7 +32,7 @@ __path__ = __import__('pkgutil').extend_path(__path__, __name__)
+
+ _SYSTEM = platform.system()
+ if _SYSTEM == 'Windows':
+-  ctypes.WinDLL(os.path.join(os.path.dirname(__file__), 'mujoco.dll'))
++  ctypes.WinDLL(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))), 'Library', 'bin', 'mujoco.dll'))
+ elif _SYSTEM == 'Darwin':
+   proc_translated = subprocess.run(
+       ['sysctl', '-n', 'sysctl.proc_translated'], capture_output=True).stdout
 @@ -233,8 +233,13 @@ _specs.MjSpec.to_zip = to_zip
  _structs.MjData.bind = _bind_data
  _structs.MjModel.bind = _bind_model
