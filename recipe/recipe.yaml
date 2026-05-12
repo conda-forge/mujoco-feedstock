@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
 context:
-  version: "3.8.0"
+  version: "3.8.1"
 
 recipe:
   name: mujoco-split
@@ -8,7 +8,7 @@ recipe:
 
 source:
   - url: https://github.com/deepmind/mujoco/archive/refs/tags/${{ version }}.tar.gz
-    sha256: 7c157cfd1cfccb806fba5649880af1a715d74e281c0894ee0d99a44c68af74c0
+    sha256: 6eb7db9f772a71c7097dd56d0cc7d5e8eb9c760420fe0355d41a11ff9f3f6d6d
     patches:
       - patches/0001-python_remove_avx.patch
       - patches/0002-cxx_devendor.patch
