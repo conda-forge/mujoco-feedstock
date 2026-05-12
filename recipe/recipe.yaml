@@ -328,11 +328,10 @@ outputs:
           # - import + JAX PyTree utilities
           # - MJX<->MuJoCo data roundtrip
           # - a single compiled `mjx.step` against MuJoCo reference
-          pytest -v --pyargs \
-            mujoco.mjx._src.dataclasses_test \
-            mujoco.mjx._src.io_test \
-            mujoco.mjx._src.forward_test \
-            mujoco.mjx._src.support_test \
+          # Use --pyargs mujoco.mjx (not individual `_src.*_test` modules):
+          # pytest's --pyargs cannot resolve dotted sub-paths of a namespace
+          # package (`mujoco/` has no __init__.py), but it can resolve mujoco.mjx.
+          pytest -v --pyargs mujoco.mjx \
             -k "test_pytree_structure or test_fluid_params or test_get_data_runs or test_get_data_simplebody or test_make_matches_put or ForwardTest and test_step or test_custom or test_names_and_ids"
         requirements:
           run:
