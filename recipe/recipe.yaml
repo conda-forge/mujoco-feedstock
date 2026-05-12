@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
 context:
-  version: "3.6.0"
+  version: "3.7.0"
 
 recipe:
   name: mujoco-split
@@ -8,7 +8,7 @@ recipe:
 
 source:
   - url: https://github.com/deepmind/mujoco/archive/refs/tags/${{ version }}.tar.gz
-    sha256: 0d6bb25612da5d1c398d21cf5b039367d4deef15c064b049c3127043d613b539
+    sha256: 16d6fce6858c02ebeb1d876a89ca288cb03321639a0ecccb19634a52f35a131f
     patches:
       - patches/0001-python_remove_avx.patch
       - patches/0002-cxx_devendor.patch
@@ -26,7 +26,7 @@ source:
       - patches/0017-unvendor-tinyobjloader.patch
 
 build:
-  number: 1
+  number: 0
 
 outputs:
   - package:
@@ -96,10 +96,8 @@ outputs:
             then:
               - test -f ${PREFIX}/bin/mujoco_plugin/libactuator${SHLIB_EXT}
               - test -f ${PREFIX}/bin/mujoco_plugin/libelasticity${SHLIB_EXT}
-              - test -f ${PREFIX}/bin/mujoco_plugin/libobj_decoder${SHLIB_EXT}
               - test -f ${PREFIX}/bin/mujoco_plugin/libsensor${SHLIB_EXT}
               - test -f ${PREFIX}/bin/mujoco_plugin/libsdf_plugin${SHLIB_EXT}
-              - test -f ${PREFIX}/bin/mujoco_plugin/libstl_decoder${SHLIB_EXT}
               - test ! -f "$PREFIX/bin/simulate"
           - if: win
             then:
@@ -107,14 +105,10 @@ outputs:
               - if exist     %LIBRARY_BIN%\mujoco_plugin\actuator.lib exit 1
               - if not exist %LIBRARY_BIN%\mujoco_plugin\elasticity.dll exit 1
               - if exist     %LIBRARY_BIN%\mujoco_plugin\elasticity.lib exit 1
-              - if not exist %LIBRARY_BIN%\mujoco_plugin\obj_decoder.dll exit 1
-              - if exist     %LIBRARY_BIN%\mujoco_plugin\obj_decoder.lib exit 1
               - if not exist %LIBRARY_BIN%\mujoco_plugin\sensor.dll exit 1
               - if exist     %LIBRARY_BIN%\mujoco_plugin\sensor.lib exit 1
               - if not exist %LIBRARY_BIN%\mujoco_plugin\sdf_plugin.dll exit 1
               - if exist     %LIBRARY_BIN%\mujoco_plugin\sdf_plugin.lib exit 1
-              - if not exist %LIBRARY_BIN%\mujoco_plugin\stl_decoder.dll exit 1
-              - if exist     %LIBRARY_BIN%\mujoco_plugin\stl_decoder.lib exit 1
               - if exist %LIBRARY_BIN%\simulate.exe exit 1
         requirements:
           run:
@@ -334,11 +328,10 @@ outputs:
           # - import + JAX PyTree utilities
           # - MJX<->MuJoCo data roundtrip
           # - a single compiled `mjx.step` against MuJoCo reference
-          pytest -v --pyargs \
-            mujoco.mjx._src.dataclasses_test \
-            mujoco.mjx._src.io_test \
-            mujoco.mjx._src.forward_test \
-            mujoco.mjx._src.support_test \
+          # Use --pyargs mujoco.mjx (not individual `_src.*_test` modules):
+          # pytest's --pyargs cannot resolve dotted sub-paths of a namespace
+          # package (`mujoco/` has no __init__.py), but it can resolve mujoco.mjx.
+          pytest -v --pyargs mujoco.mjx \
             -k "test_pytree_structure or test_fluid_params or test_get_data_runs or test_get_data_simplebody or test_make_matches_put or ForwardTest and test_step or test_custom or test_names_and_ids"
         requirements:
           run:
@@ -350,7 +343,7 @@ outputs:
             # mujoco-mjx-warp to avoid confusion with https://github.com/google-deepmind/mujoco_warp
             # The minimum pin is taken from https://github.com/google-deepmind/mujoco/blob/3.6.0/mjx/pyproject.toml#L37-L40,
             # but it is changed to a lower bound here to avoid conflicts on warp-lang and protobuf/abseil versions
-            - warp-lang >=1.11.1
+            - warp-lang >=1.12.0
   - package:
       name: mujoco-sysid
     build:
