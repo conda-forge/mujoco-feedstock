@@ -130,7 +130,6 @@ outputs:
   - package:
       name: mujoco-samples
     build:
-      skip: mujoco_with_usd
       script:
         - if: unix
           then: build_samples.sh
@@ -176,22 +175,22 @@ outputs:
             then: if not exist %LIBRARY_BIN%\mujoco-simulate.exe exit 1
 
   - package:
-    name: mujoco-usd
+      name: mujoco-usd
 
-  build:
-    skip: not mujoco_with_usd
+    build:
+      skip: not mujoco_with_usd
 
-  requirements:
-    run:
-      - ${{ pin_subpackage("libmujoco", exact=True) }}
+    requirements:
+      run:
+        - ${{ pin_subpackage("libmujoco", exact=True) }}
 
-  tests:
-    - package_contents: {}
+    tests:
+      - package_contents: {}
 
   - package:
       name: mujoco-python
     build:
-    skip: mujoco_with_usd
+      skip: mujoco_with_usd
       script:
         - if: unix
           then: build_py.sh
