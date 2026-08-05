@@ -27,7 +27,7 @@ source:
       - patches/0018-unvendor-miniz.patch
 
 build:
-  number: 0
+  number: ${{ 1 if mujoco_with_usd else 2 }}
 
 outputs:
   - package:
@@ -66,6 +66,9 @@ outputs:
         - if: linux
           then:
             - libgl-devel
+        - if: mujoco_with_usd
+          then:
+            - openusd
       run:
         - if: linux
           then:
@@ -127,6 +130,7 @@ outputs:
   - package:
       name: mujoco-samples
     build:
+      skip: mujoco_with_usd
       script:
         - if: unix
           then: build_samples.sh
@@ -172,8 +176,22 @@ outputs:
             then: if not exist %LIBRARY_BIN%\mujoco-simulate.exe exit 1
 
   - package:
+    name: mujoco-usd
+
+  build:
+    skip: not mujoco_with_usd
+
+  requirements:
+    run:
+      - ${{ pin_subpackage("libmujoco", exact=True) }}
+
+  tests:
+    - package_contents: {}
+
+  - package:
       name: mujoco-python
     build:
+    skip: mujoco_with_usd
       script:
         - if: unix
           then: build_py.sh
