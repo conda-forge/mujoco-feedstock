@@ -25,6 +25,7 @@ source:
       - patches/0016-Add-MSYS-as-a-Windows-platform.patch
       - patches/0017-unvendor-tinyobjloader.patch
       - patches/0018-unvendor-miniz.patch
+      - patches/0018-find-openusd.patch
 
 build:
   number: ${{ 1 if mujoco_with_usd else 2 }}
@@ -173,19 +174,6 @@ outputs:
             then: test -f "$PREFIX/bin/mujoco-simulate"
           - if: win
             then: if not exist %LIBRARY_BIN%\mujoco-simulate.exe exit 1
-
-  - package:
-      name: mujoco-usd
-
-    build:
-      skip: not mujoco_with_usd
-
-    requirements:
-      run:
-        - ${{ pin_subpackage("libmujoco", exact=True) }}
-
-    tests:
-      - package_contents: {}
 
   - package:
       name: mujoco-python
