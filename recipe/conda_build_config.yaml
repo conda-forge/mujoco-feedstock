@@ -8,5 +8,5 @@ libabseil:
   - "20260107"
   - "20260526"
 mujoco_with_usd:
-  - False
-  - True
+  - false
+  - true
