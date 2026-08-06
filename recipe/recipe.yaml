@@ -28,7 +28,7 @@ source:
       - patches/0018-find-openusd.patch
 
 build:
-  number: ${{ build_number*2 - mujoco_with_usd}}
+  number: ${{ build_number * 2 - 1 if mujoco_with_usd else build_number * 2}}
 
 outputs:
   - package:
