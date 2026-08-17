@@ -386,8 +386,6 @@ outputs:
           pip_check: true
   - package:
       name: mujoco
-    build:
-      skip: mujoco_with_usd
     requirements:
       run:
         - ${{ pin_subpackage("libmujoco", exact=True) }}
@@ -398,21 +396,13 @@ outputs:
       - python:
           imports:
             - mujoco
-
   - package:
       name: mujoco-usd
     build:
-      skip: not mujoco_with_usd
+      skip: ${{ not mujoco_with_usd }}
     requirements:
       run:
         - ${{ pin_subpackage("libmujoco", exact=True) }}
-        - ${{ pin_subpackage("mujoco-samples", exact=True) }}
-        - ${{ pin_subpackage("mujoco-simulate", exact=True) }}
-        - ${{ pin_subpackage("mujoco-python", upper_bound="x.x.x") }}
-    tests:
-      - python:
-          imports:
-            - mujoco
 
 about:
   homepage: https://github.com/deepmind/mujoco
