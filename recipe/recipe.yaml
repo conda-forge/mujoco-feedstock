@@ -28,12 +28,14 @@ source:
       - patches/0018-find-openusd.patch
 
 build:
-  number: ${{ build_number * 2 - 1 if mujoco_with_usd else build_number * 2 }}
-
+  number: ${{ build_number }} 
+  
 outputs:
   - package:
       name: libmujoco
     build:
+      variant:
+        down_prioritize_variant: ${{ 1 if mujoco_with_usd else 0}}
       script:
         - if: unix
           then: build_cxx.sh
@@ -382,7 +384,6 @@ outputs:
           imports:
             - mujoco.sysid
           pip_check: true
-
   - package:
       name: mujoco
     build:
