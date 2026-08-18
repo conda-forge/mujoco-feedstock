@@ -1,0 +1,3 @@
+mujoco_with_usd:
+  - false
+  - true

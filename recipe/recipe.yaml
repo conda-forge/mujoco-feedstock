@@ -1,6 +1,7 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
 context:
   version: "3.10.0"
+  build_number: 1
 
 recipe:
   name: mujoco-split
@@ -24,14 +25,18 @@ source:
       - patches/0015-CMake-use-CMAKE_REQUIRED_LINK_OPTIONS-instead-of-CMA.patch
       - patches/0016-Add-MSYS-as-a-Windows-platform.patch
       - patches/0017-unvendor-tinyobjloader.patch
+      - patches/0018-find-openusd.patch
+      - patches/0019-fix-msvc-openusd.patch
 
 build:
-  number: 0
-
+  number: ${{ build_number }} 
+  
 outputs:
   - package:
       name: libmujoco
     build:
+      variant:
+        down_prioritize_variant: ${{ 1 if mujoco_with_usd else 0}}
       script:
         - if: unix
           then: build_cxx.sh
@@ -64,6 +69,9 @@ outputs:
         - if: linux
           then:
             - libgl-devel
+        - if: mujoco_with_usd
+          then:
+            - openusd
       run:
         - if: linux
           then:
@@ -110,6 +118,23 @@ outputs:
               - if not exist %LIBRARY_BIN%\mujoco_plugin\sdf_plugin.dll exit 1
               - if exist     %LIBRARY_BIN%\mujoco_plugin\sdf_plugin.lib exit 1
               - if exist %LIBRARY_BIN%\simulate.exe exit 1
+          - if: mujoco_with_usd and unix
+            then:
+              - test -f "${PREFIX}/bin/mujoco_plugin/libusd_decoder_plugin${SHLIB_EXT}"
+
+          - if: mujoco_with_usd and win
+            then:
+              - if not exist %LIBRARY_BIN%\mujoco_plugin\usd_decoder_plugin.dll exit 1
+              - if exist %LIBRARY_BIN%\mujoco_plugin\usd_decoder_plugin.lib exit 1
+
+          - if: not mujoco_with_usd and unix
+            then:
+              - test ! -f "${PREFIX}/bin/mujoco_plugin/libusd_decoder_plugin${SHLIB_EXT}"
+
+          - if: not mujoco_with_usd and win
+            then:
+              - if exist %LIBRARY_BIN%\mujoco_plugin\usd_decoder_plugin.dll exit 1
+
         requirements:
           run:
             - cmake-package-check
@@ -371,7 +396,6 @@ outputs:
           imports:
             - mujoco.sysid
           pip_check: true
-
   - package:
       name: mujoco
     requirements:
@@ -384,6 +408,13 @@ outputs:
       - python:
           imports:
             - mujoco
+  - package:
+      name: mujoco-usd
+    build:
+      skip: ${{ not mujoco_with_usd }}
+    requirements:
+      run:
+        - ${{ pin_subpackage("libmujoco", exact=True) }}
 
 about:
   homepage: https://github.com/deepmind/mujoco

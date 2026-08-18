@@ -1,0 +1,14 @@
+diff --git a/cmake/mujocoConfig.cmake.in b/cmake/mujocoConfig.cmake.in
+index b7d1f8b..8ba3fc7 100644
+--- a/cmake/mujocoConfig.cmake.in
++++ b/cmake/mujocoConfig.cmake.in
+@@ -16,6 +16,9 @@
+ 
+ include(CMakeFindDependencyMacro)
+ find_dependency(OpenGL)
++if(@MUJOCO_WITH_USD@)
++  find_dependency(pxr)
++endif()
+ 
+ if(NOT TARGET mujoco AND NOT @PROJECT_NAME@_BINARY_DIR)
+   include("${CMAKE_CURRENT_LIST_DIR}/mujocoTargets.cmake")
