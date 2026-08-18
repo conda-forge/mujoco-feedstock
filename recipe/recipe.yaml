@@ -120,20 +120,20 @@ outputs:
               - if exist %LIBRARY_BIN%\simulate.exe exit 1
           - if: mujoco_with_usd and unix
             then:
-              - test -f "${PREFIX}/bin/mujoco_plugin/libusd_decoder${SHLIB_EXT}"
+              - test -f "${PREFIX}/bin/mujoco_plugin/libusd_decoder_plugin${SHLIB_EXT}"
 
           - if: mujoco_with_usd and win
             then:
-              - if not exist %LIBRARY_BIN%\mujoco_plugin\usd_decoder.dll exit 1
-              - if exist %LIBRARY_BIN%\mujoco_plugin\usd_decoder.lib exit 1
+              - if not exist %LIBRARY_BIN%\mujoco_plugin\usd_decoder_plugin.dll exit 1
+              - if exist %LIBRARY_BIN%\mujoco_plugin\usd_decoder_plugin.lib exit 1
 
           - if: not mujoco_with_usd and unix
             then:
-              - test ! -f "${PREFIX}/bin/mujoco_plugin/libusd_decoder${SHLIB_EXT}"
+              - test ! -f "${PREFIX}/bin/mujoco_plugin/libusd_decoder_plugin${SHLIB_EXT}"
 
           - if: not mujoco_with_usd and win
             then:
-              - if exist %LIBRARY_BIN%\mujoco_plugin\usd_decoder.dll exit 1
+              - if exist %LIBRARY_BIN%\mujoco_plugin\usd_decoder_plugin.dll exit 1
 
         requirements:
           run:
