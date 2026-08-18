@@ -26,6 +26,7 @@ source:
       - patches/0017-unvendor-tinyobjloader.patch
       - patches/0018-unvendor-miniz.patch
       - patches/0018-find-openusd.patch
+      - patches/0019-fix-strcasecmp-on-windows.patch
 
 build:
   number: ${{ build_number }} 

@@ -1,0 +1,12 @@
+--- a/src/experimental/usd/plugins/mjcf/mjcf_file_format.cc
++++ b/src/experimental/usd/plugins/mjcf/mjcf_file_format.cc
+@@ -13,6 +13,9 @@
+ // limitations under the License.
+
+ #include "mjcf/mjcf_file_format.h"
++#ifdef _WIN32
++#define strcasecmp _stricmp
++#endif
+
+ #include <array>
+ #include <memory>
