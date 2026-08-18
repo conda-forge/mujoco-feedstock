@@ -1,8 +1,8 @@
 diff --git a/cmake/MujocoOptions.cmake b/cmake/MujocoOptions.cmake
-index a606220cff8..f9c1ccfa6fc 100644
+index 952163a1cf2..acc1f9c5a18 100644
 --- a/cmake/MujocoOptions.cmake
 +++ b/cmake/MujocoOptions.cmake
-@@ -56,6 +56,7 @@ set(CMAKE_VISIBILITY_INLINES_HIDDEN ON)
+@@ -60,6 +60,7 @@ set(CMAKE_VISIBILITY_INLINES_HIDDEN ON)
  
  if(MSVC)
    add_compile_options(/Gy /Gw /Oi)
@@ -40,7 +40,7 @@ index 3181e3504f5..7bb77048249 100644
  # Install to mujoco_plugin directory in bin location so that it is picked up by simulate
  # on startup.
 diff --git a/src/experimental/usd/CMakeLists.txt b/src/experimental/usd/CMakeLists.txt
-index c2763ef37a0..819079a2d38 100644
+index 6db73264bb6..d54cc9502f2 100644
 --- a/src/experimental/usd/CMakeLists.txt
 +++ b/src/experimental/usd/CMakeLists.txt
 @@ -108,10 +108,6 @@ add_library(${MJCF_PLUGIN_TARGET_NAME} SHARED)
@@ -107,32 +107,34 @@ index c2763ef37a0..819079a2d38 100644
  # Configure RPATH for macOS and UNIX.
  if(APPLE)
 diff --git a/src/experimental/usd/plugins/mjcf/mjcf_file_format.cc b/src/experimental/usd/plugins/mjcf/mjcf_file_format.cc
-index 4fcdc505410..4d1ad106642 100644
+index 4fcdc505410..54d17d7667c 100644
 --- a/src/experimental/usd/plugins/mjcf/mjcf_file_format.cc
 +++ b/src/experimental/usd/plugins/mjcf/mjcf_file_format.cc
-@@ -45,6 +45,13 @@ PXR_NAMESPACE_OPEN_SCOPE
+@@ -45,6 +45,15 @@ PXR_NAMESPACE_OPEN_SCOPE
  
  TF_DEFINE_PUBLIC_TOKENS(UsdMjcfFileFormatTokens, USD_MJCF_FILE_FORMAT_TOKENS);
  
 +#if defined(ARCH_OS_WINDOWS)
-+using Arch_ConstructorInit = pxr::Arch_ConstructorInit;
-+using Arch_ConstructorEntry = pxr::Arch_ConstructorEntry;
 +#define strcasecmp _stricmp
 +#define strncasecmp _strnicmp
++#endif
++#if defined(ARCH_COMPILER_MSVC)
++using Arch_ConstructorInit = pxr::Arch_ConstructorInit;
++using Arch_ConstructorEntry = pxr::Arch_ConstructorEntry;
 +#endif
 +
  TF_REGISTRY_FUNCTION(TfType) {
    SDF_DEFINE_FILE_FORMAT(UsdMjcfFileFormat, SdfFileFormat);
  }
 diff --git a/src/experimental/usd/plugins/mjcf/mujoco_to_usd.cc b/src/experimental/usd/plugins/mjcf/mujoco_to_usd.cc
-index ccc4158c3e0..2c584fb766d 100644
+index 7a1799cf020..7730e55f3ae 100644
 --- a/src/experimental/usd/plugins/mjcf/mujoco_to_usd.cc
 +++ b/src/experimental/usd/plugins/mjcf/mujoco_to_usd.cc
-@@ -130,6 +130,9 @@ template <typename T>
+@@ -141,6 +141,9 @@ template <typename T>
  using Arch_PerLibInit = pxr::Arch_PerLibInit<T>;
  #if defined(ARCH_OS_DARWIN)
  using Arch_ConstructorEntry = pxr::Arch_ConstructorEntry;
-+#elif defined(ARCH_OS_WINDOWS)
++#elif defined(ARCH_COMPILER_MSVC)
 +using Arch_ConstructorInit = pxr::Arch_ConstructorInit;
 +using Arch_ConstructorEntry = pxr::Arch_ConstructorEntry;
  #endif
@@ -151,4 +153,3 @@ index 9256bba783a..db4de6db9f0 100644
  }  // namespace usd
  }  // namespace mujoco
  
-
