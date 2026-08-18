@@ -1,3 +1,4 @@
+
 diff --git a/cmake/MujocoOptions.cmake b/cmake/MujocoOptions.cmake
 index 952163a1cf2..acc1f9c5a18 100644
 --- a/cmake/MujocoOptions.cmake
@@ -59,7 +60,7 @@ index 3181e3504f5..0d301b301ba 100644
  
  target_link_libraries(usd_decoder_plugin PRIVATE usd usdGeom usdPhysics usdShade gf tf ar vt kind)
 diff --git a/src/experimental/usd/CMakeLists.txt b/src/experimental/usd/CMakeLists.txt
-index 6db73264bb6..d54cc9502f2 100644
+index 6db73264bb6..c92f9da2837 100644
 --- a/src/experimental/usd/CMakeLists.txt
 +++ b/src/experimental/usd/CMakeLists.txt
 @@ -108,10 +108,6 @@ add_library(${MJCF_PLUGIN_TARGET_NAME} SHARED)
@@ -125,6 +126,14 @@ index 6db73264bb6..d54cc9502f2 100644
  
  # Configure RPATH for macOS and UNIX.
  if(APPLE)
+@@ -264,5 +279,7 @@ install(TARGETS
+   ${MJCF_PLUGIN_TARGET_NAME}
+   ${MJC_PHYSICS_PLUGIN_TARGET_NAME}
+   EXPORT ${PROJECT_NAME}
++  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
++  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+ )
 diff --git a/src/experimental/usd/plugins/mjcf/mjcf_file_format.cc b/src/experimental/usd/plugins/mjcf/mjcf_file_format.cc
 index 4fcdc505410..54d17d7667c 100644
 --- a/src/experimental/usd/plugins/mjcf/mjcf_file_format.cc
@@ -172,3 +181,4 @@ index 9256bba783a..db4de6db9f0 100644
  }  // namespace usd
  }  // namespace mujoco
  
+
