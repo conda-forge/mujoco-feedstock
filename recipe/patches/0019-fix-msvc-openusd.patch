@@ -11,10 +11,10 @@ index 952163a1cf2..acc1f9c5a18 100644
    add_compile_options(-fdata-sections -ffunction-sections)
  endif()
 diff --git a/plugin/usd_decoder/CMakeLists.txt b/plugin/usd_decoder/CMakeLists.txt
-index 3181e3504f5..7bb77048249 100644
+index 3181e3504f5..0d301b301ba 100644
 --- a/plugin/usd_decoder/CMakeLists.txt
 +++ b/plugin/usd_decoder/CMakeLists.txt
-@@ -34,12 +34,23 @@ target_compile_options(usd_decoder_plugin PRIVATE
+@@ -34,18 +34,38 @@ target_compile_options(usd_decoder_plugin PRIVATE
    ${MUJOCO_MACOS_COMPILE_OPTIONS}
    ${EXTRA_COMPILE_OPTIONS}
    ${MUJOCO_CXX_FLAGS}
@@ -39,6 +39,25 @@ index 3181e3504f5..7bb77048249 100644
  
  # Install to mujoco_plugin directory in bin location so that it is picked up by simulate
  # on startup.
+-install(
+-  TARGETS usd_decoder_plugin
+-  LIBRARY DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin"
+-)
++if(WIN32)
++  install(
++    TARGETS usd_decoder_plugin
++    ARCHIVE DESTINATION "$ENV{TEMP}"
++    LIBRARY DESTINATION "$ENV{TEMP}"
++    RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin"
++  )
++else()
++  install(
++    TARGETS usd_decoder_plugin
++    LIBRARY DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin"
++  )
++endif()
+ 
+ target_link_libraries(usd_decoder_plugin PRIVATE usd usdGeom usdPhysics usdShade gf tf ar vt kind)
 diff --git a/src/experimental/usd/CMakeLists.txt b/src/experimental/usd/CMakeLists.txt
 index 6db73264bb6..d54cc9502f2 100644
 --- a/src/experimental/usd/CMakeLists.txt
