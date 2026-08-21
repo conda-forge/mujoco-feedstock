@@ -26,7 +26,7 @@ source:
       - patches/0017-unvendor-tinyobjloader.patch
 
 build:
-  number: 0
+  number: 1
 
 outputs:
   - package:
