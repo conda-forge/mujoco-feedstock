@@ -24,6 +24,7 @@ source:
       - patches/0015-CMake-use-CMAKE_REQUIRED_LINK_OPTIONS-instead-of-CMA.patch
       - patches/0016-Add-MSYS-as-a-Windows-platform.patch
       - patches/0017-unvendor-tinyobjloader.patch
+      - patches/0018-unvendor-miniz.patch
 
 build:
   number: 0
@@ -59,6 +60,7 @@ outputs:
         - libccd-double
         - libabseil
         - lodepng
+        - miniz
         - glfw
         - libtinyobjloader >=2.0.0rc13
         - if: linux

@@ -1,5 +1,5 @@
 diff --git a/sample/CMakeLists.txt b/sample/CMakeLists.txt
-index defcf85..bc5dac6 100644
+index defcf85..398749d 100644
 --- a/sample/CMakeLists.txt
 +++ b/sample/CMakeLists.txt
 @@ -42,7 +42,7 @@ set(_INSTALL_SAMPLES ON)
@@ -11,20 +11,29 @@ index defcf85..bc5dac6 100644
  endif()
  
  list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
-@@ -169,7 +169,7 @@ if(APPLE AND MUJOCO_BUILD_MACOS_FRAMEWORKS)
- endif()
+@@ -170,8 +170,6 @@ endif()
  
  if(_INSTALL_SAMPLES)
--
-+  if(FALSE)
-   include(TargetAddRpath)
  
+-  include(TargetAddRpath)
+-
    # Add support to RPATH for the samples.
-@@ -194,6 +194,7 @@ if(_INSTALL_SAMPLES)
-     DEPENDS
-     MUJOCO_ENABLE_RPATH
-   )
-+  endif()
+   set(MUJOCO_INSTALL_SAMPLES
+       basic
+@@ -184,16 +182,6 @@ if(_INSTALL_SAMPLES)
+     list(APPEND MUJOCO_INSTALL_SAMPLES render)
+   endif()
+ 
+-  target_add_rpath(
+-    TARGETS
+-    ${MUJOCO_INSTALL_SAMPLES}
+-    INSTALL_DIRECTORY
+-    "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}"
+-    LIB_DIRS
+-    "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}"
+-    DEPENDS
+-    MUJOCO_ENABLE_RPATH
+-  )
  
    install(
      TARGETS ${MUJOCO_INSTALL_SAMPLES}
