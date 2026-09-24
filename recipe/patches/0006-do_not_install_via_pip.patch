@@ -15,9 +15,9 @@ index da4c3260..25abd8e9 100755
    readonly tmp_dir="$(mktemp -d)"
  fi
  
--python -m pip install --upgrade --require-hashes \
+-python -m pip install --no-build-isolation --upgrade --require-hashes \
 -    -r ${package_dir}/make_sdist_requirements.txt
-+#python -m pip install --upgrade --require-hashes \
++#python -m pip install --no-build-isolation --upgrade --require-hashes \
 +#    -r ${package_dir}/make_sdist_requirements.txt
  pushd ${tmp_dir}
  cp -r "${package_dir}"/* .

@@ -15,8 +15,8 @@ index 25abd8e9..afad9356 100755
  # Copy over Simulate source code.
  cp -r "${package_dir}"/../simulate mujoco
  
--python -m build . --sdist
-+python -m build . --sdist --no-isolation --skip-dependency-check
+-python -m build --no-isolation . --sdist
++python -m build --no-isolation . --sdist --skip-dependency-check
  tar -tf dist/mujoco-*.tar.gz
  popd
  

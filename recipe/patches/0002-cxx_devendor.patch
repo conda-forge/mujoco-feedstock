@@ -1,15 +1,17 @@
 diff --git a/cmake/MujocoDependencies.cmake b/cmake/MujocoDependencies.cmake
+index 6e205a7..9985af7 100644
 --- a/cmake/MujocoDependencies.cmake
 +++ b/cmake/MujocoDependencies.cmake
-@@ -90,6 +90,7 @@
+@@ -83,7 +83,7 @@ set(BUILD_SHARED_LIBS
      CACHE INTERNAL "Build SHARED libraries"
  )
  
+-include(third_party_deps/lodepng)
 +find_package(lodepng REQUIRED)
- if(NOT TARGET lodepng)
+ 
+ if(NOT TARGET marchingcubecpp)
    FetchContent_Declare(
-     lodepng
-@@ -136,9 +137,9 @@
+@@ -107,9 +107,9 @@ set(QHULL_PATCH_COMMAND
  
  findorfetch(
    USE_SYSTEM_PACKAGE
@@ -21,7 +23,7 @@ diff --git a/cmake/MujocoDependencies.cmake b/cmake/MujocoDependencies.cmake
    LIBRARY_NAME
    qhull
    GIT_REPO
-@@ -152,16 +153,21 @@
+@@ -123,16 +123,21 @@ findorfetch(
  )
  # MuJoCo includes a file from libqhull_r which is not exported by the qhull include directories.
  # Add it to the target.
@@ -49,7 +51,7 @@ diff --git a/cmake/MujocoDependencies.cmake b/cmake/MujocoDependencies.cmake
    PACKAGE_NAME
    tinyxml2
    LIBRARY_NAME
-@@ -174,8 +180,6 @@
+@@ -145,8 +150,6 @@ findorfetch(
    tinyxml2
    EXCLUDE_FROM_ALL
  )
@@ -58,7 +60,7 @@ diff --git a/cmake/MujocoDependencies.cmake b/cmake/MujocoDependencies.cmake
  
  # update cmake_minimum_required version for compatibility with newer version of cmake
  if(NOT DEFINED CMAKE_POLICY_VERSION_MINIMUM)
-@@ -241,7 +245,7 @@
+@@ -193,7 +196,7 @@ if(NOT DEFINED CMAKE_POLICY_VERSION_MINIMUM)
  endif()
  findorfetch(
    USE_SYSTEM_PACKAGE
@@ -67,7 +69,7 @@ diff --git a/cmake/MujocoDependencies.cmake b/cmake/MujocoDependencies.cmake
    PACKAGE_NAME
    ccd
    LIBRARY_NAME
-@@ -259,19 +263,6 @@
+@@ -211,19 +214,6 @@ if(CMAKE_POLICY_VERSION_MINIMUM_LOCALLY_DEFINED)
    unset(CMAKE_POLICY_VERSION_MINIMUM)
    unset(CMAKE_POLICY_VERSION_MINIMUM_LOCALLY_DEFINED)
  endif()
@@ -85,9 +87,9 @@ diff --git a/cmake/MujocoDependencies.cmake b/cmake/MujocoDependencies.cmake
 -  endif()
 -endif()
  
- if(MUJOCO_BUILD_TESTS OR MUJOCO_BUILD_STUDIO OR MUJOCO_USE_FILAMENT)
-   set(ABSL_PROPAGATE_CXX_STD ON)
-@@ -286,7 +277,7 @@
+ if(DEFINED BUILD_TESTS)
+   set(_OLD_BUILD_TESTS "${BUILD_TESTS}")
+@@ -262,7 +252,7 @@ if(MUJOCO_BUILD_TESTS OR MUJOCO_BUILD_STUDIO OR MUJOCO_USE_FILAMENT)
    set(ABSL_BUILD_TESTING OFF)
    findorfetch(
      USE_SYSTEM_PACKAGE
@@ -96,7 +98,7 @@ diff --git a/cmake/MujocoDependencies.cmake b/cmake/MujocoDependencies.cmake
      PACKAGE_NAME
      absl
      LIBRARY_NAME
-@@ -369,6 +360,9 @@
+@@ -345,6 +335,9 @@ endif()
  
  if(MUJOCO_TEST_PYTHON_UTIL)
    add_compile_definitions(EIGEN_MPL2_ONLY)
@@ -105,4 +107,4 @@ diff --git a/cmake/MujocoDependencies.cmake b/cmake/MujocoDependencies.cmake
 +  add_library(eigen ALIAS Eigen3::Eigen)
    if(NOT TARGET eigen)
      # Support new IN_LIST if() operator.
-   set(CMAKE_POLICY_DEFAULT_CMP0057 NEW)
+     set(CMAKE_POLICY_DEFAULT_CMP0057 NEW)

@@ -1,26 +1,13 @@
-From e21f9f65fd48b970ae66c04949bbe9811ef2b0d7 Mon Sep 17 00:00:00 2001
-From: Silvio Traversaro <silvio.traversaro@iit.it>
-Date: Tue, 24 Feb 2026 21:43:01 +0100
-Subject: [PATCH] Update CMakeLists.txt
-
----
- simulate/CMakeLists.txt | 29 +++++++++++++++++------------
- 1 file changed, 17 insertions(+), 12 deletions(-)
-
 diff --git a/simulate/CMakeLists.txt b/simulate/CMakeLists.txt
-index eb40169aac..7a69839a7b 100644
+index c0c0012..5c17eb3 100644
 --- a/simulate/CMakeLists.txt
 +++ b/simulate/CMakeLists.txt
-@@ -81,6 +81,7 @@ if(MUJOCO_HARDEN)
+@@ -77,33 +77,38 @@ if(MUJOCO_HARDEN)
  endif()
  
  # Fetch lodepng dependency.
+-include(third_party_deps/lodepng)
 +find_package(lodepng REQUIRED)
- if(NOT TARGET lodepng)
-   FetchContent_Declare(
-     lodepng
-@@ -102,30 +103,35 @@ if(NOT TARGET lodepng)
- endif()
  
  # Simulate library
 -add_library(platform_ui_adapter OBJECT)
