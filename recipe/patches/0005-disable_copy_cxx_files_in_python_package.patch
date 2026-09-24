@@ -1,22 +1,8 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: Silvio Traversaro <silvio.traversaro@iit.it>
-Date: Sun, 8 Jun 2025 09:21:38 +0200
-Subject: [PATCH] disable_copy_cxx_files_in_python_package
-
----
- plugin/actuator/CMakeLists.txt   | 14 ++++++++++++++
- plugin/elasticity/CMakeLists.txt | 14 ++++++++++++++
- plugin/sdf/CMakeLists.txt        | 15 +++++++++++++++
- plugin/sensor/CMakeLists.txt     | 14 ++++++++++++++
- python/mujoco/__init__.py        | 10 +++++++++-
- python/setup.py                  |  6 +++---
- 6 files changed, 70 insertions(+), 3 deletions(-)
-
 diff --git a/plugin/actuator/CMakeLists.txt b/plugin/actuator/CMakeLists.txt
-index 1270d48c..b40d82da 100644
+index 6cc7994..a738f03 100644
 --- a/plugin/actuator/CMakeLists.txt
 +++ b/plugin/actuator/CMakeLists.txt
-@@ -37,3 +37,17 @@ target_link_options(
+@@ -39,3 +39,17 @@ target_link_options(
    ${MUJOCO_MACOS_LINK_OPTIONS}
    ${EXTRA_LINK_OPTIONS}
  )
@@ -35,7 +21,7 @@ index 1270d48c..b40d82da 100644
 +  endif()
 +endif()
 diff --git a/plugin/elasticity/CMakeLists.txt b/plugin/elasticity/CMakeLists.txt
-index f6b0883c..f4187db1 100644
+index 97b2f41..502dc00 100644
 --- a/plugin/elasticity/CMakeLists.txt
 +++ b/plugin/elasticity/CMakeLists.txt
 @@ -41,3 +41,17 @@ target_link_options(
@@ -57,33 +43,32 @@ index f6b0883c..f4187db1 100644
 +  endif()
 +endif()
 diff --git a/plugin/sdf/CMakeLists.txt b/plugin/sdf/CMakeLists.txt
-index 3e216fc4..b82c8d32 100644
+index f857bda..8ed3712 100644
 --- a/plugin/sdf/CMakeLists.txt
 +++ b/plugin/sdf/CMakeLists.txt
-@@ -49,3 +49,18 @@ target_link_options(
+@@ -49,3 +49,17 @@ target_link_options(
    ${MUJOCO_MACOS_LINK_OPTIONS}
    ${EXTRA_LINK_OPTIONS}
  )
 +
 +if(MUJOCO_INSTALL_PLUGINS)
 +  if(WIN32)
-+    install(TARGETS sdf_plugin 
++    install(TARGETS sdf_plugin
 +            ARCHIVE DESTINATION "$ENV{TEMP}"
 +            LIBRARY DESTINATION "$ENV{TEMP}"
 +            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin")
 +  else()
-+    install(TARGETS sdf_plugin  
++    install(TARGETS sdf_plugin
 +            ARCHIVE DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin"
 +            LIBRARY DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin"
 +            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin")
 +  endif()
 +endif()
-+
 diff --git a/plugin/sensor/CMakeLists.txt b/plugin/sensor/CMakeLists.txt
-index 4dac6d0a..6c990870 100644
+index 7095a82..4c69e9a 100644
 --- a/plugin/sensor/CMakeLists.txt
 +++ b/plugin/sensor/CMakeLists.txt
-@@ -38,3 +38,17 @@ target_link_options(
+@@ -40,3 +40,17 @@ target_link_options(
    ${MUJOCO_MACOS_LINK_OPTIONS}
    ${EXTRA_LINK_OPTIONS}
  )
@@ -102,11 +87,11 @@ index 4dac6d0a..6c990870 100644
 +  endif()
 +endif()
 diff --git a/python/mujoco/__init__.py b/python/mujoco/__init__.py
-index de578935..2aac76f9 100644
+index 1147be5..27e711b 100644
 --- a/python/mujoco/__init__.py
 +++ b/python/mujoco/__init__.py
-@@ -32,7 +32,7 @@ __path__ = __import__('pkgutil').extend_path(__path__, __name__)
-
+@@ -35,7 +35,7 @@ __path__ = __import__('pkgutil').extend_path(__path__, __name__)
+ 
  _SYSTEM = platform.system()
  if _SYSTEM == 'Windows':
 -  ctypes.WinDLL(os.path.join(os.path.dirname(__file__), 'mujoco.dll'))
@@ -114,9 +99,9 @@ index de578935..2aac76f9 100644
  elif _SYSTEM == 'Darwin':
    proc_translated = subprocess.run(
        ['sysctl', '-n', 'sysctl.proc_translated'], capture_output=True).stdout
-@@ -233,8 +233,13 @@ _specs.MjSpec.to_zip = to_zip
- _structs.MjData.bind = _bind_data
- _structs.MjModel.bind = _bind_model
+@@ -235,8 +235,13 @@ _specs.MjSpec.to_zip = to_zip
+ _structs.MjData.bind = _bind_data  # pyrefly: ignore[bad-assignment]
+ _structs.MjModel.bind = _bind_model  # pyrefly: ignore[bad-assignment]
  
 -HEADERS_DIR = os.path.join(os.path.dirname(__file__), 'include/mujoco')
 -PLUGINS_DIR = os.path.join(os.path.dirname(__file__), 'plugin')
@@ -131,12 +116,12 @@ index de578935..2aac76f9 100644
  PLUGIN_HANDLES = []
  
 diff --git a/python/setup.py b/python/setup.py
-index 3f6e49ff..5a77ba8a 100644
+index 11feec1..a6a3255 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -157,9 +157,9 @@ class BuildCMakeExtension(build_ext.build_ext):
+@@ -156,9 +156,9 @@ class BuildCMakeExtension(build_ext.build_ext):
+     for ext in self.extensions:
        assert ext.name.startswith(EXT_PREFIX)
-       assert '.' not in ext.name[len(EXT_PREFIX) :]
        self.build_extension(ext)
 -    self._copy_external_libraries()
 -    self._copy_mujoco_headers()
@@ -144,8 +129,6 @@ index 3f6e49ff..5a77ba8a 100644
 +    # self._copy_external_libraries()
 +    # self._copy_mujoco_headers()
 +    # self._copy_plugin_libraries()
+     self._copy_studio_assets()
      if self._is_apple:
        self._copy_mjpython()
- 
--- 
-2.43.0

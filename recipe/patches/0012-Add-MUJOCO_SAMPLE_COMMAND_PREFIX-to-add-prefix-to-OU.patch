@@ -1,18 +1,8 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: Silvio Traversaro <silvio@traversaro.it>
-Date: Tue, 5 Mar 2024 00:06:00 +0100
-Subject: [PATCH] Add MUJOCO_SAMPLE_COMMAND_PREFIX to add prefix to OUTPUT_NAME
- of mujoco_samples commands
-
----
- sample/CMakeLists.txt | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
 diff --git a/sample/CMakeLists.txt b/sample/CMakeLists.txt
-index fed247f5..7ace2b00 100644
+index bb0e37c..defcf85 100644
 --- a/sample/CMakeLists.txt
 +++ b/sample/CMakeLists.txt
-@@ -56,6 +56,13 @@ include(SampleDependencies)
+@@ -57,6 +57,13 @@ include(SampleDependencies)
  
  set(MUJOCO_SAMPLE_COMPILE_OPTIONS "${AVX_COMPILE_OPTIONS}" "${EXTRA_COMPILE_OPTIONS}")
  set(MUJOCO_SAMPLE_LINK_OPTIONS "${EXTRA_LINK_OPTIONS}")
@@ -26,7 +16,7 @@ index fed247f5..7ace2b00 100644
  
  if(MUJOCO_HARDEN)
    if(WIN32)
-@@ -75,17 +82,20 @@ add_executable(compile compile.cc)
+@@ -76,17 +83,20 @@ add_executable(compile compile.cc)
  target_compile_options(compile PUBLIC ${MUJOCO_SAMPLE_COMPILE_OPTIONS})
  target_link_libraries(compile Threads::Threads)
  target_link_options(compile PRIVATE ${MUJOCO_SAMPLE_LINK_OPTIONS})
@@ -47,7 +37,7 @@ index fed247f5..7ace2b00 100644
  
  target_link_libraries(compile mujoco::mujoco)
  target_link_libraries(dependencies mujoco::mujoco)
-@@ -102,6 +112,7 @@ target_link_libraries(
+@@ -103,6 +113,7 @@ target_link_libraries(
    Threads::Threads
  )
  target_link_options(basic PRIVATE ${MUJOCO_SAMPLE_LINK_OPTIONS})
@@ -55,13 +45,11 @@ index fed247f5..7ace2b00 100644
  
  add_executable(record record.cc array_safety.h)
  target_compile_options(record PUBLIC ${MUJOCO_SAMPLE_COMPILE_OPTIONS})
-@@ -112,6 +123,7 @@ target_link_libraries(
+@@ -113,6 +124,7 @@ target_link_libraries(
    Threads::Threads
  )
  target_link_options(record PRIVATE ${MUJOCO_SAMPLE_LINK_OPTIONS})
 +mujoco_sample_set_command_prefix(record)
  
- if(APPLE AND MUJOCO_BUILD_MACOS_FRAMEWORKS)
-   embed_in_bundle(basic simulate)
--- 
-2.43.0
+ if(MUJOCO_USE_FILAMENT)
+   add_executable(render render.cc)
