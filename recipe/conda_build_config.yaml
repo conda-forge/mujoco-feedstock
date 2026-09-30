@@ -1,9 +1,9 @@
-# Temporary pin: keep libabseil at 20260107 until jaxlib migrates to 20260526.
-# conda-forge-pinning 2026.08.17 bumped libabseil to 20260526, but jaxlib is
-# still built against libabseil 20260107.1 and has not been migrated yet (see
-# https://github.com/conda-forge/jaxlib-feedstock/pull/349). Without this pin the
-# mujoco-mjx test env cannot be solved, because mujoco-python (new abseil) and
-# jaxlib (old abseil) share no common libabseil.
+# Build mujoco against both libabseil 20260107 and 20260526.
+# jaxlib is still built against libabseil 20260107.1 (see
+# https://github.com/conda-forge/jaxlib-feedstock/pull/357), so the old variant keeps
+# mujoco-mjx installable together with jaxlib, while the new variant lets mujoco be
+# installed in environments that already use libabseil 20260526.
 # Drop this file once jaxlib is rebuilt for libabseil 20260526.
 libabseil:
-  - '20260107'
+  - "20260107"
+  - "20260526"
