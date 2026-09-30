@@ -20,6 +20,7 @@ cxx_compiler_version:
 - '21'
 libabseil:
 - '20260107'
+- '20260526'
 macos_machine:
 - x86_64-apple-darwin13.4.0
 numpy:
