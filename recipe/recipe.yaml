@@ -238,6 +238,7 @@ outputs:
         - fsspec
         - importlib_resources
         - typing_extensions
+        - websockets >=13
         - zipp
     tests:
       - python:
