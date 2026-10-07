@@ -28,6 +28,7 @@ source:
       - patches/0018-unvendor-miniz.patch
       - patches/0018-find-openusd.patch
       - patches/0019-fix-msvc-openusd.patch
+      - patches/0020-fix-usd-decoder-newton-tokens.patch
 
 build:
   number: ${{ build_number }} 

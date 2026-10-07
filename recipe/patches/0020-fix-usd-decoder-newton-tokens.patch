@@ -1,0 +1,48 @@
+diff --git a/plugin/usd_decoder/CMakeLists.txt b/plugin/usd_decoder/CMakeLists.txt
+--- a/plugin/usd_decoder/CMakeLists.txt
++++ b/plugin/usd_decoder/CMakeLists.txt
+@@ -19,6 +19,8 @@
+     kinematic_tree.h
+     material_parsing.cc
+     material_parsing.h
++    newton_tokens.cc
++    newton_tokens.h
+ )
+ 
+ add_library(usd_decoder_plugin SHARED ${USD_DECODER_SRCS})
+diff --git a/plugin/usd_decoder/kinematic_tree.cc b/plugin/usd_decoder/kinematic_tree.cc
+--- a/plugin/usd_decoder/kinematic_tree.cc
++++ b/plugin/usd_decoder/kinematic_tree.cc
+@@ -13,7 +13,7 @@
+ // limitations under the License.
+ 
+ #include "kinematic_tree.h"
+-#include "third_party/mujoco/plugin/usd_decoder/newton_tokens.h"
++#include "plugin/usd_decoder/newton_tokens.h"
+ 
+ #include <map>
+ #include <memory>
+diff --git a/plugin/usd_decoder/newton_tokens.cc b/plugin/usd_decoder/newton_tokens.cc
+--- a/plugin/usd_decoder/newton_tokens.cc
++++ b/plugin/usd_decoder/newton_tokens.cc
+@@ -12,7 +12,7 @@
+ // See the License for the specific language governing permissions and
+ // limitations under the License.
+ 
+-#include "third_party/mujoco/plugin/usd_decoder/newton_tokens.h"
++#include "plugin/usd_decoder/newton_tokens.h"
+ #include <pxr/base/tf/staticTokens.h>
+ #include <pxr/pxr.h>
+ 
+diff --git a/plugin/usd_decoder/usd_decoder.cc b/plugin/usd_decoder/usd_decoder.cc
+--- a/plugin/usd_decoder/usd_decoder.cc
++++ b/plugin/usd_decoder/usd_decoder.cc
+@@ -41,7 +41,7 @@
+ #include <mujoco/mujoco.h>
+ #include "kinematic_tree.h"
+ #include "material_parsing.h"
+-#include "third_party/mujoco/plugin/usd_decoder/newton_tokens.h"
++#include "plugin/usd_decoder/newton_tokens.h"
+ #include <pxr/base/gf/declare.h>
+ #include <pxr/base/gf/matrix4d.h>
+ #include <pxr/base/gf/matrix4f.h>
