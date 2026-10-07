@@ -23,6 +23,9 @@ libabseil:
 - '20260526'
 macos_machine:
 - arm64-apple-darwin20.0.0
+mujoco_with_usd:
+- false
+- true
 numpy:
 - '2'
 pin_run_as_build:

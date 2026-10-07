@@ -67,6 +67,7 @@ Current release info
 | [![Conda Recipe](https://img.shields.io/badge/recipe-mujoco--samples-green.svg)](https://anaconda.org/conda-forge/mujoco-samples) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/mujoco-samples.svg)](https://anaconda.org/conda-forge/mujoco-samples) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/mujoco-samples.svg)](https://anaconda.org/conda-forge/mujoco-samples) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/mujoco-samples.svg)](https://anaconda.org/conda-forge/mujoco-samples) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-mujoco--simulate-green.svg)](https://anaconda.org/conda-forge/mujoco-simulate) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/mujoco-simulate.svg)](https://anaconda.org/conda-forge/mujoco-simulate) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/mujoco-simulate.svg)](https://anaconda.org/conda-forge/mujoco-simulate) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/mujoco-simulate.svg)](https://anaconda.org/conda-forge/mujoco-simulate) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-mujoco--sysid-green.svg)](https://anaconda.org/conda-forge/mujoco-sysid) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/mujoco-sysid.svg)](https://anaconda.org/conda-forge/mujoco-sysid) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/mujoco-sysid.svg)](https://anaconda.org/conda-forge/mujoco-sysid) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/mujoco-sysid.svg)](https://anaconda.org/conda-forge/mujoco-sysid) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-mujoco--usd-green.svg)](https://anaconda.org/conda-forge/mujoco-usd) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/mujoco-usd.svg)](https://anaconda.org/conda-forge/mujoco-usd) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/mujoco-usd.svg)](https://anaconda.org/conda-forge/mujoco-usd) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/mujoco-usd.svg)](https://anaconda.org/conda-forge/mujoco-usd) |
 
 Installing libmujoco
 ====================
@@ -85,7 +86,7 @@ How to use
 <summary>With conda</summary>
 
 ```
-conda install libmujoco mujoco mujoco-mjx mujoco-python mujoco-samples mujoco-simulate mujoco-sysid
+conda install libmujoco mujoco mujoco-mjx mujoco-python mujoco-samples mujoco-simulate mujoco-sysid mujoco-usd
 ```
 
 </details>
@@ -94,7 +95,7 @@ conda install libmujoco mujoco mujoco-mjx mujoco-python mujoco-samples mujoco-si
 <summary>With mamba</summary>
 
 ```
-mamba install libmujoco mujoco mujoco-mjx mujoco-python mujoco-samples mujoco-simulate mujoco-sysid
+mamba install libmujoco mujoco mujoco-mjx mujoco-python mujoco-samples mujoco-simulate mujoco-sysid mujoco-usd
 ```
 
 </details>
@@ -104,9 +105,9 @@ mamba install libmujoco mujoco mujoco-mjx mujoco-python mujoco-samples mujoco-si
 
 ```
 # for adding to your local project
-pixi add libmujoco mujoco mujoco-mjx mujoco-python mujoco-samples mujoco-simulate mujoco-sysid
+pixi add libmujoco mujoco mujoco-mjx mujoco-python mujoco-samples mujoco-simulate mujoco-sysid mujoco-usd
 # for installing globally
-pixi global install libmujoco mujoco mujoco-mjx mujoco-python mujoco-samples mujoco-simulate mujoco-sysid
+pixi global install libmujoco mujoco mujoco-mjx mujoco-python mujoco-samples mujoco-simulate mujoco-sysid mujoco-usd
 ```
 
 </details>
