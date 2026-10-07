@@ -35,6 +35,7 @@ outputs:
   - package:
       name: libmujoco
     build:
+      string: ${{ "usd_" if mujoco_with_usd else "" }}h${{ hash }}_${{ build_number }}
       variant:
         down_prioritize_variant: ${{ 1 if mujoco_with_usd else 0}}
       script:
@@ -420,7 +421,7 @@ outputs:
       skip: ${{ not mujoco_with_usd }}
     requirements:
       run:
-        - ${{ pin_subpackage("libmujoco", exact=True) }}
+        - ${{ pin_subpackage("libmujoco", upper_bound="x.x.x", build="usd_*") }}
 
 about:
   homepage: https://github.com/deepmind/mujoco
