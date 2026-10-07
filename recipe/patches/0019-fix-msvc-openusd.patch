@@ -1,6 +1,5 @@
-
 diff --git a/cmake/MujocoOptions.cmake b/cmake/MujocoOptions.cmake
-index 952163a1cf2..acc1f9c5a18 100644
+index 74bf25b..50d1547 100644
 --- a/cmake/MujocoOptions.cmake
 +++ b/cmake/MujocoOptions.cmake
 @@ -60,6 +60,7 @@ set(CMAKE_VISIBILITY_INLINES_HIDDEN ON)
@@ -12,7 +11,7 @@ index 952163a1cf2..acc1f9c5a18 100644
    add_compile_options(-fdata-sections -ffunction-sections)
  endif()
 diff --git a/plugin/usd_decoder/CMakeLists.txt b/plugin/usd_decoder/CMakeLists.txt
-index 3181e3504f5..0d301b301ba 100644
+index 3181e35..0d301b3 100644
 --- a/plugin/usd_decoder/CMakeLists.txt
 +++ b/plugin/usd_decoder/CMakeLists.txt
 @@ -34,18 +34,38 @@ target_compile_options(usd_decoder_plugin PRIVATE
@@ -60,7 +59,7 @@ index 3181e3504f5..0d301b301ba 100644
  
  target_link_libraries(usd_decoder_plugin PRIVATE usd usdGeom usdPhysics usdShade gf tf ar vt kind)
 diff --git a/src/experimental/usd/CMakeLists.txt b/src/experimental/usd/CMakeLists.txt
-index 6db73264bb6..c92f9da2837 100644
+index 0464ef7..f24d2c9 100644
 --- a/src/experimental/usd/CMakeLists.txt
 +++ b/src/experimental/usd/CMakeLists.txt
 @@ -108,10 +108,6 @@ add_library(${MJCF_PLUGIN_TARGET_NAME} SHARED)
@@ -135,7 +134,7 @@ index 6db73264bb6..c92f9da2837 100644
 +  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
  )
 diff --git a/src/experimental/usd/plugins/mjcf/mjcf_file_format.cc b/src/experimental/usd/plugins/mjcf/mjcf_file_format.cc
-index 4fcdc505410..54d17d7667c 100644
+index 4fcdc50..54d17d7 100644
 --- a/src/experimental/usd/plugins/mjcf/mjcf_file_format.cc
 +++ b/src/experimental/usd/plugins/mjcf/mjcf_file_format.cc
 @@ -45,6 +45,15 @@ PXR_NAMESPACE_OPEN_SCOPE
@@ -155,10 +154,10 @@ index 4fcdc505410..54d17d7667c 100644
    SDF_DEFINE_FILE_FORMAT(UsdMjcfFileFormat, SdfFileFormat);
  }
 diff --git a/src/experimental/usd/plugins/mjcf/mujoco_to_usd.cc b/src/experimental/usd/plugins/mjcf/mujoco_to_usd.cc
-index 7a1799cf020..7730e55f3ae 100644
+index 5e0350f..70c6582 100644
 --- a/src/experimental/usd/plugins/mjcf/mujoco_to_usd.cc
 +++ b/src/experimental/usd/plugins/mjcf/mujoco_to_usd.cc
-@@ -141,6 +141,9 @@ template <typename T>
+@@ -147,6 +147,9 @@ template <typename T>
  using Arch_PerLibInit = pxr::Arch_PerLibInit<T>;
  #if defined(ARCH_OS_DARWIN)
  using Arch_ConstructorEntry = pxr::Arch_ConstructorEntry;
@@ -169,7 +168,7 @@ index 7a1799cf020..7730e55f3ae 100644
  enum ErrorCodes { UnsupportedActuatorTypeError, UnsupportedGeomTypeError, MujocoCompilationError };
  
 diff --git a/src/experimental/usd/plugins/mjcf/mujoco_to_usd.h b/src/experimental/usd/plugins/mjcf/mujoco_to_usd.h
-index 9256bba783a..db4de6db9f0 100644
+index 9256bba..db4de6d 100644
 --- a/src/experimental/usd/plugins/mjcf/mujoco_to_usd.h
 +++ b/src/experimental/usd/plugins/mjcf/mujoco_to_usd.h
 @@ -27,7 +27,7 @@ namespace usd {
@@ -181,4 +180,3 @@ index 9256bba783a..db4de6db9f0 100644
  }  // namespace usd
  }  // namespace mujoco
  
-
