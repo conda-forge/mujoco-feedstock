@@ -1,17 +1,6 @@
 set "CC=clang-cl.exe"
 set "CXX=clang-cl.exe"
 
-:: openusd is built with Python support, so its inline VtValue <-> Python
-:: conversion code makes mujoco.dll reference a few Python C-API symbols.
-:: pyconfig.h would auto-link the versioned python3XX.lib, tying libmujoco to
-:: the Python version openusd had in the host env. Link the stable ABI
-:: python3.lib instead, so mujoco.dll works with any Python 3 at runtime.
-if /I "%mujoco_with_usd%"=="true" (
-    set "CFLAGS=%CFLAGS% -DPy_NO_LINK_LIB"
-    set "CXXFLAGS=%CXXFLAGS% -DPy_NO_LINK_LIB"
-    set "LDFLAGS=%LDFLAGS% %PREFIX%\libs\python3.lib"
-)
-
 mkdir build_cxx
 cd build_cxx
 

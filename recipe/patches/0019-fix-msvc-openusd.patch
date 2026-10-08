@@ -10,6 +10,38 @@ index 74bf25b..50d1547 100644
  elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
    add_compile_options(-fdata-sections -ffunction-sections)
  endif()
+diff --git a/cmake/third_party_deps/openusd.cmake b/cmake/third_party_deps/openusd.cmake
+--- a/cmake/third_party_deps/openusd.cmake
++++ b/cmake/third_party_deps/openusd.cmake
+@@ -36,3 +36,28 @@
+         "-----------------------------------------------------------"
+     )
+ endif()
++
++# OpenUSD is built with Python support, so its headers make every consumer
++# reference a few Python C-API symbols, and on Windows its exported targets
++# link Python3::Python, i.e. the versioned python3XY.lib. That would tie the
++# resulting DLLs to the exact Python version used at build time. Point the
++# target to the stable ABI python3.lib/python3.dll instead, and disable the
++# pyconfig.h auto-link pragma, so the DLLs work with any Python 3 at runtime.
++if(WIN32 AND TARGET Python3::Python)
++  foreach(_suffix "" "_RELEASE")
++    get_target_property(_py_implib Python3::Python IMPORTED_IMPLIB${_suffix})
++    if(_py_implib)
++      get_filename_component(_py_implib_dir "${_py_implib}" DIRECTORY)
++      set_target_properties(Python3::Python PROPERTIES
++        IMPORTED_IMPLIB${_suffix} "${_py_implib_dir}/python3.lib")
++    endif()
++    get_target_property(_py_dll Python3::Python IMPORTED_LOCATION${_suffix})
++    if(_py_dll)
++      get_filename_component(_py_dll_dir "${_py_dll}" DIRECTORY)
++      set_target_properties(Python3::Python PROPERTIES
++        IMPORTED_LOCATION${_suffix} "${_py_dll_dir}/python3.dll")
++    endif()
++  endforeach()
++  set_property(TARGET Python3::Python APPEND PROPERTY
++    INTERFACE_COMPILE_DEFINITIONS Py_NO_LINK_LIB)
++endif()
 diff --git a/plugin/usd_decoder/CMakeLists.txt b/plugin/usd_decoder/CMakeLists.txt
 index 3181e35..0d301b3 100644
 --- a/plugin/usd_decoder/CMakeLists.txt
