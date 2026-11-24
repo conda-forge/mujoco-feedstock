@@ -26,6 +26,7 @@ source:
       - patches/0017-unvendor-tinyobjloader.patch
       - patches/0018-unvendor-miniz.patch
       - patches/0019-unvendor-lodepng-in-dependencies.patch
+      - patches/0020-do-not-use-unexported-symbols-list-on-macos.patch
 
 build:
   number: 0

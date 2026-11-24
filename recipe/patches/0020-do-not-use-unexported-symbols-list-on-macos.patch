@@ -1,0 +1,31 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Diego Ferigo <dgferigo@gmail.com>
+Date: Tue, 24 Nov 2026 16:10:00 +0100
+Subject: [PATCH] Do not use the unexported symbols list on macOS
+
+Since 4.0.0 libmujoco is linked with -unexported_symbols_list on macOS.
+With the conda-forge ld64 the public mj* symbols are not exported, and
+plugins and simulate fail to link with undefined mj_*/mju_* symbols.
+
+---
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -217,16 +217,7 @@
+ 
+ if(NOT EMSCRIPTEN)
+   target_link_libraries(mujoco PRIVATE Threads::Threads)
+-  if(APPLE)
+-    target_link_options(
+-      mujoco PRIVATE "-Wl,-unexported_symbols_list,${CMAKE_CURRENT_SOURCE_DIR}/mujoco.unexported_symbols"
+-    )
+-    set_property(
+-      TARGET mujoco
+-      APPEND
+-      PROPERTY LINK_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/mujoco.unexported_symbols"
+-    )
+-  elseif(UNIX)
++  if(UNIX AND NOT APPLE)
+     target_link_options(
+       mujoco PRIVATE "-Wl,--version-script,${CMAKE_CURRENT_SOURCE_DIR}/mujoco.lds"
+     )
