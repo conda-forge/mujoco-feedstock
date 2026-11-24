@@ -1,0 +1,22 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Diego Ferigo <dgferigo@gmail.com>
+Date: Tue, 24 Nov 2026 11:50:00 +0100
+Subject: [PATCH] unvendor-lodepng-in-dependencies
+
+Since 3.17.0 simulate/cmake/SimulateDependencies.cmake includes third_party_deps/lodepng,
+that fetches lodepng via FetchContent_Populate, not redirected to
+find_package by the dependency provider.
+---
+diff --git a/simulate/cmake/SimulateDependencies.cmake b/simulate/cmake/SimulateDependencies.cmake
+--- a/simulate/cmake/SimulateDependencies.cmake
++++ b/simulate/cmake/SimulateDependencies.cmake
+@@ -105,5 +105,5 @@
+ endif()
+ 
+ # Fetch lodepng dependency.
+-include(third_party_deps/lodepng)
++find_package(lodepng REQUIRED)
+ 
+-- 
+2.43.0
+

@@ -25,6 +25,7 @@ source:
       - patches/0016-Add-MSYS-as-a-Windows-platform.patch
       - patches/0017-unvendor-tinyobjloader.patch
       - patches/0018-unvendor-miniz.patch
+      - patches/0019-unvendor-lodepng-in-dependencies.patch
 
 build:
   number: 0
