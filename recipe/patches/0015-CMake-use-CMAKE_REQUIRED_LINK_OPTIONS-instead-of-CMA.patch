@@ -4,31 +4,29 @@ Date: Mon, 16 Mar 2026 12:22:37 +0100
 Subject: [PATCH] CMake: use CMAKE_REQUIRED_LINK_OPTIONS instead of CMAKE_REQUIRED_FLAGS
 
 ---
- cmake/MujocoLinkOptions.cmake    | 12 ++++++------
- sample/cmake/MujocoLinkOptions.cmake | 12 ++++++------
- simulate/cmake/MujocoLinkOptions.cmake | 12 ++++++------
- 3 files changed, 18 insertions(+), 18 deletions(-)
-
 diff --git a/cmake/MujocoLinkOptions.cmake b/cmake/MujocoLinkOptions.cmake
-index 2379ccc..aaa6c12 100644
+index f9ffa3d..76dd04b 100644
 --- a/cmake/MujocoLinkOptions.cmake
 +++ b/cmake/MujocoLinkOptions.cmake
-@@ -23,7 +23,7 @@ function(get_mujoco_extra_link_options OUTPUT_VAR)
-     set(EXTRA_LINK_OPTIONS)
+@@ -24,7 +24,7 @@ function(get_mujoco_extra_link_options OUTPUT_VAR)
  
      if(WIN32)
--      set(CMAKE_REQUIRED_FLAGS "-fuse-ld=lld-link")
-+      set(CMAKE_REQUIRED_LINK_OPTIONS "-fuse-ld=lld-link")
-       check_c_source_compiles("int main() {}" SUPPORTS_LLD_LINK)
-       if(SUPPORTS_LLD_LINK)
-         set(EXTRA_LINK_OPTIONS ${EXTRA_LINK_OPTIONS} -fuse-ld=lld-link -Wl,/STACK:16777216 -Wl,/OPT:REF -Wl,/OPT:ICF)
-@@ -31,24 +31,24 @@ function(get_mujoco_extra_link_options OUTPUT_VAR)
-         set(EXTRA_LINK_OPTIONS ${EXTRA_LINK_OPTIONS} -Wl,--stack,16777216)
+       if(CMAKE_C_COMPILER_ID MATCHES "Clang")
+-        set(CMAKE_REQUIRED_FLAGS "-fuse-ld=lld-link")
++        set(CMAKE_REQUIRED_LINK_OPTIONS "-fuse-ld=lld-link")
+         check_c_source_compiles("int main() {}" SUPPORTS_LLD_LINK)
+       else()
+         set(SUPPORTS_LLD_LINK FALSE)
+@@ -36,7 +36,7 @@ function(get_mujoco_extra_link_options OUTPUT_VAR)
        endif()
      else()
--      set(CMAKE_REQUIRED_FLAGS "-fuse-ld=lld")
-+      set(CMAKE_REQUIRED_LINK_OPTIONS "-fuse-ld=lld")
-       check_c_source_compiles("int main() {}" SUPPORTS_LLD)
+       if(CMAKE_C_COMPILER_ID MATCHES "Clang")
+-        set(CMAKE_REQUIRED_FLAGS "-fuse-ld=lld")
++        set(CMAKE_REQUIRED_LINK_OPTIONS "-fuse-ld=lld")
+         check_c_source_compiles("int main() {}" SUPPORTS_LLD)
+       else()
+         set(SUPPORTS_LLD FALSE)
+@@ -44,19 +44,19 @@ function(get_mujoco_extra_link_options OUTPUT_VAR)
        if(SUPPORTS_LLD)
          set(EXTRA_LINK_OPTIONS ${EXTRA_LINK_OPTIONS} -fuse-ld=lld)
        else()
@@ -52,25 +50,28 @@ index 2379ccc..aaa6c12 100644
          if(SUPPORTS_DEAD_STRIP)
            set(EXTRA_LINK_OPTIONS ${EXTRA_LINK_OPTIONS} -Wl,-dead_strip)
 diff --git a/sample/cmake/MujocoLinkOptions.cmake b/sample/cmake/MujocoLinkOptions.cmake
-index 2379ccc..aaa6c12 100644
+index f9ffa3d..76dd04b 100644
 --- a/sample/cmake/MujocoLinkOptions.cmake
 +++ b/sample/cmake/MujocoLinkOptions.cmake
-@@ -23,7 +23,7 @@ function(get_mujoco_extra_link_options OUTPUT_VAR)
-     set(EXTRA_LINK_OPTIONS)
+@@ -24,7 +24,7 @@ function(get_mujoco_extra_link_options OUTPUT_VAR)
  
      if(WIN32)
--      set(CMAKE_REQUIRED_FLAGS "-fuse-ld=lld-link")
-+      set(CMAKE_REQUIRED_LINK_OPTIONS "-fuse-ld=lld-link")
-       check_c_source_compiles("int main() {}" SUPPORTS_LLD_LINK)
-       if(SUPPORTS_LLD_LINK)
-         set(EXTRA_LINK_OPTIONS ${EXTRA_LINK_OPTIONS} -fuse-ld=lld-link -Wl,/STACK:16777216 -Wl,/OPT:REF -Wl,/OPT:ICF)
-@@ -31,24 +31,24 @@ function(get_mujoco_extra_link_options OUTPUT_VAR)
-         set(EXTRA_LINK_OPTIONS ${EXTRA_LINK_OPTIONS} -Wl,--stack,16777216)
+       if(CMAKE_C_COMPILER_ID MATCHES "Clang")
+-        set(CMAKE_REQUIRED_FLAGS "-fuse-ld=lld-link")
++        set(CMAKE_REQUIRED_LINK_OPTIONS "-fuse-ld=lld-link")
+         check_c_source_compiles("int main() {}" SUPPORTS_LLD_LINK)
+       else()
+         set(SUPPORTS_LLD_LINK FALSE)
+@@ -36,7 +36,7 @@ function(get_mujoco_extra_link_options OUTPUT_VAR)
        endif()
      else()
--      set(CMAKE_REQUIRED_FLAGS "-fuse-ld=lld")
-+      set(CMAKE_REQUIRED_LINK_OPTIONS "-fuse-ld=lld")
-       check_c_source_compiles("int main() {}" SUPPORTS_LLD)
+       if(CMAKE_C_COMPILER_ID MATCHES "Clang")
+-        set(CMAKE_REQUIRED_FLAGS "-fuse-ld=lld")
++        set(CMAKE_REQUIRED_LINK_OPTIONS "-fuse-ld=lld")
+         check_c_source_compiles("int main() {}" SUPPORTS_LLD)
+       else()
+         set(SUPPORTS_LLD FALSE)
+@@ -44,19 +44,19 @@ function(get_mujoco_extra_link_options OUTPUT_VAR)
        if(SUPPORTS_LLD)
          set(EXTRA_LINK_OPTIONS ${EXTRA_LINK_OPTIONS} -fuse-ld=lld)
        else()
@@ -94,25 +95,28 @@ index 2379ccc..aaa6c12 100644
          if(SUPPORTS_DEAD_STRIP)
            set(EXTRA_LINK_OPTIONS ${EXTRA_LINK_OPTIONS} -Wl,-dead_strip)
 diff --git a/simulate/cmake/MujocoLinkOptions.cmake b/simulate/cmake/MujocoLinkOptions.cmake
-index 2379ccc..aaa6c12 100644
+index f9ffa3d..76dd04b 100644
 --- a/simulate/cmake/MujocoLinkOptions.cmake
 +++ b/simulate/cmake/MujocoLinkOptions.cmake
-@@ -23,7 +23,7 @@ function(get_mujoco_extra_link_options OUTPUT_VAR)
-     set(EXTRA_LINK_OPTIONS)
+@@ -24,7 +24,7 @@ function(get_mujoco_extra_link_options OUTPUT_VAR)
  
      if(WIN32)
--      set(CMAKE_REQUIRED_FLAGS "-fuse-ld=lld-link")
-+      set(CMAKE_REQUIRED_LINK_OPTIONS "-fuse-ld=lld-link")
-       check_c_source_compiles("int main() {}" SUPPORTS_LLD_LINK)
-       if(SUPPORTS_LLD_LINK)
-         set(EXTRA_LINK_OPTIONS ${EXTRA_LINK_OPTIONS} -fuse-ld=lld-link -Wl,/STACK:16777216 -Wl,/OPT:REF -Wl,/OPT:ICF)
-@@ -31,24 +31,24 @@ function(get_mujoco_extra_link_options OUTPUT_VAR)
-         set(EXTRA_LINK_OPTIONS ${EXTRA_LINK_OPTIONS} -Wl,--stack,16777216)
+       if(CMAKE_C_COMPILER_ID MATCHES "Clang")
+-        set(CMAKE_REQUIRED_FLAGS "-fuse-ld=lld-link")
++        set(CMAKE_REQUIRED_LINK_OPTIONS "-fuse-ld=lld-link")
+         check_c_source_compiles("int main() {}" SUPPORTS_LLD_LINK)
+       else()
+         set(SUPPORTS_LLD_LINK FALSE)
+@@ -36,7 +36,7 @@ function(get_mujoco_extra_link_options OUTPUT_VAR)
        endif()
      else()
--      set(CMAKE_REQUIRED_FLAGS "-fuse-ld=lld")
-+      set(CMAKE_REQUIRED_LINK_OPTIONS "-fuse-ld=lld")
-       check_c_source_compiles("int main() {}" SUPPORTS_LLD)
+       if(CMAKE_C_COMPILER_ID MATCHES "Clang")
+-        set(CMAKE_REQUIRED_FLAGS "-fuse-ld=lld")
++        set(CMAKE_REQUIRED_LINK_OPTIONS "-fuse-ld=lld")
+         check_c_source_compiles("int main() {}" SUPPORTS_LLD)
+       else()
+         set(SUPPORTS_LLD FALSE)
+@@ -44,19 +44,19 @@ function(get_mujoco_extra_link_options OUTPUT_VAR)
        if(SUPPORTS_LLD)
          set(EXTRA_LINK_OPTIONS ${EXTRA_LINK_OPTIONS} -fuse-ld=lld)
        else()
@@ -135,3 +139,6 @@ index 2379ccc..aaa6c12 100644
          check_c_source_compiles("int main() {}" SUPPORTS_DEAD_STRIP)
          if(SUPPORTS_DEAD_STRIP)
            set(EXTRA_LINK_OPTIONS ${EXTRA_LINK_OPTIONS} -Wl,-dead_strip)
+-- 
+2.43.0
+

@@ -4,20 +4,17 @@ Date: Thu, 19 Oct 2023 14:25:15 +0200
 Subject: [PATCH] Disable isolation and dependency check in python-build
 
 ---
- python/make_sdist.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
 diff --git a/python/make_sdist.sh b/python/make_sdist.sh
-index 25abd8e9..afad9356 100755
+index e634fb3..8a3107c 100755
 --- a/python/make_sdist.sh
 +++ b/python/make_sdist.sh
-@@ -58,7 +58,7 @@ cp "${package_dir}"/../cmake/*.cmake mujoco/cmake
- # Copy over Simulate source code.
- cp -r "${package_dir}"/../simulate mujoco
+@@ -95,7 +95,7 @@ mkdir -p mujoco/doc
+     done
+ )
  
 -python -m build --no-isolation . --sdist
 +python -m build --no-isolation . --sdist --skip-dependency-check
- tar -tf dist/mujoco-*.tar.gz
+ tar -tf dist/mujoco_core-*.tar.gz
  popd
  
 -- 

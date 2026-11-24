@@ -1,8 +1,54 @@
+diff --git a/python/mujoco/__init__.py b/python/mujoco/__init__.py
+index c480388..70b847b 100644
+--- a/python/mujoco/__init__.py
++++ b/python/mujoco/__init__.py
+@@ -34,7 +34,7 @@ __path__ = __import__('pkgutil').extend_path(__path__, __name__)
+ 
+ _SYSTEM = platform.system()
+ if _SYSTEM == 'Windows':
+-  _dll_path = os.path.join(os.path.dirname(__file__), 'mujoco.dll')
++  _dll_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))), 'Library', 'bin', 'mujoco.dll')
+   if os.path.exists(_dll_path):
+     ctypes.WinDLL(_dll_path)
+ elif _SYSTEM == 'Darwin':
+@@ -297,8 +297,13 @@ _structs.MjModel.bind = _bind_model  # pyrefly: ignore[bad-assignment]
+ 
+ __version__ = mj_versionString()  # pylint: disable=undefined-variable
+ 
+-HEADERS_DIR = os.path.join(os.path.dirname(__file__), 'include/mujoco')
+-PLUGINS_DIR = os.path.join(os.path.dirname(__file__), 'plugin')
++if _SYSTEM == 'Windows':
++  _MJ_INSTALL_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))), 'Library')
++else:
++  _MJ_INSTALL_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))))
++
++HEADERS_DIR = os.path.join(_MJ_INSTALL_DIR, 'include', 'mujoco')
++PLUGINS_DIR = os.path.join(_MJ_INSTALL_DIR, 'bin', 'mujoco_plugin')
+ 
+ PLUGIN_HANDLES = []
+ 
+diff --git a/python/setup.py b/python/setup.py
+index 920bed4..4ce8d1e 100644
+--- a/python/setup.py
++++ b/python/setup.py
+@@ -156,9 +156,9 @@ class BuildCMakeExtension(build_ext.build_ext):
+     for ext in self.extensions:
+       assert ext.name.startswith(EXT_PREFIX)
+       self.build_extension(ext)
+-    self._copy_external_libraries()
+-    self._copy_mujoco_headers()
+-    self._copy_plugin_libraries()
++    # self._copy_external_libraries()
++    # self._copy_mujoco_headers()
++    # self._copy_plugin_libraries()
+     if self._is_apple:
+       self._copy_mjpython()
+ 
 diff --git a/plugin/actuator/CMakeLists.txt b/plugin/actuator/CMakeLists.txt
-index 6cc7994..a738f03 100644
+index 4d1cf1c..5d42670 100644
 --- a/plugin/actuator/CMakeLists.txt
 +++ b/plugin/actuator/CMakeLists.txt
-@@ -39,3 +39,17 @@ target_link_options(
+@@ -42,3 +42,17 @@ target_link_options(
    ${MUJOCO_MACOS_LINK_OPTIONS}
    ${EXTRA_LINK_OPTIONS}
  )
@@ -15,38 +61,16 @@ index 6cc7994..a738f03 100644
 +            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin")
 +  else()
 +    install(TARGETS actuator
-+            ARCHIVE DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin"
-+            LIBRARY DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin"
-+            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin")
-+  endif()
-+endif()
-diff --git a/plugin/elasticity/CMakeLists.txt b/plugin/elasticity/CMakeLists.txt
-index 97b2f41..502dc00 100644
---- a/plugin/elasticity/CMakeLists.txt
-+++ b/plugin/elasticity/CMakeLists.txt
-@@ -41,3 +41,17 @@ target_link_options(
-   ${MUJOCO_MACOS_LINK_OPTIONS}
-   ${EXTRA_LINK_OPTIONS}
- )
-+
-+if(MUJOCO_INSTALL_PLUGINS)
-+  if(WIN32)
-+    install(TARGETS elasticity
-+            ARCHIVE DESTINATION "$ENV{TEMP}"
-+            LIBRARY DESTINATION "$ENV{TEMP}"
-+            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin")
-+  else()
-+    install(TARGETS elasticity
 +            ARCHIVE DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin"
 +            LIBRARY DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin"
 +            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin")
 +  endif()
 +endif()
 diff --git a/plugin/sdf/CMakeLists.txt b/plugin/sdf/CMakeLists.txt
-index f857bda..8ed3712 100644
+index 506e249..82cd0e6 100644
 --- a/plugin/sdf/CMakeLists.txt
 +++ b/plugin/sdf/CMakeLists.txt
-@@ -49,3 +49,17 @@ target_link_options(
+@@ -52,3 +52,17 @@ target_link_options(
    ${MUJOCO_MACOS_LINK_OPTIONS}
    ${EXTRA_LINK_OPTIONS}
  )
@@ -65,10 +89,10 @@ index f857bda..8ed3712 100644
 +  endif()
 +endif()
 diff --git a/plugin/sensor/CMakeLists.txt b/plugin/sensor/CMakeLists.txt
-index 7095a82..4c69e9a 100644
+index 4ab06df..1702b05 100644
 --- a/plugin/sensor/CMakeLists.txt
 +++ b/plugin/sensor/CMakeLists.txt
-@@ -40,3 +40,17 @@ target_link_options(
+@@ -43,3 +43,17 @@ target_link_options(
    ${MUJOCO_MACOS_LINK_OPTIONS}
    ${EXTRA_LINK_OPTIONS}
  )
@@ -86,49 +110,6 @@ index 7095a82..4c69e9a 100644
 +            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}/mujoco_plugin")
 +  endif()
 +endif()
-diff --git a/python/mujoco/__init__.py b/python/mujoco/__init__.py
-index 1147be5..27e711b 100644
---- a/python/mujoco/__init__.py
-+++ b/python/mujoco/__init__.py
-@@ -35,7 +35,7 @@ __path__ = __import__('pkgutil').extend_path(__path__, __name__)
- 
- _SYSTEM = platform.system()
- if _SYSTEM == 'Windows':
--  ctypes.WinDLL(os.path.join(os.path.dirname(__file__), 'mujoco.dll'))
-+  ctypes.WinDLL(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))), 'Library', 'bin', 'mujoco.dll'))
- elif _SYSTEM == 'Darwin':
-   proc_translated = subprocess.run(
-       ['sysctl', '-n', 'sysctl.proc_translated'], capture_output=True).stdout
-@@ -235,8 +235,13 @@ _specs.MjSpec.to_zip = to_zip
- _structs.MjData.bind = _bind_data  # pyrefly: ignore[bad-assignment]
- _structs.MjModel.bind = _bind_model  # pyrefly: ignore[bad-assignment]
- 
--HEADERS_DIR = os.path.join(os.path.dirname(__file__), 'include/mujoco')
--PLUGINS_DIR = os.path.join(os.path.dirname(__file__), 'plugin')
-+if _SYSTEM == 'Windows':
-+  _MJ_INSTALL_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))), 'Library')
-+else:
-+  _MJ_INSTALL_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))))
-+
-+HEADERS_DIR = os.path.join(_MJ_INSTALL_DIR, 'include', 'mujoco')
-+PLUGINS_DIR = os.path.join(_MJ_INSTALL_DIR, 'bin', 'mujoco_plugin')
- 
- PLUGIN_HANDLES = []
- 
-diff --git a/python/setup.py b/python/setup.py
-index 11feec1..a6a3255 100644
---- a/python/setup.py
-+++ b/python/setup.py
-@@ -156,9 +156,9 @@ class BuildCMakeExtension(build_ext.build_ext):
-     for ext in self.extensions:
-       assert ext.name.startswith(EXT_PREFIX)
-       self.build_extension(ext)
--    self._copy_external_libraries()
--    self._copy_mujoco_headers()
--    self._copy_plugin_libraries()
-+    # self._copy_external_libraries()
-+    # self._copy_mujoco_headers()
-+    # self._copy_plugin_libraries()
-     self._copy_studio_assets()
-     if self._is_apple:
-       self._copy_mjpython()
+-- 
+2.43.0
+

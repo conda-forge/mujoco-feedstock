@@ -1,5 +1,5 @@
 diff --git a/sample/CMakeLists.txt b/sample/CMakeLists.txt
-index bb0e37c..defcf85 100644
+index 6a114b1..103b490 100644
 --- a/sample/CMakeLists.txt
 +++ b/sample/CMakeLists.txt
 @@ -57,6 +57,13 @@ include(SampleDependencies)
@@ -43,13 +43,16 @@ index bb0e37c..defcf85 100644
  target_link_options(basic PRIVATE ${MUJOCO_SAMPLE_LINK_OPTIONS})
 +mujoco_sample_set_command_prefix(basic)
  
- add_executable(record record.cc array_safety.h)
- target_compile_options(record PUBLIC ${MUJOCO_SAMPLE_COMPILE_OPTIONS})
-@@ -113,6 +124,7 @@ target_link_libraries(
-   Threads::Threads
- )
- target_link_options(record PRIVATE ${MUJOCO_SAMPLE_LINK_OPTIONS})
-+mujoco_sample_set_command_prefix(record)
- 
- if(MUJOCO_USE_FILAMENT)
+ if(MUJOCO_USE_FILAMENT AND NOT SAMPLE_STANDALONE)
    add_executable(render render.cc)
+@@ -118,6 +129,7 @@ if(MUJOCO_USE_FILAMENT AND NOT SAMPLE_STANDALONE)
+     Threads::Threads
+   )
+   target_link_options(render PRIVATE ${MUJOCO_SAMPLE_LINK_OPTIONS})
++  mujoco_sample_set_command_prefix(render)
+ 
+   # Deploy Filament assets (compiled shaders, IBL) next to the binary so the
+   # Filament backend can load them at runtime.
+-- 
+2.43.0
+
